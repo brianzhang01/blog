@@ -184,4 +184,4 @@ Thanks to:
 * William Chen for some `ggplot` starter code that helped me when I was first learning.
 * Constantin Ahlmann-Eltze for calling my attention to the differences between setting `ylim` directly versus inside `cartesian_coord` when using `ggplot`.
 
-TODO: add link to the notebook on GitHub.
+***This blog post was generated from an R Markdown file using the `knitr` and `blogdown` packages. The original source can be downloaded [from GitHub](https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2017-11-09-polynomial-regression.Rmd).***
