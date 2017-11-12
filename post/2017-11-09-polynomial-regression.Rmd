@@ -1,0 +1,187 @@
+---
+title: Polynomial Regression
+author: Brian Zhang
+date: '2017-11-09'
+slug: polynomial-regression
+categories: []
+tags:
+  - ggplot
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction: side courses
+
+As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
+
+At the moment, I'm hoping to follow along with these three courses and do some assignments from time to time:
+
+* With a few other Oxford students, I'm keeping up with the [machine learning course](http://www.gatsby.ucl.ac.uk/teaching/courses/ml1/) at UCL's Gatsby Computational Neuroscience Unit, taught by Maneesh Sahani. I'm hoping to refresh the statistical foundations of machine learning, and particularly learn approximate inference. A previous year's course materials are [here](http://www.gatsby.ucl.ac.uk/teaching/courses/ml1-2016.html).
+* My PhD is in statistical genetics, but my background is primarily in machine learning. So I've been working through Barbara Englehardt's Spring 2013 Duke course, [STA613/CBB540: Statistical methods in computational biology](https://www.cs.princeton.edu/~bee/courses/cbb540.html). The first assignment was also a really smooth introduction to learning R.
+* While at Harvard, I took two semesters of machine learning with Ryan Adams. The second semester was a graduate class, Fall 2013 of [CS 281: Advanced Machine Learning](https://www.seas.harvard.edu/courses/cs281/), and was a lot more difficult. I didn't get around to finishing all the assignments, so have intended to go back and solve some of the problems, including Assignment 5 on Gaussian Processes and Bayesian Nonparametrics which I skipped, since we could drop one lowest grade.
+
+All materials from these classes are online at the above links, so I would recommend checking them out!
+
+## Data from a CS 281 assignment
+
+In this post, I'll work through an example of polynomial regression, while illustrating some R features like `ggplot` and R Markdown documents. The data that I'll use comes from the CS 281 course linked to above, in problem 4 of [assignment 2](https://www.seas.harvard.edu/courses/cs281/files/assignment-2.pdf):
+
+    Here are some simple data to regress:
+
+    x = [-1.87 -1.76 -1.67 -1.22 -0.07 0.11 0.67 1.60 2.22 2.51]'
+    y = [0.06 1.67 0.54 -1.45 -0.18 -0.67 0.92 2.95 5.13 5.18]'
+
+    Construct a Bayesian linear regression model using a basis of your choosing (e.g., polynomial, sinusoids, radial basis functions). Choose priors that seem sensible for the regression weights and the Gaussian noise.
+
+While taking the course, I didn't manage to fully solve the problem. However, for now, I'll be using the data points as a demonstration not of Bayesian regression, but the simpler case of least-squares regression without a prior.
+
+To start, we can create variables for our data points and plot them using `ggplot`.
+
+```{r data}
+library(ggplot2)
+center_title = theme(plot.title = element_text(hjust = 0.5))
+x = c(-1.87, -1.76, -1.67, -1.22, -0.07, 0.11, 0.67, 1.60, 2.22, 2.51)
+y = c(0.06, 1.67, 0.54, -1.45, -0.18, -0.67, 0.92, 2.95, 5.13, 5.18)
+ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
+  labs(title = "Points to regress") + center_title
+```
+
+## A simple linear regression
+Linear least-squares regression seeks to learn the parameters $\beta_0, \beta_1$ that minimize
+$$
+\sum_i (y_i-(\beta_0 + \beta_1 x_i))^2
+$$
+If we introduce matrices
+$$
+\mathbf{y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix},
+\mathbf{X} = \begin{pmatrix}
+1 & x_1\\
+1 & x_2\\
+\vdots & \vdots\\
+1 & x_n\\
+\end{pmatrix},
+\boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \end{pmatrix}
+$$
+The loss function can be written as
+$$
+l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y}) = (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})^\intercal (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})
+$$
+Without going through all the algebra, the minimum of this function with respect to $\boldsymbol{\beta}$ can be obtained by setting the derivative to zero. After using some matrix identities, the solution is
+$$
+\mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y}
+$$
+In R, the function `lm` can solve linear regression for us, but instead we can also code up the solution manually. First, we set up our matrices $\mathbf{X}$ and $\mathbf{y}$:
+
+```{r linear-setup}
+x_matrix = cbind(rep(1, 10), x)
+x_matrix
+y_matrix = as.matrix(y)
+y_matrix
+```
+
+Next we write the matrix algebra solution for computing $\mathbf{\hat{\boldsymbol{\beta}}}$. If you're new to R, the notation may be unfamiliar to you, and you may want to consult [this cheatsheet](https://www.statmethods.net/advstats/matrix.html).^[Another note for new R users: you can pull up the documentation for a command like `solve` by executing `?solve` in the console.]
+
+```{r linear-solve}
+beta = solve(t(x_matrix) %*% x_matrix) %*% t(x_matrix) %*% y_matrix
+beta
+```
+
+Finally, we plot the result.
+
+```{r linear-plot}
+ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
+  labs(title = "Linear regression") + center_title +
+  geom_abline(slope = beta[2], intercept = beta[1])
+```
+
+## Generalizing to polynomial regression
+What if instead of fitting a line, we wanted to fit a quadratic to our data? Our quadratic would then have three parameters, and we would want to minimize:
+$$
+\sum_i (y_i-(\beta_0 + \beta_1 x_i + \beta_2 x_i^2))^2
+$$
+This loss function $l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y})$ can be put in the exact same form as before, with the same solution for $\mathbf{\hat{\boldsymbol{\beta}}}$, as long as we instead define our matrices as:
+$$
+\mathbf{y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix},
+\mathbf{X} = \begin{pmatrix}
+1 & x_1 & x_1^2\\
+1 & x_2 & x_2^2\\
+\vdots & \vdots & \vdots \\
+1 & x_n & x_n^2\\
+\end{pmatrix},
+\boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{pmatrix}
+$$
+It should be clear that this pattern continues on, at least until the degree $d$ of the polynomial equals $n - 1$. At that point, we are able to hit all our $n$ points exactly (assuming the $x$-coordinates are all different), since the polynomial has $n$ free parameters. If we then take $d \geq n$, there are multiple polynomial solutions, and we should no longer trust our expression to give the single right solution.[^longnote]
+
+[^longnote]: Interestingly, I tried this out on our data using $d=n=10$. The math expression is
+$$
+\mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y},
+$$
+and when I get to the inversion step, I receive an error message:
+
+        Error in solve.default(t(x_matrix) %*% x_matrix) : 
+        system is computationally singular: reciprocal condition number = 1.10547e-20
+
+    This suggests that for $d \geq n$, the matrix $(\mathbf{X}^\intercal\mathbf{X})$ is no longer full-rank. Indeed, looking online, I seem to find that for any real matrix $\mathbf{A}$, $\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)$. In this case, where $\mathbf{X}$ is $n$ by $(d+1)$, we have $\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n$, the number of columns of $\mathbf{X}^\intercal$, but $\mathbf{X}^\intercal\mathbf{X}$ is a $(d+1)$ by $(d+1)$ matrix, so it cannot be full-rank.
+
+Using the above result, we can perform polynomial regression on our $n = 10$ data points with $d = 0$ to $9$. Once we have the $\boldsymbol{\beta}$ coefficients, we sweep over an $x$-range from -2.5 to 3 and generate the corresponding $y$ value for the polynomial. We keep the resulting polynomial data in a data frame.
+
+```{r poly}
+x_matrix = NULL
+y_matrix = as.matrix(y)
+x_curve = seq(-2.5, 3, 0.05)
+y_data = NULL
+for(i in 1:10) {
+  x_matrix = cbind(x_matrix, x^(i-1))
+  beta = solve(t(x_matrix) %*% x_matrix) %*% t(x_matrix) %*% y_matrix
+  y_curve = rep(0, length(x_curve))
+  for(j in 1:i) {
+    y_curve = y_curve + beta[j]*x_curve^(j-1)
+  }
+  y_data = rbind(y_data, data.frame(x=x_curve, y=y_curve, d=(i-1)))
+}
+```
+
+Let's take a look at our final matrix for $\mathbf{X}$ for $d=9$.
+```{r final-x}
+round(x_matrix, digits=2)
+```
+Here is what some of our output data frame looks like:
+```{r final-df}
+head(y_data[y_data$d == 2,])
+```
+
+And now, we plot the results. Plotting all the polynomials at once makes the graph too cluttered, so instead we only show two plots that help illustrate different behavior.
+```{r poly-plot}
+ggplot() + 
+  geom_point(data=data.frame(x = x, y = y), aes(x=x, y=y)) +
+  geom_line(data=y_data[y_data$d < 4,],
+            aes(x=x, y=y, color=factor(d), group=factor(d))) +
+  labs(title = "Polynomial least-squares regression", color="dimension") +
+  center_title
+ggplot() + 
+  geom_point(data=data.frame(x = x, y = y), aes(x=x, y=y)) +
+  geom_line(data=y_data[y_data$d %% 2 == 1,],
+            aes(x=x, y=y, color=factor(d), group=factor(d))) +
+  labs(title = "Polynomial least-squares regression", color="dimension") +
+  center_title +
+  coord_cartesian(ylim = c(-3, 8))
+```
+
+## Summary
+
+Hopefully, I've impressed upon you that:
+
+* Polynomial least-squares regression is simply multiple linear regression with an expanded basis.
+* `ggplot`'s are easy to make in R and look nice!
+
+In a future post, I may circle back to this data and solve more of the original CS 281 assignment involving Bayesian regression.
+
+Thanks to:
+
+* Ryan Adams for teaching CS 281 and making the course materials freely available.
+* William Chen for some `ggplot` starter code that helped me when I was first learning.
+* Constantin Ahlmann-Eltze for calling my attention to the differences between setting `ylim` directly versus inside `cartesian_coord` when using `ggplot`.
+
+TODO: add link to the notebook on GitHub.

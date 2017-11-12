@@ -1,0 +1,893 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Polynomial Regression</title>
+    <meta name="author" content="Brian Zhang">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="https://example.org/favicon.png">
+    
+
+    
+    <meta name="description" content="Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
+At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:">
+    <meta property="og:description" content="Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
+At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Polynomial Regression">
+    <meta property="og:url" content="/2017/11/polynomial-regression/">
+    <meta property="og:site_name" content="Hugo tranquilpeak theme">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo tranquilpeak theme">
+    <meta name="twitter:description" content="Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
+At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://example.org/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://example.org/">Hugo tranquilpeak theme</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://example.org/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://example.org/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Brian Zhang</h4>
+        
+          <h5 class="sidebar-profile-bio">Academic statistics blog</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://example.org/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://example.org/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://example.org/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://example.org/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://example.org/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Polynomial Regression
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2017-11-09T00:00:00Z">
+        
+  November 9, 2017
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <div id="introduction-side-courses" class="section level2">
+<h2>Introduction: side courses</h2>
+<p>As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.</p>
+<p>At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</p>
+<ul>
+<li>With a few other Oxford students, I’m keeping up with the <a href="http://www.gatsby.ucl.ac.uk/teaching/courses/ml1/">machine learning course</a> at UCL’s Gatsby Computational Neuroscience Unit, taught by Maneesh Sahani. I’m hoping to refresh the statistical foundations of machine learning, and particularly learn approximate inference. A previous year’s course materials are <a href="http://www.gatsby.ucl.ac.uk/teaching/courses/ml1-2016.html">here</a>.</li>
+<li>My PhD is in statistical genetics, but my background is primarily in machine learning. So I’ve been working through Barbara Englehardt’s Spring 2013 Duke course, <a href="https://www.cs.princeton.edu/~bee/courses/cbb540.html">STA613/CBB540: Statistical methods in computational biology</a>. The first assignment was also a really smooth introduction to learning R.</li>
+<li>While at Harvard, I took two semesters of machine learning with Ryan Adams. The second semester was a graduate class, Fall 2013 of <a href="https://www.seas.harvard.edu/courses/cs281/">CS 281: Advanced Machine Learning</a>, and was a lot more difficult. I didn’t get around to finishing all the assignments, so have intended to go back and solve some of the problems, including Assignment 5 on Gaussian Processes and Bayesian Nonparametrics which I skipped, since we could drop one lowest grade.</li>
+</ul>
+<p>All materials from these classes are online at the above links, so I would recommend checking them out!</p>
+</div>
+<div id="data-from-a-cs-281-assignment" class="section level2">
+<h2>Data from a CS 281 assignment</h2>
+<p>In this post, I’ll work through an example of polynomial regression, while illustrating some R features like <code>ggplot</code> and R Markdown documents. The data that I’ll use comes from the CS 281 course linked to above, in problem 4 of <a href="https://www.seas.harvard.edu/courses/cs281/files/assignment-2.pdf">assignment 2</a>:</p>
+<pre><code>Here are some simple data to regress:
+
+x = [-1.87 -1.76 -1.67 -1.22 -0.07 0.11 0.67 1.60 2.22 2.51]&#39;
+y = [0.06 1.67 0.54 -1.45 -0.18 -0.67 0.92 2.95 5.13 5.18]&#39;
+
+Construct a Bayesian linear regression model using a basis of your choosing (e.g., polynomial, sinusoids, radial basis functions). Choose priors that seem sensible for the regression weights and the Gaussian noise.</code></pre>
+<p>While taking the course, I didn’t manage to fully solve the problem. However, for now, I’ll be using the data points as a demonstration not of Bayesian regression, but the simpler case of least-squares regression without a prior.</p>
+<p>To start, we can create variables for our data points and plot them using <code>ggplot</code>.</p>
+<pre class="r"><code>library(ggplot2)
+center_title = theme(plot.title = element_text(hjust = 0.5))
+x = c(-1.87, -1.76, -1.67, -1.22, -0.07, 0.11, 0.67, 1.60, 2.22, 2.51)
+y = c(0.06, 1.67, 0.54, -1.45, -0.18, -0.67, 0.92, 2.95, 5.13, 5.18)
+ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
+  labs(title = &quot;Points to regress&quot;) + center_title</code></pre>
+<p><img src="https://example.org/post/2017-11-09-polynomial-regression_files/figure-html/data-1.png" width="672" /></p>
+</div>
+<div id="a-simple-linear-regression" class="section level2">
+<h2>A simple linear regression</h2>
+<p>Linear least-squares regression seeks to learn the parameters <span class="math inline">\(\beta_0, \beta_1\)</span> that minimize <span class="math display">\[
+\sum_i (y_i-(\beta_0 + \beta_1 x_i))^2
+\]</span> If we introduce matrices <span class="math display">\[
+\mathbf{y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix},
+\mathbf{X} = \begin{pmatrix}
+1 &amp; x_1\\
+1 &amp; x_2\\
+\vdots &amp; \vdots\\
+1 &amp; x_n\\
+\end{pmatrix},
+\boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \end{pmatrix}
+\]</span> The loss function can be written as <span class="math display">\[
+l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y}) = (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})^\intercal (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})
+\]</span> Without going through all the algebra, the minimum of this function with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span> can be obtained by setting the derivative to zero. After using some matrix identities, the solution is <span class="math display">\[
+\mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y}
+\]</span> In R, the function <code>lm</code> can solve linear regression for us, but instead we can also code up the solution manually. First, we set up our matrices <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(\mathbf{y}\)</span>:</p>
+<pre class="r"><code>x_matrix = cbind(rep(1, 10), x)
+x_matrix</code></pre>
+<pre><code>##             x
+##  [1,] 1 -1.87
+##  [2,] 1 -1.76
+##  [3,] 1 -1.67
+##  [4,] 1 -1.22
+##  [5,] 1 -0.07
+##  [6,] 1  0.11
+##  [7,] 1  0.67
+##  [8,] 1  1.60
+##  [9,] 1  2.22
+## [10,] 1  2.51</code></pre>
+<pre class="r"><code>y_matrix = as.matrix(y)
+y_matrix</code></pre>
+<pre><code>##        [,1]
+##  [1,]  0.06
+##  [2,]  1.67
+##  [3,]  0.54
+##  [4,] -1.45
+##  [5,] -0.18
+##  [6,] -0.67
+##  [7,]  0.92
+##  [8,]  2.95
+##  [9,]  5.13
+## [10,]  5.18</code></pre>
+<p>Next we write the matrix algebra solution for computing <span class="math inline">\(\mathbf{\hat{\boldsymbol{\beta}}}\)</span>. If you’re new to R, the notation may be unfamiliar to you, and you may want to consult <a href="https://www.statmethods.net/advstats/matrix.html">this cheatsheet</a>.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<pre class="r"><code>beta = solve(t(x_matrix) %*% x_matrix) %*% t(x_matrix) %*% y_matrix
+beta</code></pre>
+<pre><code>##       [,1]
+##   1.359589
+## x 1.065601</code></pre>
+<p>Finally, we plot the result.</p>
+<pre class="r"><code>ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
+  labs(title = &quot;Linear regression&quot;) + center_title +
+  geom_abline(slope = beta[2], intercept = beta[1])</code></pre>
+<p><img src="https://example.org/post/2017-11-09-polynomial-regression_files/figure-html/linear-plot-1.png" width="672" /></p>
+</div>
+<div id="generalizing-to-polynomial-regression" class="section level2">
+<h2>Generalizing to polynomial regression</h2>
+<p>What if instead of fitting a line, we wanted to fit a quadratic to our data? Our quadratic would then have three parameters, and we would want to minimize: <span class="math display">\[
+\sum_i (y_i-(\beta_0 + \beta_1 x_i + \beta_2 x_i^2))^2
+\]</span> This loss function <span class="math inline">\(l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y})\)</span> can be put in the exact same form as before, with the same solution for <span class="math inline">\(\mathbf{\hat{\boldsymbol{\beta}}}\)</span>, as long as we instead define our matrices as: <span class="math display">\[
+\mathbf{y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix},
+\mathbf{X} = \begin{pmatrix}
+1 &amp; x_1 &amp; x_1^2\\
+1 &amp; x_2 &amp; x_2^2\\
+\vdots &amp; \vdots &amp; \vdots \\
+1 &amp; x_n &amp; x_n^2\\
+\end{pmatrix},
+\boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{pmatrix}
+\]</span> It should be clear that this pattern continues on, at least until the degree <span class="math inline">\(d\)</span> of the polynomial equals <span class="math inline">\(n - 1\)</span>. At that point, we are able to hit all our <span class="math inline">\(n\)</span> points exactly (assuming the <span class="math inline">\(x\)</span>-coordinates are all different), since the polynomial has <span class="math inline">\(n\)</span> free parameters. If we then take <span class="math inline">\(d \geq n\)</span>, there are multiple polynomial solutions, and we should no longer trust our expression to give the single right solution.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<p>Using the above result, we can perform polynomial regression on our <span class="math inline">\(n = 10\)</span> data points with <span class="math inline">\(d = 0\)</span> to <span class="math inline">\(9\)</span>. Once we have the <span class="math inline">\(\boldsymbol{\beta}\)</span> coefficients, we sweep over an <span class="math inline">\(x\)</span>-range from -2.5 to 3 and generate the corresponding <span class="math inline">\(y\)</span> value for the polynomial. We keep the resulting polynomial data in a data frame.</p>
+<pre class="r"><code>x_matrix = NULL
+y_matrix = as.matrix(y)
+x_curve = seq(-2.5, 3, 0.05)
+y_data = NULL
+for(i in 1:10) {
+  x_matrix = cbind(x_matrix, x^(i-1))
+  beta = solve(t(x_matrix) %*% x_matrix) %*% t(x_matrix) %*% y_matrix
+  y_curve = rep(0, length(x_curve))
+  for(j in 1:i) {
+    y_curve = y_curve + beta[j]*x_curve^(j-1)
+  }
+  y_data = rbind(y_data, data.frame(x=x_curve, y=y_curve, d=(i-1)))
+}</code></pre>
+<p>Let’s take a look at our final matrix for <span class="math inline">\(\mathbf{X}\)</span> for <span class="math inline">\(d=9\)</span>.</p>
+<pre class="r"><code>round(x_matrix, digits=2)</code></pre>
+<pre><code>##       [,1]  [,2] [,3]  [,4]  [,5]   [,6]   [,7]   [,8]    [,9]   [,10]
+##  [1,]    1 -1.87 3.50 -6.54 12.23 -22.87  42.76 -79.96  149.53 -279.62
+##  [2,]    1 -1.76 3.10 -5.45  9.60 -16.89  29.72 -52.31   92.07 -162.04
+##  [3,]    1 -1.67 2.79 -4.66  7.78 -12.99  21.69 -36.23   60.50 -101.03
+##  [4,]    1 -1.22 1.49 -1.82  2.22  -2.70   3.30  -4.02    4.91   -5.99
+##  [5,]    1 -0.07 0.00  0.00  0.00   0.00   0.00   0.00    0.00    0.00
+##  [6,]    1  0.11 0.01  0.00  0.00   0.00   0.00   0.00    0.00    0.00
+##  [7,]    1  0.67 0.45  0.30  0.20   0.14   0.09   0.06    0.04    0.03
+##  [8,]    1  1.60 2.56  4.10  6.55  10.49  16.78  26.84   42.95   68.72
+##  [9,]    1  2.22 4.93 10.94 24.29  53.92 119.71 265.75  589.96 1309.71
+## [10,]    1  2.51 6.30 15.81 39.69  99.63 250.06 627.65 1575.40 3954.24</code></pre>
+<p>Here is what some of our output data frame looks like:</p>
+<pre class="r"><code>head(y_data[y_data$d == 2,])</code></pre>
+<pre><code>##         x        y d
+## 223 -2.50 1.970514 2
+## 224 -2.45 1.843023 2
+## 225 -2.40 1.718879 2
+## 226 -2.35 1.598079 2
+## 227 -2.30 1.480625 2
+## 228 -2.25 1.366517 2</code></pre>
+<p>And now, we plot the results. Plotting all the polynomials at once makes the graph too cluttered, so instead we only show two plots that help illustrate different behavior.</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(data=data.frame(x = x, y = y), aes(x=x, y=y)) +
+  geom_line(data=y_data[y_data$d &lt; 4,],
+            aes(x=x, y=y, color=factor(d), group=factor(d))) +
+  labs(title = &quot;Polynomial least-squares regression&quot;, color=&quot;dimension&quot;) +
+  center_title</code></pre>
+<p><img src="https://example.org/post/2017-11-09-polynomial-regression_files/figure-html/poly-plot-1.png" width="672" /></p>
+<pre class="r"><code>ggplot() + 
+  geom_point(data=data.frame(x = x, y = y), aes(x=x, y=y)) +
+  geom_line(data=y_data[y_data$d %% 2 == 1,],
+            aes(x=x, y=y, color=factor(d), group=factor(d))) +
+  labs(title = &quot;Polynomial least-squares regression&quot;, color=&quot;dimension&quot;) +
+  center_title +
+  coord_cartesian(ylim = c(-3, 8))</code></pre>
+<p><img src="https://example.org/post/2017-11-09-polynomial-regression_files/figure-html/poly-plot-2.png" width="672" /></p>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<p>Hopefully, I’ve impressed upon you that:</p>
+<ul>
+<li>Polynomial least-squares regression is simply multiple linear regression with an expanded basis.</li>
+<li><code>ggplot</code>’s are easy to make in R and look nice!</li>
+</ul>
+<p>In a future post, I may circle back to this data and solve more of the original CS 281 assignment involving Bayesian regression.</p>
+<p>Thanks to:</p>
+<ul>
+<li>Ryan Adams for teaching CS 281 and making the course materials freely available.</li>
+<li>William Chen for some <code>ggplot</code> starter code that helped me when I was first learning.</li>
+<li>Constantin Ahlmann-Eltze for calling my attention to the differences between setting <code>ylim</code> directly versus inside <code>cartesian_coord</code> when using <code>ggplot</code>.</li>
+</ul>
+<p>TODO: add link to the notebook on GitHub.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Another note for new R users: you can pull up the documentation for a command like <code>solve</code> by executing <code>?solve</code> in the console.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Interestingly, I tried this out on our data using <span class="math inline">\(d=n=10\)</span>. The math expression is <span class="math display">\[
+\mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y},
+\]</span> and when I get to the inversion step, I receive an error message:</p>
+<pre><code>Error in solve.default(t(x_matrix) %*% x_matrix) : 
+system is computationally singular: reciprocal condition number = 1.10547e-20</code></pre>
+<p>This suggests that for <span class="math inline">\(d \geq n\)</span>, the matrix <span class="math inline">\((\mathbf{X}^\intercal\mathbf{X})\)</span> is no longer full-rank. Indeed, looking online, I seem to find that for any real matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)\)</span>. In this case, where <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\(n\)</span> by <span class="math inline">\((d+1)\)</span>, we have <span class="math inline">\(\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n\)</span>, the number of columns of <span class="math inline">\(\mathbf{X}^\intercal\)</span>, but <span class="math inline">\(\mathbf{X}^\intercal\mathbf{X}\)</span> is a <span class="math inline">\((d+1)\)</span> by <span class="math inline">\((d+1)\)</span> matrix, so it cannot be full-rank.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://example.org/tags/ggplot/">ggplot</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://example.org/2017/11/blogging-aims/" data-tooltip="Blogging Aims">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://example.org/2017/11/polynomial-regression/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://example.org/2017/11/polynomial-regression/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://example.org/2017/11/polynomial-regression/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 Brian Zhang. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://example.org/2017/11/blogging-aims/" data-tooltip="Blogging Aims">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://example.org/2017/11/polynomial-regression/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://example.org/2017/11/polynomial-regression/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://example.org/2017/11/polynomial-regression/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fexample.org%2F2017%2F11%2Fpolynomial-regression%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fexample.org%2F2017%2F11%2Fpolynomial-regression%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fexample.org%2F2017%2F11%2Fpolynomial-regression%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Brian Zhang</h4>
+    
+      <div id="about-card-bio">Academic statistics blog</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Statistics PhD Student
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        University of Oxford
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2017/11/polynomial-regression/">
+                <h3 class="media-heading">Polynomial Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
+At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2017/11/blogging-aims/">
+                <h3 class="media-heading">Blogging Aims</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
+As of September, I&rsquo;ve been a first-year PhD student at Oxford&rsquo;s Statistics department. I received my bachelor&rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2015/07/hello-r-markdown/">
+                <h3 class="media-heading">Hello R Markdown</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2015/06/welcome-to-tranquilpeak-0.4.2-beta/">
+                <h3 class="media-heading">Welcome to Tranquilpeak 0.4.2-BETA</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak is a gorgeous responsive theme for Hugo blog framework. It has many features and integrated services to improve user experience.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2015/05/elements-showcase/">
+                <h3 class="media-heading">Elements showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Check out how Tranquilpeak theme display well HTML elements (title, paragraph, blockquote, table and more..). It&rsquo;s simple and elegant.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2015/05/cover-image-showcase/">
+                <h3 class="media-heading">Cover image showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak integrate a unique &ldquo;cover image&rdquo; feature. Open this post to see how this feature sublimate your article.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2015/03/highlighted-code-showcase/">
+                <h3 class="media-heading">highlighted code showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak Hugo theme have its own theme to highlight source code. It&rsquo;s based on GitHub theme: simple and elegant. Check out how it sublimate source codes.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2014/10/tags-plugins-showcase/">
+                <h3 class="media-heading">Tags plugins showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is used to show how tag plugins are displayed. See <a href="https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#tags">docs</a> for more info.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2014/08/hidden-social-section-showcase/">
+                <h3 class="media-heading">Hidden social section showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is used to show how a site looks if the social section is hidden.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://example.org/2014/08/hidden-tag-section-showcase/">
+                <h3 class="media-heading">Hidden tag section showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is used to show how a site looks if the tag section is hidden.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         15 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://example.org/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://example.org/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/example.org\/2017\/11\/polynomial-regression\/';
+          
+            this.page.identifier = '\/2017\/11\/polynomial-regression\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
