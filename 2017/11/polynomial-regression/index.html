@@ -37,9 +37,9 @@ At the moment, I’m hoping to follow along with these three courses and do some
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Polynomial Regression">
     <meta property="og:url" content="/2017/11/polynomial-regression/">
-    <meta property="og:site_name" content="Hugo tranquilpeak theme">
+    <meta property="og:site_name" content="Home | Brian Zhang">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Hugo tranquilpeak theme">
+    <meta name="twitter:title" content="Home | Brian Zhang">
     <meta name="twitter:description" content="Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
 At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:">
     
@@ -71,6 +71,11 @@ At the moment, I’m hoping to follow along with these three courses and do some
     
 
     
+    
+    <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css' rel='stylesheet' type='text/css'>
+    
+
+    
       
     
     
@@ -81,7 +86,7 @@ At the moment, I’m hoping to follow along with these three courses and do some
       <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="/">Hugo tranquilpeak theme</a>
+    <a class="header-title-link" href="/">Home | Brian Zhang</a>
   </div>
   
     
@@ -187,6 +192,9 @@ At the moment, I’m hoping to follow along with these three courses and do some
           
             <div class="post-header main-content-wrap text-left">
   
+    
+      <span class="article-duration">8 min read</span>
+    
     <h1 class="post-title" itemprop="headline">
       Polynomial Regression
     </h1>
@@ -295,9 +303,9 @@ beta</code></pre>
 </div>
 <div id="generalizing-to-polynomial-regression" class="section level2">
 <h2>Generalizing to polynomial regression</h2>
-<p>What if instead of fitting a line, we wanted to fit a quadratic to our data? Our quadratic would then have three parameters, and we would want to minimize: <span class="math display">\[
+What if instead of fitting a line, we wanted to fit a quadratic to our data? Our quadratic would then have three parameters, and we would want to minimize: <span class="math display">\[
 \sum_i (y_i-(\beta_0 + \beta_1 x_i + \beta_2 x_i^2))^2
-\]</span> This loss function <span class="math inline">\(l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y})\)</span> can be put in the exact same form as before, with the same solution for <span class="math inline">\(\mathbf{\hat{\boldsymbol{\beta}}}\)</span>, as long as we instead define our matrices as: <span class="math display">\[
+\]</span> This loss function <span class="math inline">\(l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y})\)</span> can be put in the exact same form as before, as long as we instead define our matrices as:<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> <span class="math display">\[
 \mathbf{y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix},
 \mathbf{X} = \begin{pmatrix}
 1 &amp; x_1 &amp; x_1^2\\
@@ -306,7 +314,12 @@ beta</code></pre>
 1 &amp; x_n &amp; x_n^2\\
 \end{pmatrix},
 \boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{pmatrix}
-\]</span> It should be clear that this pattern continues on, at least until the degree <span class="math inline">\(d\)</span> of the polynomial equals <span class="math inline">\(n - 1\)</span>. At that point, we are able to hit all our <span class="math inline">\(n\)</span> points exactly (assuming the <span class="math inline">\(x\)</span>-coordinates are all different), since the polynomial has <span class="math inline">\(n\)</span> free parameters. If we then take <span class="math inline">\(d \geq n\)</span>, there are multiple polynomial solutions, and we should no longer trust our expression to give the single right solution.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+\]</span> We then get:
+<span class="math display">\[\begin{gather*}
+l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y}) = (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})^\intercal (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})\\
+\mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y}
+\end{gather*}\]</span>
+<p>It should be clear that this pattern continues on, at least until the degree <span class="math inline">\(d\)</span> of the polynomial equals <span class="math inline">\(n - 1\)</span>. At that point, we are able to hit all our <span class="math inline">\(n\)</span> points exactly (assuming the <span class="math inline">\(x\)</span>-coordinates are all different), since the polynomial has <span class="math inline">\(n\)</span> free parameters. If we then take <span class="math inline">\(d \geq n\)</span>, there are multiple polynomial solutions, and we should no longer trust our expression to give the single right solution.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
 <p>Using the above result, we can perform polynomial regression on our <span class="math inline">\(n = 10\)</span> data points with <span class="math inline">\(d = 0\)</span> to <span class="math inline">\(9\)</span>. Once we have the <span class="math inline">\(\boldsymbol{\beta}\)</span> coefficients, we sweep over an <span class="math inline">\(x\)</span>-range from -2.5 to 3 and generate the corresponding <span class="math inline">\(y\)</span> value for the polynomial. We keep the resulting polynomial data in a data frame.</p>
 <pre class="r"><code>x_matrix = NULL
 y_matrix = as.matrix(y)
@@ -375,17 +388,20 @@ for(i in 1:10) {
 <li>Constantin Ahlmann-Eltze for calling my attention to the differences between setting <code>ylim</code> directly versus inside <code>cartesian_coord</code> when using <code>ggplot</code>.</li>
 </ul>
 <p><strong><em>This blog post was generated from an R Markdown file using the <code>knitr</code> and <code>blogdown</code> packages. The original source can be downloaded <a href="https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2017-11-09-polynomial-regression.Rmd">from GitHub</a>.</em></strong></p>
+<p><strong><em>UPDATE 2017-11-21: added a reference to the Vandermonde matrix and made some other small fixes.</em></strong></p>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn1"><p>Another note for new R users: you can pull up the documentation for a command like <code>solve</code> by executing <code>?solve</code> in the console.<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>Interestingly, I tried this out on our data using <span class="math inline">\(d=n=10\)</span>. The math expression is <span class="math display">\[
+<li id="fn2"><p>Thanks to Shoucheng Zhang for pointing out that the general <span class="math inline">\(\mathbf{X}\)</span> matrix is known as the <a href="https://en.wikipedia.org/wiki/Vandermonde_matrix">Vandermonde matrix</a>.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Interestingly, I tried this out on our data using <span class="math inline">\(d=n=10\)</span>. The math expression is <span class="math display">\[
 \mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y},
 \]</span> and when I get to the inversion step, I receive an error message:</p>
 <pre><code>Error in solve.default(t(x_matrix) %*% x_matrix) : 
 system is computationally singular: reciprocal condition number = 1.10547e-20</code></pre>
-<p>This suggests that for <span class="math inline">\(d \geq n\)</span>, the matrix <span class="math inline">\((\mathbf{X}^\intercal\mathbf{X})\)</span> is no longer full-rank. Indeed, looking online, I seem to find that for any real matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)\)</span>. In this case, where <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\(n\)</span> by <span class="math inline">\((d+1)\)</span>, we have <span class="math inline">\(\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n\)</span>, the number of columns of <span class="math inline">\(\mathbf{X}^\intercal\)</span>, but <span class="math inline">\(\mathbf{X}^\intercal\mathbf{X}\)</span> is a <span class="math inline">\((d+1)\)</span> by <span class="math inline">\((d+1)\)</span> matrix, so it cannot be full-rank.<a href="#fnref2">↩</a></p></li>
+<p>This suggests that for <span class="math inline">\(d \geq n\)</span>, the matrix <span class="math inline">\((\mathbf{X}^\intercal\mathbf{X})\)</span> is no longer full-rank. Indeed, looking online, I seem to find that for any real matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)\)</span>. In this case, where <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\(n\)</span> by <span class="math inline">\((d+1)\)</span>, we have <span class="math inline">\(\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n\)</span>, the number of columns of <span class="math inline">\(\mathbf{X}^\intercal\)</span>, but <span class="math inline">\(\mathbf{X}^\intercal\mathbf{X}\)</span> is a <span class="math inline">\((d+1)\)</span> by <span class="math inline">\((d+1)\)</span> matrix, so it cannot be full-rank.</p>
+<p>For a similar presentation in Python, see <a href="http://jakevdp.github.io/blog/2015/07/06/model-complexity-myth/#The-Mathematics-of-Underdetermined-Models">this blog post</a> by Jake VanderPlas.<a href="#fnref3">↩</a></p></li>
 </ol>
 </div>
 
@@ -839,7 +855,20 @@ summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/r.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/yaml.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/python.min.js"></script>
+
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
@@ -859,17 +888,7 @@ MathJax.Hub.Config({
 
 
 
-<script>
-$(document).ready(function() {
-  hljs.configure({ classPrefix: '', useBR: false });
-  $('pre.code-highlight > code, pre > code').each(function(i, block) {
-    if (!$(this).hasClass('codeblock')) {
-      $(this).addClass('codeblock');
-    }
-    hljs.highlightBlock(block);
-  });
-});
-</script>
+
 
 
   

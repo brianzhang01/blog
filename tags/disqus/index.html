@@ -33,9 +33,9 @@
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Disqus">
     <meta property="og:url" content="/tags/disqus/">
-    <meta property="og:site_name" content="Hugo tranquilpeak theme">
+    <meta property="og:site_name" content="Home | Brian Zhang">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Hugo tranquilpeak theme">
+    <meta name="twitter:title" content="Home | Brian Zhang">
     <meta name="twitter:description" content="Hugo tranquilpeak theme demo">
     
       <meta name="twitter:creator" content="@brianczhang">
@@ -66,6 +66,11 @@
     
 
     
+    
+    <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css' rel='stylesheet' type='text/css'>
+    
+
+    
       
     
     
@@ -76,7 +81,7 @@
       <header id="header" data-behavior="1">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="/">Hugo tranquilpeak theme</a>
+    <a class="header-title-link" href="/">Home | Brian Zhang</a>
   </div>
   
     
@@ -505,7 +510,20 @@ summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/r.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/yaml.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/python.min.js"></script>
+
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
@@ -525,17 +543,7 @@ MathJax.Hub.Config({
 
 
 
-<script>
-$(document).ready(function() {
-  hljs.configure({ classPrefix: '', useBR: false });
-  $('pre.code-highlight > code, pre > code').each(function(i, block) {
-    if (!$(this).hasClass('codeblock')) {
-      $(this).addClass('codeblock');
-    }
-    hljs.highlightBlock(block);
-  });
-});
-</script>
+
 
 
 

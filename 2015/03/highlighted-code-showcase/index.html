@@ -37,9 +37,9 @@
     <meta property="og:type" content="blog">
     <meta property="og:title" content="highlighted code showcase">
     <meta property="og:url" content="/2015/03/highlighted-code-showcase/">
-    <meta property="og:site_name" content="Hugo tranquilpeak theme">
+    <meta property="og:site_name" content="Home | Brian Zhang">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Hugo tranquilpeak theme">
+    <meta name="twitter:title" content="Home | Brian Zhang">
     <meta name="twitter:description" content="Tranquilpeak Hugo theme have its own theme to highlight source code. It&rsquo;s based on GitHub theme: simple and elegant. Check out how it sublimate source codes.
 ">
     
@@ -73,6 +73,11 @@
     
 
     
+    
+    <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css' rel='stylesheet' type='text/css'>
+    
+
+    
       
     
     
@@ -83,7 +88,7 @@
       <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="/">Hugo tranquilpeak theme</a>
+    <a class="header-title-link" href="/">Home | Brian Zhang</a>
   </div>
   
     
@@ -189,6 +194,9 @@
           
             <div class="post-header main-content-wrap text-left">
   
+    
+      <span class="article-duration">16 min read</span>
+    
     <h1 class="post-title" itemprop="headline">
       highlighted code showcase
     </h1>
@@ -244,6 +252,7 @@
 <li><a href="#perl">Perl</a></li>
 <li><a href="#php">PHP</a></li>
 <li><a href="#python">Python</a></li>
+<li><a href="#r">R</a></li>
 <li><a href="#ruby">Ruby</a></li>
 <li><a href="#sql">SQL</a></li>
 <li><a href="#html">HTML</a></li>
@@ -1591,6 +1600,63 @@ class SomeClass:
   </table>
 </figure></p>
 
+<h1 id="r">R</h1>
+
+
+  
+    
+  
+  
+    
+  
+  
+    
+  
+  
+    
+  
+
+
+<figure class="highlight r language-r">
+  <figcaption>
+    
+      <span>thing.R</span><a href="http://underscorejs.org/#compact" target="_blank" rel="external">thing.R</a>
+    
+  </figcaption>
+  <table>
+    <tbody>
+      <tr>
+        <td class="gutter">
+          <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre>
+        </td>
+        <td class="code">
+          <pre class="code-highlight language-r"><code class="r">x_matrix = NULL
+y_matrix = as.matrix(y)
+x_curve = seq(-2.5, 3, 0.05)
+y_data = NULL
+for(i in 1:10) {
+  x_matrix = cbind(x_matrix, x^(i-1))
+  beta = solve(t(x_matrix) %*% x_matrix) %*% t(x_matrix) %*% y_matrix
+  y_curve = rep(0, length(x_curve))
+  for(j in 1:i) {
+    y_curve = y_curve &#43; beta[j]*x_curve^(j-1)
+  }
+  y_data = rbind(y_data, data.frame(x=x_curve, y=y_curve, d=(i-1)))
+}
+
+par(mar = c(0, 1, 0, 1))
+pie(
+  c(280, 60, 20),
+  c(&#39;Sky&#39;, &#39;Sunny side of pyramid&#39;, &#39;Shady side of pyramid&#39;),
+  col = c(&#39;#0292D8&#39;, &#39;#F7EA39&#39;, &#39;#C4B632&#39;),
+  init.angle = -50, border = NA
+)</code></pre>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+
 <h1 id="ruby">Ruby</h1>
 
 
@@ -1772,7 +1838,7 @@ COMMIT</code></pre>
 
 <h1 id="puppet">Puppet</h1>
 
-<p>
+
   
     
   
@@ -1907,7 +1973,7 @@ COMMIT</code></pre>
       </tr>
     </tbody>
   </table>
-</figure></p>
+</figure>
 
 <h1 id="less">Less</h1>
 
@@ -2684,7 +2750,20 @@ summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/r.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/yaml.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/python.min.js"></script>
+
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
@@ -2704,17 +2783,7 @@ MathJax.Hub.Config({
 
 
 
-<script>
-$(document).ready(function() {
-  hljs.configure({ classPrefix: '', useBR: false });
-  $('pre.code-highlight > code, pre > code').each(function(i, block) {
-    if (!$(this).hasClass('codeblock')) {
-      $(this).addClass('codeblock');
-    }
-    hljs.highlightBlock(block);
-  });
-});
-</script>
+
 
 
   

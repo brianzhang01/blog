@@ -101,7 +101,7 @@ What if instead of fitting a line, we wanted to fit a quadratic to our data? Our
 $$
 \sum_i (y_i-(\beta_0 + \beta_1 x_i + \beta_2 x_i^2))^2
 $$
-This loss function $l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y})$ can be put in the exact same form as before, with the same solution for $\mathbf{\hat{\boldsymbol{\beta}}}$, as long as we instead define our matrices as:
+This loss function $l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y})$ can be put in the exact same form as before, as long as we instead define our matrices as:^[Thanks to Shoucheng Zhang for pointing out that the general $\mathbf{X}$ matrix is known as the [Vandermonde matrix](https://en.wikipedia.org/wiki/Vandermonde_matrix).]
 $$
 \mathbf{y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix},
 \mathbf{X} = \begin{pmatrix}
@@ -112,6 +112,12 @@ $$
 \end{pmatrix},
 \boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{pmatrix}
 $$
+We then get:
+\begin{gather*}
+l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y}) = (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})^\intercal (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})\\
+\mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y}
+\end{gather*}
+
 It should be clear that this pattern continues on, at least until the degree $d$ of the polynomial equals $n - 1$. At that point, we are able to hit all our $n$ points exactly (assuming the $x$-coordinates are all different), since the polynomial has $n$ free parameters. If we then take $d \geq n$, there are multiple polynomial solutions, and we should no longer trust our expression to give the single right solution.[^longnote]
 
 [^longnote]: Interestingly, I tried this out on our data using $d=n=10$. The math expression is
@@ -124,6 +130,8 @@ and when I get to the inversion step, I receive an error message:
         system is computationally singular: reciprocal condition number = 1.10547e-20
 
     This suggests that for $d \geq n$, the matrix $(\mathbf{X}^\intercal\mathbf{X})$ is no longer full-rank. Indeed, looking online, I seem to find that for any real matrix $\mathbf{A}$, $\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)$. In this case, where $\mathbf{X}$ is $n$ by $(d+1)$, we have $\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n$, the number of columns of $\mathbf{X}^\intercal$, but $\mathbf{X}^\intercal\mathbf{X}$ is a $(d+1)$ by $(d+1)$ matrix, so it cannot be full-rank.
+    
+    For a similar presentation in Python, see [this blog post](http://jakevdp.github.io/blog/2015/07/06/model-complexity-myth/#The-Mathematics-of-Underdetermined-Models) by Jake VanderPlas.
 
 Using the above result, we can perform polynomial regression on our $n = 10$ data points with $d = 0$ to $9$. Once we have the $\boldsymbol{\beta}$ coefficients, we sweep over an $x$-range from -2.5 to 3 and generate the corresponding $y$ value for the polynomial. We keep the resulting polynomial data in a data frame.
 
@@ -185,3 +193,5 @@ Thanks to:
 * Constantin Ahlmann-Eltze for calling my attention to the differences between setting `ylim` directly versus inside `cartesian_coord` when using `ggplot`.
 
 ***This blog post was generated from an R Markdown file using the `knitr` and `blogdown` packages. The original source can be downloaded [from GitHub](https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2017-11-09-polynomial-regression.Rmd).***
+
+***UPDATE 2017-11-21: added a reference to the Vandermonde matrix and made some other small fixes.***
