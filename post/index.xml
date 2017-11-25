@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Home | Brian Zhang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Nov 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Statistics / ML Books</title>
+      <link>/2017/11/statistics-ml-books/</link>
+      <pubDate>Sat, 25 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/11/statistics-ml-books/</guid>
+      <description>At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!1
+This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
+ The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2009, 2nd Ed.</description>
+    </item>
     
     <item>
       <title>Polynomial Regression</title>
