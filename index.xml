@@ -6,10 +6,22 @@
     <description>Recent content on Home | Brian Zhang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 25 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 30 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Clustering with K-Means and EM</title>
+      <link>/2018/01/clustering-with-k-means-and-em/</link>
+      <pubDate>Tue, 30 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/clustering-with-k-means-and-em/</guid>
+      <description>Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
+I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
+ Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
+ Structural similarities in the algorithms, by splitting up K-means into an E and M step.</description>
+    </item>
     
     <item>
       <title>Statistics / ML Books</title>

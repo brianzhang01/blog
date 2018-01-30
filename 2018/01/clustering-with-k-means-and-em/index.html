@@ -1,0 +1,1176 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Clustering with K-Means and EM</title>
+    <meta name="author" content="Brian Zhang">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+    <meta name="description" content="Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
+I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
+ Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
+ Structural similarities in the algorithms, by splitting up K-means into an E and M step.">
+    <meta property="og:description" content="Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
+I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
+ Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
+ Structural similarities in the algorithms, by splitting up K-means into an E and M step.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Clustering with K-Means and EM">
+    <meta property="og:url" content="/2018/01/clustering-with-k-means-and-em/">
+    <meta property="og:site_name" content="Home | Brian Zhang">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Home | Brian Zhang">
+    <meta name="twitter:description" content="Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
+I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
+ Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
+ Structural similarities in the algorithms, by splitting up K-means into an E and M step.">
+    
+      <meta name="twitter:creator" content="@brianczhang">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+    
+    <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css' rel='stylesheet' type='text/css'>
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">Home | Brian Zhang</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Brian Zhang</h4>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/brianzhang01/brianzhang01.github.io">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Clustering with K-Means and EM
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-01-30T00:00:00Z">
+        
+  January 30, 2018
+
+      </time>
+    
+    
+      <span class="middotDivider">&middot;</span>
+      <span class="readingTime">10 min read</span>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.</p>
+<p>I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:</p>
+<ul>
+<li><p>Pretty visualizations in <code>ggplot</code>, with the helper packages <code>deldir</code>, <code>ellipse</code>, and <code>knitr</code> for animations.</p></li>
+<li><p>Structural similarities in the algorithms, by splitting up K-means into an E and M step.</p></li>
+<li><p>Animations showing that EM reduces to the K-means algorithm in a particular limit.</p></li>
+</ul>
+<p>This last point is covered in Section 9.3.2 of Bishop’s <em>Pattern Recognition and Machine Learning</em>, which I recommend taking a look at for additional theoretical intuition.</p>
+<p>So let’s get started! <a href="https://www.cs.princeton.edu/~bee/courses/hw/points_hw4.txt">Our data</a> comes from Barbara Englehardt’s Spring 2013 Duke course, <a href="https://www.cs.princeton.edu/~bee/courses/cbb540.html">STA613/CBB540: Statistical methods in computational biology</a>, <a href="https://www.cs.princeton.edu/~bee/courses/hw/sta613cbb540_hw4.pdf">homework 4</a>.</p>
+</div>
+<div id="load-the-data" class="section level2">
+<h2>Load the data</h2>
+<p>First, we load our library functions and data points:</p>
+<pre class="r"><code>library(deldir)
+library(ellipse)
+library(pryr)
+library(ggplot2)
+center_title = theme(plot.title = element_text(hjust = 0.5))
+no_legend = theme(legend.position=&quot;none&quot;)</code></pre>
+<pre class="r"><code>points = read.table(&#39;../data/points_hw4.txt&#39;, col.names=c(&quot;x&quot;, &quot;y&quot;))
+ggplot(points, aes(x = x, y = y)) + geom_point() +
+  labs(title = &quot;Scatter plot of data&quot;) +
+  center_title</code></pre>
+<p><img src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/points-1.png" width="672" /></p>
+</div>
+<div id="clustering-algorithms" class="section level2">
+<h2>Clustering algorithms</h2>
+<p>One of the aims of this post is to show how the common EM clustering algorithm reduces to K-means in a particular limit. To do this, we should first put both algorithms into a common form.</p>
+<p>If you’ve worked through the algorithms before, you’ll see that both K-means and EM consist of a step where points are assigned to clusters, followed by a step where parameter updates are computed from those assignments. They look like the following:</p>
+<ul>
+<li>EM E step: compute soft assignments of assigning a probability distribution for each point over the <span class="math inline">\(K\)</span> clusters</li>
+<li>K-means “E step”: compute hard assignments of assigning every data point to its nearest cluster center</li>
+<li>EM M step: using the soft assignments, update <span class="math inline">\(\mathbf{\mu}_i\)</span>, the Gaussian means, <span class="math inline">\(\mathbf{\Sigma}_i\)</span>, the Gaussian covariance matrices, and <span class="math inline">\(\mathbf{\pi}\)</span>, the cluster weights</li>
+<li>K-means “M step”: using the hard assignments, update <span class="math inline">\(\mathbf{\mu}_i\)</span>, the cluster centers</li>
+</ul>
+<p>Our approach will be to implement these four helper functions, and then string them together using a common interface. This also cuts down on duplication. The high-level program takes an E function, an M function, and starting inputs to an E step, and alternates the two steps while keeping track of all intermediate results:</p>
+<pre class="r"><code>iterate_em = function(nsteps, K, points, e_step, m_step, m_params.init) {
+  m_list = list(m_params.init)
+  e_list = list()
+  i = 1
+  while (i &lt;= nsteps) {
+    e_list[[i]] = e_step(K, points, m_list[[i]])
+    m_list[[i+1]] = m_step(K, points, e_list[[i]])
+    i = i + 1
+  }
+  return(list(m_list=m_list, e_list=e_list))
+}</code></pre>
+<p>The rest of this section is pretty dry, and just consists of my R code for the two algorithms. In the E step for EM, I make use of the log-sum-exp trick, which turns out to be helpful for numerical precision; you can read more about that <a href="https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/">here</a>.</p>
+<pre class="r"><code># K-means as functions
+# points: N x D matrix
+# e_params: list with
+#   clusters: vector of assignments
+# m_params: list with
+#   centers: matrix of cluster centers
+kmeans.e = function(K, points, m_params) {
+  N = dim(points)[1]
+  D = dim(points)[2]
+  
+  distances2 = matrix(0, N, K)
+  for (k in 1:K) {
+    for (j in 1:D) {
+      distances2[,k] = distances2[,k] + (points[,j] - m_params$centers[k,j])^2
+    }
+  }
+  clusters = apply(distances2, 1, which.min)
+  e_params = list(clusters=clusters)
+  
+  return(e_params)
+}
+
+kmeans.m = function(K, points, e_params) {
+  N = dim(points)[1]
+  D = dim(points)[2]
+  
+  centers = matrix(0, K, D)
+  for (k in 1:K) {
+    centers[k,] = colMeans(points[e_params$clusters == k,])
+  }
+  m_params = list(centers=centers)
+  
+  return(m_params)
+}
+
+# EM as functions
+# points: N x D matrix
+# m_params: list with
+#   mu: K x D, MoG centers
+#   sigma: list of length K of D x D matrices, MoG covariances
+#   weights: K, MoG weights
+# e_params: list with
+#   resp: responsibilities, N x K
+#   ll: log-likelihood, for debugging
+em.e = function(K, points, m_params) {
+  N = dim(points)[1]
+  D = dim(points)[2]
+  mu = m_params$mu
+  sigma = m_params$sigma
+  weights = m_params$weights
+  
+  # update responsibilities
+  resp = matrix(rep(0, N*K), N, K)
+  for (k in 1:K) {
+    constant_k = log(weights[k]) - 0.5*log(det(sigma[[k]])) -
+      log(2*pi)*(D/2)
+    displacement = points - as.numeric(matrix(mu[k,], N, D, byrow = TRUE))
+    log_probs = -1/2 * colSums(t(displacement) * (
+      solve(sigma[[k]]) %*% t(displacement)))
+    resp[,k] = log_probs + constant_k
+  }
+  
+  # log-sum-exp trick
+  max_log_probs = apply(resp, 1, max)
+  resp = resp - matrix(max_log_probs, N, K)
+  resp = exp(resp)
+  ll = mean(log(rowSums(resp))) + mean(max_log_probs)  # log likelihood
+  resp = resp / matrix(rowSums(resp), N, K)
+  
+  e_params = list(resp=resp, ll=ll)
+  return(e_params)
+}
+
+em.m = function(K, points, e_params, fix_sigma=NULL, fix_weights=NULL) {
+  N = dim(points)[1]
+  D = dim(points)[2]
+  resp = e_params$resp
+  
+  # update means
+  mu = matrix(0, K, D)
+  for (k in 1:K) {
+    mu[k,] = colSums(resp[,k]*points) / sum(resp[,k])
+  }
+
+  # update covarainces
+  if (is.null(fix_sigma)) {
+    sigma = NULL
+    for (k in 1:K) {
+      sigma[[k]] = matrix(0, D, D)
+      displacement = points - as.numeric(matrix(mu[k,], N, D, byrow = TRUE))
+      for (j in 1:D) {
+        sigma[[k]][j,] = colSums(displacement[,j]*displacement*resp[,k]) / sum(resp[,k])
+      }
+    }
+  } else {
+    sigma = fix_sigma
+  }
+  
+  # update component weights
+  if (is.null(fix_weights)) {
+    weights = colSums(resp) / sum(resp)
+  } else {
+    weights = fix_weights
+  }
+  
+  m_params = list(mu=mu, sigma=sigma, weights=weights)
+  return(m_params)
+}</code></pre>
+</div>
+<div id="initial-run" class="section level2">
+<h2>Initial run</h2>
+<p>Now, we can choose <code>K = 3</code> and <code>nsteps = 20</code> for an initial run. We randomly choose three points as our starting centers for both K-means and EM. For EM, we additionaly initialize using identity covariance and equal weights over the mixture components.</p>
+<pre class="r"><code># Run K means and EM
+K = 3
+nsteps = 20
+N = dim(points)[1]
+D = dim(points)[2]
+set.seed(3)
+centers = points[sample(1:N, K),]
+row.names(centers) = NULL
+m_params.init = list(centers=centers)
+kmeans_results = iterate_em(nsteps, K, points, kmeans.e, kmeans.m, m_params.init)
+
+mu = centers
+sigma = NULL
+for(k in 1:K) {
+  sigma[[k]] = diag(D)  # covariances initialized to identity matrix
+}
+weights = rep(1, K) / K  # weights initialized to uniform
+m_params.init = list(mu=mu, sigma=sigma, weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, em.m, m_params.init)</code></pre>
+<p>The results of each E-step produces data for each of the N points, which is verbose. Instead, let’s print the results of the M-step, which is more compact.</p>
+<pre class="r"><code>kmeans_results$m_list[1:3]</code></pre>
+<pre><code>## [[1]]
+## [[1]]$centers
+##          x        y
+## 1 4.236116 4.322595
+## 2 3.115771 3.307241
+## 3 4.474370 2.387970
+## 
+## 
+## [[2]]
+## [[2]]$centers
+##          [,1]     [,2]
+## [1,] 3.903263 4.585723
+## [2,] 2.434461 3.479530
+## [3,] 4.907858 2.282699
+## 
+## 
+## [[3]]
+## [[3]]$centers
+##          [,1]     [,2]
+## [1,] 3.837077 4.520047
+## [2,] 2.366460 3.438372
+## [3,] 4.907858 2.282699</code></pre>
+<pre class="r"><code>em_results$m_list[1:3]</code></pre>
+<pre><code>## [[1]]
+## [[1]]$mu
+##          x        y
+## 1 4.236116 4.322595
+## 2 3.115771 3.307241
+## 3 4.474370 2.387970
+## 
+## [[1]]$sigma
+## [[1]]$sigma[[1]]
+##      [,1] [,2]
+## [1,]    1    0
+## [2,]    0    1
+## 
+## [[1]]$sigma[[2]]
+##      [,1] [,2]
+## [1,]    1    0
+## [2,]    0    1
+## 
+## [[1]]$sigma[[3]]
+##      [,1] [,2]
+## [1,]    1    0
+## [2,]    0    1
+## 
+## 
+## [[1]]$weights
+## [1] 0.3333333 0.3333333 0.3333333
+## 
+## 
+## [[2]]
+## [[2]]$mu
+##          [,1]     [,2]
+## [1,] 3.596083 4.280319
+## [2,] 2.652853 3.548945
+## [3,] 4.318030 2.668293
+## 
+## [[2]]$sigma
+## [[2]]$sigma[[1]]
+##            [,1]       [,2]
+## [1,] 0.66681006 0.05709793
+## [2,] 0.05709793 0.56318406
+## 
+## [[2]]$sigma[[2]]
+##           [,1]      [,2]
+## [1,] 0.6406161 0.1080031
+## [2,] 0.1080031 0.5753433
+## 
+## [[2]]$sigma[[3]]
+##            [,1]       [,2]
+## [1,]  1.3820866 -0.4615455
+## [2,] -0.4615455  0.7275576
+## 
+## 
+## [[2]]$weights
+## [1] 0.3032386 0.5042118 0.1925496
+## 
+## 
+## [[3]]
+## [[3]]$mu
+##          [,1]     [,2]
+## [1,] 3.602189 4.367311
+## [2,] 2.578687 3.553098
+## [3,] 4.475524 2.552581
+## 
+## [[3]]$sigma
+## [[3]]$sigma[[1]]
+##           [,1]      [,2]
+## [1,] 0.5694985 0.1191194
+## [2,] 0.1191194 0.4292038
+## 
+## [[3]]$sigma[[2]]
+##           [,1]      [,2]
+## [1,] 0.5033149 0.1763752
+## [2,] 0.1763752 0.5461334
+## 
+## [[3]]$sigma[[3]]
+##            [,1]       [,2]
+## [1,]  1.2389029 -0.4628892
+## [2,] -0.4628892  0.5710045
+## 
+## 
+## [[3]]$weights
+## [1] 0.3006975 0.5026309 0.1966716</code></pre>
+<p>Looks sensible. It’s also a good idea to check that the EM log-likelihood always increases.</p>
+<pre class="r"><code>lls = rep(0, nsteps)
+for (i in 1:nsteps) {
+  lls[i] = em_results$e_list[[i]]$ll
+}
+ggplot(data=data.frame(x=1:nsteps, y=lls)) +
+  geom_line(aes(x=x, y=y)) + geom_point(aes(x=x, y=y)) +
+  labs(title=&quot;Log likelihood for EM&quot;, x=&quot;step&quot;, y=&quot;log likelihood&quot;) +
+  center_title</code></pre>
+<p><img src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/log-likelihood-1.png" width="672" /></p>
+</div>
+<div id="visualization-code" class="section level2">
+<h2>Visualization code</h2>
+<p>We’d like to visualize our results, and since my aim is to compare K-means with EM, I’ve chosen to visualize them side-by-side using <code>ggplot</code>’s <code>facet_grid</code> option. Points are colored to show the assigned cluster (K-means) or the most likely cluster (EM); an alternate visualization would use blended colors for EM. I used the <code>deldir</code> package to compute K-means decision boundaries, which come from Voronoi diagrams, and the <code>ellipse</code> package to plot shapes of each Gaussian mixture.</p>
+<pre class="r"><code>make_visualization = function(points, kmeans_data, em_data, nsteps, K) {
+  for (i in 1:nsteps) {
+    # colored points
+    df_points = rbind(
+      data.frame(x = points[,1], y = points[,2], type = &quot;K-means&quot;,
+                 cluster = kmeans_data$e_list[[i]]$clusters),
+      data.frame(x = points[,1], y = points[,2], type = &quot;EM&quot;,
+                 cluster = apply(em_data$e_list[[i]]$resp, 1, which.max)))
+
+    # K-means decision boundaries
+    centers = kmeans_data$m_list[[i]]$centers
+    df_voronoi = deldir(centers[,1], centers[,2])$dirsgs
+    df_voronoi$type = factor(&quot;K-means&quot;, levels=c(&quot;K-means&quot;, &quot;EM&quot;))
+    
+    # ellipses
+    mu = em_data$m_list[[i]]$mu
+    sigma = em_data$m_list[[i]]$sigma
+    all_ellipses = NULL
+    for (k in 1:K) {
+      ellipse_data = ellipse(sigma[[k]], level=pchisq(1, df=D))
+      all_ellipses[[k]] = data.frame(
+        x=ellipse_data[,1] + mu[k,1], y=ellipse_data[,2] + mu[k,2],
+        cluster=k, type=&quot;EM&quot;)
+    }
+    df_ellipses = do.call(rbind, all_ellipses)
+    
+    print(
+      ggplot() +
+        geom_point(data=df_points, aes(x=x, y=y, color=factor(cluster))) +
+        geom_point(data=data.frame(x=centers[,1], y=centers[,2], type=&quot;K-means&quot;),
+                   aes(x=x, y=y), shape=17, size=3) +
+        geom_segment(data=df_voronoi, linetype = 1, color= &quot;#FFB958&quot;,
+                     aes(x = x1, y = y1, xend = x2, yend = y2)) +
+        geom_path(data=df_ellipses, aes(x=x, y=y, color=factor(cluster))) +
+        facet_grid(. ~ type) +
+        ggtitle(paste0(&quot;Most likely cluster, K = &quot;, K, &quot;, step = &quot;, i)) +
+        center_title + no_legend)
+  }
+}</code></pre>
+<p>Since <code>knitr</code> / R Markdown <a href="https://grunwaldlab.github.io/Reproducible-science-in-R/Extra_content---Advanced_RMarkdown.html">supports animations</a>, we can simply plot each frame in a for loop. In my case, I’m using <code>ffmpeg</code> with an <code>.mp4</code> format, and hacked <code>knitr</code> to add <a href="https://apple.stackexchange.com/questions/166553/why-wont-video-from-ffmpeg-show-in-quicktime-imovie-or-quick-preview">some flags</a> for Apple support, which was necessary for me to get things (hopefully) viewable in Safari.</p>
+<p>With this visualization code, we can finally take a look at our results!</p>
+<pre class="r"><code>make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
+<video width="672"  controls loop>
+<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-base.mp4" />
+</video>
+</div>
+<div id="the-k-means-limit" class="section level2">
+<h2>The K-means limit</h2>
+<p>To make the EM algorithm more like K-means, we start by limiting the M step to only change the <span class="math inline">\(\mathbf{\mu}\)</span> parameters. The correspondence is pretty clear – the Gaussian means correspond to the K-means cluster centers.</p>
+<p>If you look closely above, I added some extra arguments to the EM M step that allows for this change. Since the <code>iterate_em</code> function accepts a function for the M step, we can use the <code>partial</code> function from the <code>pryr</code> package to set these arguments appropriately.</p>
+<pre class="r"><code>fixed_sigma = partial(em.m, fix_sigma=sigma, fix_weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
+make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
+<video width="672"  controls loop>
+<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-fixed-big.mp4" />
+</video>
+<p>In the above animation, you’ll see that the shapes of the Gaussians do not change; only their centers do. One can show that this leads to linear decision boundaries for the most likely cluster, just like K-means. However, the algorithm evolution is still not the same as K-means.</p>
+<p>To allow the two algorithms to finally match up, we need to take a limit where the fixed covariance for each mixture component is <span class="math inline">\(\epsilon I\)</span>, and we take <span class="math inline">\(\epsilon\)</span> to 0. In this case, we take <span class="math inline">\(\epsilon\)</span> to be 0.01, corresponding to a standard deviation of 0.1. The log-sum-exp trick I mentioned earlier was necessary for my results to not under / overflow in this case.</p>
+<pre class="r"><code>sigma001 = NULL
+for(k in 1:K) {
+  sigma001[[k]] = diag(D)*0.01
+}
+m_params.init = list(mu=mu, sigma=sigma001, weights=weights)
+fixed_sigma001 = partial(em.m, fix_sigma=sigma001, fix_weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma001, m_params.init)
+make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
+<video width="672"  controls loop>
+<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-fixed-small.mp4" />
+</video>
+<p>The two sides match very well!</p>
+</div>
+<div id="extra-k-8" class="section level2">
+<h2>Extra: K = 8</h2>
+<p>We can repeat this entire process for a different value of <span class="math inline">\(K\)</span>. With regular EM:</p>
+<pre class="r"><code># Run K means and EM
+K = 8
+set.seed(3)
+centers = points[sample(1:N, K),]
+row.names(centers) = NULL
+m_params.init = list(centers=centers)
+kmeans_results = iterate_em(nsteps, K, points, kmeans.e, kmeans.m, m_params.init)
+
+mu = centers
+sigma = NULL
+for(k in 1:K) {
+  sigma[[k]] = diag(D)  # covariances initialized to identity matrix
+}
+weights = rep(1, K) / K  # weights initialized to uniform
+m_params.init = list(mu=mu, sigma=sigma, weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, em.m, m_params.init)
+
+# Visualize
+make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
+<video width="672"  controls loop>
+<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-base.mp4" />
+</video>
+<p>With only <span class="math inline">\(\mathbf{\mu}\)</span> updates, and <span class="math inline">\(I\)</span> covariance:</p>
+<pre class="r"><code>fixed_sigma = partial(em.m, fix_sigma=sigma, fix_weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
+make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
+<video width="672"  controls loop>
+<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-fixed-big.mp4" />
+</video>
+<p>With only <span class="math inline">\(\mathbf{\mu}\)</span> updates, and <span class="math inline">\(0.01I\)</span> covariance:</p>
+<pre class="r"><code>sigma001 = NULL
+for(k in 1:K) {
+  sigma001[[k]] = diag(D)*0.01
+}
+m_params.init = list(mu=mu, sigma=sigma001, weights=weights)
+fixed_sigma001 = partial(em.m, fix_sigma=sigma001, fix_weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma001, m_params.init)
+make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
+<video width="672"  controls loop>
+<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-fixed-small.mp4" />
+</video>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Besides the links included above, I found <a href="http://letstalkdata.com/2014/05/creating-voronoi-diagrams-with-ggplot/">this link</a> useful for plotting Voronoi diagrams using <code>ggplot</code>.</p>
+<p><strong><em>This blog post was generated from an R Markdown file using the <code>knitr</code> and <code>blogdown</code> packages. The original source can be downloaded <a href="https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2018-01-30-clustering-with-k-means-and-em.Rmd">from GitHub</a>.</em></strong></p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/statistics-ml-books/" data-tooltip="Statistics / ML Books">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/01/clustering-with-k-means-and-em/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/01/clustering-with-k-means-and-em/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2018/01/clustering-with-k-means-and-em/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Brian Zhang. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/statistics-ml-books/" data-tooltip="Statistics / ML Books">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/01/clustering-with-k-means-and-em/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/01/clustering-with-k-means-and-em/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2018/01/clustering-with-k-means-and-em/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F01%2Fclustering-with-k-means-and-em%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F01%2Fclustering-with-k-means-and-em%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2018%2F01%2Fclustering-with-k-means-and-em%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Brian Zhang</h4>
+    
+      <div id="about-card-bio">Blog built using <a href="https://gohugo.io/">Hugo</a> and <a href="https://github.com/rstudio/blogdown">blogdown</a>. Theme is <a href="https://github.com/kakawait/hugo-tranquilpeak-theme">kakawait&rsquo;s port</a> of the <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak">Tranquilpeak theme</a>, originally by <a href="https://github.com/LouisBarranqueiro">Louis Barranqueiro</a>. Cover image © Flickr, <a href="https://creativecommons.org/licenses/by-nc/2.0/#">Creative Commons Attribution License</a>, user <a href="https://www.flickr.com/photos/alexwhite/4509083932">alexwhite</a>.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Statistics PhD Student
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        University of Oxford
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/01/clustering-with-k-means-and-em/">
+                <h3 class="media-heading">Clustering with K-Means and EM</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
+I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
+ Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
+ Structural similarities in the algorithms, by splitting up K-means into an E and M step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/11/statistics-ml-books/">
+                <h3 class="media-heading">Statistics / ML Books</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!1
+This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
+ The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2009, 2nd Ed.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/11/polynomial-regression/">
+                <h3 class="media-heading">Polynomial Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
+At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/11/blogging-aims/">
+                <h3 class="media-heading">Blogging Aims</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
+As of September, I&rsquo;ve been a first-year PhD student at Oxford&rsquo;s Statistics department. I received my bachelor&rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/06/welcome-to-tranquilpeak-0.4.2-beta/">
+                <h3 class="media-heading">Welcome to Tranquilpeak 0.4.2-BETA</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak is a gorgeous responsive theme for Hugo blog framework. It has many features and integrated services to improve user experience.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/05/elements-showcase/">
+                <h3 class="media-heading">Elements showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Check out how Tranquilpeak theme display well HTML elements (title, paragraph, blockquote, table and more..). It&rsquo;s simple and elegant.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/05/cover-image-showcase/">
+                <h3 class="media-heading">Cover image showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak integrate a unique &ldquo;cover image&rdquo; feature. Open this post to see how this feature sublimate your article.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/03/highlighted-code-showcase/">
+                <h3 class="media-heading">highlighted code showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak Hugo theme have its own theme to highlight source code. It&rsquo;s based on GitHub theme: simple and elegant. Check out how it sublimate source codes.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2014/10/tags-plugins-showcase/">
+                <h3 class="media-heading">Tags plugins showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is used to show how tag plugins are displayed. See <a href="https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#tags">docs</a> for more info.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2014/08/hidden-social-section-showcase/">
+                <h3 class="media-heading">Hidden social section showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is used to show how a site looks if the social section is hidden.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         16 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('/images/radcam.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/r.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/yaml.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/python.min.js"></script>
+
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<script async type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2018\/01\/clustering-with-k-means-and-em\/';
+          
+            this.page.identifier = '\/2018\/01\/clustering-with-k-means-and-em\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

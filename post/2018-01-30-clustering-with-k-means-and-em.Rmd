@@ -1,0 +1,371 @@
+---
+title: Clustering with K-Means and EM
+author: Brian Zhang
+date: '2018-01-30'
+slug: clustering-with-k-means-and-em
+categories: []
+tags: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(ffmpeg.format = 'mp4')
+```
+
+## Introduction
+
+K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I'll go through my implementations on some sample data.
+
+I won't be going through much theory, as that can be easily found elsewhere. Instead I've focused on highlighting the following:
+
+* Pretty visualizations in `ggplot`, with the helper packages `deldir`, `ellipse`, and `knitr` for animations.
+
+* Structural similarities in the algorithms, by splitting up K-means into an E and M step.
+
+* Animations showing that EM reduces to the K-means algorithm in a particular limit.
+
+This last point is covered in Section 9.3.2 of Bishop's *Pattern Recognition and Machine Learning*, which I recommend taking a look at for additional theoretical intuition.
+
+So let's get started! [Our data](https://www.cs.princeton.edu/~bee/courses/hw/points_hw4.txt) comes from Barbara Englehardt's Spring 2013 Duke course, [STA613/CBB540: Statistical methods in computational biology](https://www.cs.princeton.edu/~bee/courses/cbb540.html), [homework 4](https://www.cs.princeton.edu/~bee/courses/hw/sta613cbb540_hw4.pdf).
+
+## Load the data
+
+First, we load our library functions and data points:
+```{r load}
+library(deldir)
+library(ellipse)
+library(pryr)
+library(ggplot2)
+center_title = theme(plot.title = element_text(hjust = 0.5))
+no_legend = theme(legend.position="none")
+```
+
+```{r points}
+points = read.table('../data/points_hw4.txt', col.names=c("x", "y"))
+ggplot(points, aes(x = x, y = y)) + geom_point() +
+  labs(title = "Scatter plot of data") +
+  center_title
+```
+
+## Clustering algorithms
+
+One of the aims of this post is to show how the common EM clustering algorithm reduces to K-means in a particular limit. To do this, we should first put both algorithms into a common form.
+
+If you've worked through the algorithms before, you'll see that both K-means and EM consist of a step where points are assigned to clusters, followed by a step where parameter updates are computed from those assignments. They look like the following:
+
+* EM E step: compute soft assignments of assigning a probability distribution for each point over the $K$ clusters
+* K-means "E step": compute hard assignments of assigning every data point to its nearest cluster center
+* EM M step: using the soft assignments, update $\mathbf{\mu}_i$, the Gaussian means, $\mathbf{\Sigma}_i$, the Gaussian covariance matrices, and $\mathbf{\pi}$, the cluster weights
+* K-means "M step": using the hard assignments, update $\mathbf{\mu}_i$, the cluster centers
+
+Our approach will be to implement these four helper functions, and then string them together using a common interface. This also cuts down on duplication. The high-level program takes an E function, an M function, and starting inputs to an E step, and alternates the two steps while keeping track of all intermediate results:
+
+```{r em-glue}
+iterate_em = function(nsteps, K, points, e_step, m_step, m_params.init) {
+  m_list = list(m_params.init)
+  e_list = list()
+  i = 1
+  while (i <= nsteps) {
+    e_list[[i]] = e_step(K, points, m_list[[i]])
+    m_list[[i+1]] = m_step(K, points, e_list[[i]])
+    i = i + 1
+  }
+  return(list(m_list=m_list, e_list=e_list))
+}
+```
+
+The rest of this section is pretty dry, and just consists of my R code for the two algorithms. In the E step for EM, I make use of the log-sum-exp trick, which turns out to be helpful for numerical precision; you can read more about that [here](https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/).
+
+```{r algorithms}
+# K-means as functions
+# points: N x D matrix
+# e_params: list with
+#   clusters: vector of assignments
+# m_params: list with
+#   centers: matrix of cluster centers
+kmeans.e = function(K, points, m_params) {
+  N = dim(points)[1]
+  D = dim(points)[2]
+  
+  distances2 = matrix(0, N, K)
+  for (k in 1:K) {
+    for (j in 1:D) {
+      distances2[,k] = distances2[,k] + (points[,j] - m_params$centers[k,j])^2
+    }
+  }
+  clusters = apply(distances2, 1, which.min)
+  e_params = list(clusters=clusters)
+  
+  return(e_params)
+}
+
+kmeans.m = function(K, points, e_params) {
+  N = dim(points)[1]
+  D = dim(points)[2]
+  
+  centers = matrix(0, K, D)
+  for (k in 1:K) {
+    centers[k,] = colMeans(points[e_params$clusters == k,])
+  }
+  m_params = list(centers=centers)
+  
+  return(m_params)
+}
+
+# EM as functions
+# points: N x D matrix
+# m_params: list with
+#   mu: K x D, MoG centers
+#   sigma: list of length K of D x D matrices, MoG covariances
+#   weights: K, MoG weights
+# e_params: list with
+#   resp: responsibilities, N x K
+#   ll: log-likelihood, for debugging
+em.e = function(K, points, m_params) {
+  N = dim(points)[1]
+  D = dim(points)[2]
+  mu = m_params$mu
+  sigma = m_params$sigma
+  weights = m_params$weights
+  
+  # update responsibilities
+  resp = matrix(rep(0, N*K), N, K)
+  for (k in 1:K) {
+    constant_k = log(weights[k]) - 0.5*log(det(sigma[[k]])) -
+      log(2*pi)*(D/2)
+    displacement = points - as.numeric(matrix(mu[k,], N, D, byrow = TRUE))
+    log_probs = -1/2 * colSums(t(displacement) * (
+      solve(sigma[[k]]) %*% t(displacement)))
+    resp[,k] = log_probs + constant_k
+  }
+  
+  # log-sum-exp trick
+  max_log_probs = apply(resp, 1, max)
+  resp = resp - matrix(max_log_probs, N, K)
+  resp = exp(resp)
+  ll = mean(log(rowSums(resp))) + mean(max_log_probs)  # log likelihood
+  resp = resp / matrix(rowSums(resp), N, K)
+  
+  e_params = list(resp=resp, ll=ll)
+  return(e_params)
+}
+
+em.m = function(K, points, e_params, fix_sigma=NULL, fix_weights=NULL) {
+  N = dim(points)[1]
+  D = dim(points)[2]
+  resp = e_params$resp
+  
+  # update means
+  mu = matrix(0, K, D)
+  for (k in 1:K) {
+    mu[k,] = colSums(resp[,k]*points) / sum(resp[,k])
+  }
+
+  # update covarainces
+  if (is.null(fix_sigma)) {
+    sigma = NULL
+    for (k in 1:K) {
+      sigma[[k]] = matrix(0, D, D)
+      displacement = points - as.numeric(matrix(mu[k,], N, D, byrow = TRUE))
+      for (j in 1:D) {
+        sigma[[k]][j,] = colSums(displacement[,j]*displacement*resp[,k]) / sum(resp[,k])
+      }
+    }
+  } else {
+    sigma = fix_sigma
+  }
+  
+  # update component weights
+  if (is.null(fix_weights)) {
+    weights = colSums(resp) / sum(resp)
+  } else {
+    weights = fix_weights
+  }
+  
+  m_params = list(mu=mu, sigma=sigma, weights=weights)
+  return(m_params)
+}
+```
+
+## Initial run
+
+Now, we can choose `K = 3` and `nsteps = 20` for an initial run. We randomly choose three points as our starting centers for both K-means and EM. For EM, we additionaly initialize using identity covariance and equal weights over the mixture components.
+
+```{r first-run}
+# Run K means and EM
+K = 3
+nsteps = 20
+N = dim(points)[1]
+D = dim(points)[2]
+set.seed(3)
+centers = points[sample(1:N, K),]
+row.names(centers) = NULL
+m_params.init = list(centers=centers)
+kmeans_results = iterate_em(nsteps, K, points, kmeans.e, kmeans.m, m_params.init)
+
+mu = centers
+sigma = NULL
+for(k in 1:K) {
+  sigma[[k]] = diag(D)  # covariances initialized to identity matrix
+}
+weights = rep(1, K) / K  # weights initialized to uniform
+m_params.init = list(mu=mu, sigma=sigma, weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, em.m, m_params.init)
+```
+
+The results of each E-step produces data for each of the N points, which is verbose. Instead, let's print the results of the M-step, which is more compact.
+
+```{r print-output}
+kmeans_results$m_list[1:3]
+em_results$m_list[1:3]
+```
+
+Looks sensible. It's also a good idea to check that the EM log-likelihood always increases.
+
+```{r log-likelihood}
+lls = rep(0, nsteps)
+for (i in 1:nsteps) {
+  lls[i] = em_results$e_list[[i]]$ll
+}
+ggplot(data=data.frame(x=1:nsteps, y=lls)) +
+  geom_line(aes(x=x, y=y)) + geom_point(aes(x=x, y=y)) +
+  labs(title="Log likelihood for EM", x="step", y="log likelihood") +
+  center_title
+```
+
+## Visualization code
+
+We'd like to visualize our results, and since my aim is to compare K-means with EM, I've chosen to visualize them side-by-side using `ggplot`'s `facet_grid` option. Points are colored to show the assigned cluster (K-means) or the most likely cluster (EM); an alternate visualization would use blended colors for EM. I used the `deldir` package to compute K-means decision boundaries, which come from Voronoi diagrams, and the `ellipse` package to plot shapes of each Gaussian mixture.
+
+```{r visualization}
+make_visualization = function(points, kmeans_data, em_data, nsteps, K) {
+  for (i in 1:nsteps) {
+    # colored points
+    df_points = rbind(
+      data.frame(x = points[,1], y = points[,2], type = "K-means",
+                 cluster = kmeans_data$e_list[[i]]$clusters),
+      data.frame(x = points[,1], y = points[,2], type = "EM",
+                 cluster = apply(em_data$e_list[[i]]$resp, 1, which.max)))
+
+    # K-means decision boundaries
+    centers = kmeans_data$m_list[[i]]$centers
+    df_voronoi = deldir(centers[,1], centers[,2])$dirsgs
+    df_voronoi$type = factor("K-means", levels=c("K-means", "EM"))
+    
+    # ellipses
+    mu = em_data$m_list[[i]]$mu
+    sigma = em_data$m_list[[i]]$sigma
+    all_ellipses = NULL
+    for (k in 1:K) {
+      ellipse_data = ellipse(sigma[[k]], level=pchisq(1, df=D))
+      all_ellipses[[k]] = data.frame(
+        x=ellipse_data[,1] + mu[k,1], y=ellipse_data[,2] + mu[k,2],
+        cluster=k, type="EM")
+    }
+    df_ellipses = do.call(rbind, all_ellipses)
+    
+    print(
+      ggplot() +
+        geom_point(data=df_points, aes(x=x, y=y, color=factor(cluster))) +
+        geom_point(data=data.frame(x=centers[,1], y=centers[,2], type="K-means"),
+                   aes(x=x, y=y), shape=17, size=3) +
+        geom_segment(data=df_voronoi, linetype = 1, color= "#FFB958",
+                     aes(x = x1, y = y1, xend = x2, yend = y2)) +
+        geom_path(data=df_ellipses, aes(x=x, y=y, color=factor(cluster))) +
+        facet_grid(. ~ type) +
+        ggtitle(paste0("Most likely cluster, K = ", K, ", step = ", i)) +
+        center_title + no_legend)
+  }
+}
+```
+
+Since `knitr` / R Markdown [supports animations](https://grunwaldlab.github.io/Reproducible-science-in-R/Extra_content---Advanced_RMarkdown.html), we can simply plot each frame in a for loop. In my case, I'm using `ffmpeg` with an `.mp4` format, and hacked `knitr` to add [some flags](https://apple.stackexchange.com/questions/166553/why-wont-video-from-ffmpeg-show-in-quicktime-imovie-or-quick-preview) for Apple support, which was necessary for me to get things (hopefully) viewable in Safari.
+
+With this visualization code, we can finally take a look at our results!
+
+```{r k3-base, fig.show="animate"}
+make_visualization(points, kmeans_results, em_results, nsteps, K)
+```
+
+## The K-means limit
+
+To make the EM algorithm more like K-means, we start by limiting the M step to only change the $\mathbf{\mu}$ parameters. The correspondence is pretty clear -- the Gaussian means correspond to the K-means cluster centers.
+
+If you look closely above, I added some extra arguments to the EM M step that allows for this change. Since the `iterate_em` function accepts a function for the M step, we can use the `partial` function from the `pryr` package to set these arguments appropriately.
+
+```{r k3-fixed-big, fig.show="animate"}
+fixed_sigma = partial(em.m, fix_sigma=sigma, fix_weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
+make_visualization(points, kmeans_results, em_results, nsteps, K)
+```
+
+In the above animation, you'll see that the shapes of the Gaussians do not change; only their centers do. One can show that this leads to linear decision boundaries for the most likely cluster, just like K-means. However, the algorithm evolution is still not the same as K-means.
+
+To allow the two algorithms to finally match up, we need to take a limit where the fixed covariance for each mixture component is $\epsilon I$, and we take $\epsilon$ to 0. In this case, we take $\epsilon$ to be 0.01, corresponding to a standard deviation of 0.1. The log-sum-exp trick I mentioned earlier was necessary for my results to not under / overflow in this case.
+
+```{r k3-fixed-small, fig.show="animate"}
+sigma001 = NULL
+for(k in 1:K) {
+  sigma001[[k]] = diag(D)*0.01
+}
+m_params.init = list(mu=mu, sigma=sigma001, weights=weights)
+fixed_sigma001 = partial(em.m, fix_sigma=sigma001, fix_weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma001, m_params.init)
+make_visualization(points, kmeans_results, em_results, nsteps, K)
+```
+
+The two sides match very well!
+
+## Extra: K = 8
+
+We can repeat this entire process for a different value of $K$. With regular EM:
+
+```{r k8-base, fig.show="animate"}
+# Run K means and EM
+K = 8
+set.seed(3)
+centers = points[sample(1:N, K),]
+row.names(centers) = NULL
+m_params.init = list(centers=centers)
+kmeans_results = iterate_em(nsteps, K, points, kmeans.e, kmeans.m, m_params.init)
+
+mu = centers
+sigma = NULL
+for(k in 1:K) {
+  sigma[[k]] = diag(D)  # covariances initialized to identity matrix
+}
+weights = rep(1, K) / K  # weights initialized to uniform
+m_params.init = list(mu=mu, sigma=sigma, weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, em.m, m_params.init)
+
+# Visualize
+make_visualization(points, kmeans_results, em_results, nsteps, K)
+```
+
+With only $\mathbf{\mu}$ updates, and $I$ covariance:
+
+```{r k8-fixed-big, fig.show="animate"}
+fixed_sigma = partial(em.m, fix_sigma=sigma, fix_weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
+make_visualization(points, kmeans_results, em_results, nsteps, K)
+```
+
+With only $\mathbf{\mu}$ updates, and $0.01I$ covariance:
+
+```{r k8-fixed-small, fig.show="animate"}
+sigma001 = NULL
+for(k in 1:K) {
+  sigma001[[k]] = diag(D)*0.01
+}
+m_params.init = list(mu=mu, sigma=sigma001, weights=weights)
+fixed_sigma001 = partial(em.m, fix_sigma=sigma001, fix_weights=weights)
+em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma001, m_params.init)
+make_visualization(points, kmeans_results, em_results, nsteps, K)
+```
+
+## References
+
+Besides the links included above, I found [this link](http://letstalkdata.com/2014/05/creating-voronoi-diagrams-with-ggplot/) useful for plotting Voronoi diagrams using `ggplot`.
+
+***This blog post was generated from an R Markdown file using the `knitr` and `blogdown` packages. The original source can be downloaded [from GitHub](https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2018-01-30-clustering-with-k-means-and-em.Rmd).***
