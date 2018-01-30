@@ -284,7 +284,7 @@ Since `knitr` / R Markdown [supports animations](https://grunwaldlab.github.io/R
 
 With this visualization code, we can finally take a look at our results!
 
-```{r k3-base, fig.show="animate"}
+```{r k3-base, fig.show="animate", cache=TRUE}
 make_visualization(points, kmeans_results, em_results, nsteps, K)
 ```
 
@@ -294,7 +294,7 @@ To make the EM algorithm more like K-means, we start by limiting the M step to o
 
 If you look closely above, I added some extra arguments to the EM M step that allows for this change. Since the `iterate_em` function accepts a function for the M step, we can use the `partial` function from the `pryr` package to set these arguments appropriately.
 
-```{r k3-fixed-big, fig.show="animate"}
+```{r k3-fixed-big, fig.show="animate", cache=TRUE}
 fixed_sigma = partial(em.m, fix_sigma=sigma, fix_weights=weights)
 em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
 make_visualization(points, kmeans_results, em_results, nsteps, K)
@@ -304,7 +304,7 @@ In the above animation, you'll see that the shapes of the Gaussians do not chang
 
 To allow the two algorithms to finally match up, we need to take a limit where the fixed covariance for each mixture component is $\epsilon I$, and we take $\epsilon$ to 0. In this case, we take $\epsilon$ to be 0.01, corresponding to a standard deviation of 0.1. The log-sum-exp trick I mentioned earlier was necessary for my results to not under / overflow in this case.
 
-```{r k3-fixed-small, fig.show="animate"}
+```{r k3-fixed-small, fig.show="animate", cache=TRUE}
 sigma001 = NULL
 for(k in 1:K) {
   sigma001[[k]] = diag(D)*0.01
@@ -321,7 +321,7 @@ The two sides match very well!
 
 We can repeat this entire process for a different value of $K$. With regular EM:
 
-```{r k8-base, fig.show="animate"}
+```{r k8-base, fig.show="animate", cache=TRUE}
 # Run K means and EM
 K = 8
 set.seed(3)
@@ -345,7 +345,7 @@ make_visualization(points, kmeans_results, em_results, nsteps, K)
 
 With only $\mathbf{\mu}$ updates, and $I$ covariance:
 
-```{r k8-fixed-big, fig.show="animate"}
+```{r k8-fixed-big, fig.show="animate", cache=TRUE}
 fixed_sigma = partial(em.m, fix_sigma=sigma, fix_weights=weights)
 em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
 make_visualization(points, kmeans_results, em_results, nsteps, K)
@@ -353,7 +353,7 @@ make_visualization(points, kmeans_results, em_results, nsteps, K)
 
 With only $\mathbf{\mu}$ updates, and $0.01I$ covariance:
 
-```{r k8-fixed-small, fig.show="animate"}
+```{r k8-fixed-small, fig.show="animate", cache=TRUE}
 sigma001 = NULL
 for(k in 1:K) {
   sigma001[[k]] = diag(D)*0.01

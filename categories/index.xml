@@ -2,40 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Home | Brian Zhang</title>
-    <link>/categories/</link>
+    <link>https://brianzhang01.github.io/categories/</link>
     <description>Recent content in Categories on Home | Brian Zhang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://brianzhang01.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Features</title>
-      <link>/categories/features/</link>
-      <pubDate>Mon, 23 Mar 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/features/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Releases</title>
-      <link>/categories/releases/</link>
-      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/releases/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tranquilpeak</title>
-      <link>/categories/tranquilpeak/</link>
-      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/tranquilpeak/</guid>
-      <description></description>
-    </item>
     
   </channel>
 </rss>

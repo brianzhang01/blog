@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ggplot on Home | Brian Zhang</title>
-    <link>/tags/ggplot/</link>
+    <link>https://brianzhang01.github.io/tags/ggplot/</link>
     <description>Recent content in Ggplot on Home | Brian Zhang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 09 Nov 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/ggplot/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://brianzhang01.github.io/tags/ggplot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Polynomial Regression</title>
-      <link>/2017/11/polynomial-regression/</link>
+      <link>https://brianzhang01.github.io/2017/11/polynomial-regression/</link>
       <pubDate>Thu, 09 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/11/polynomial-regression/</guid>
+      <guid>https://brianzhang01.github.io/2017/11/polynomial-regression/</guid>
       <description>Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
 At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</description>
     </item>
