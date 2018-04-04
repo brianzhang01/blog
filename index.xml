@@ -6,10 +6,20 @@
     <description>Recent content on Home | Brian Zhang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 30 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 04 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brianzhang01.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Distributions with SymPy</title>
+      <link>https://brianzhang01.github.io/2018/04/distributions-with-sympy/</link>
+      <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://brianzhang01.github.io/2018/04/distributions-with-sympy/</guid>
+      <description>Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
+Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.</description>
+    </item>
     
     <item>
       <title>Clustering with K-Means and EM</title>

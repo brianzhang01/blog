@@ -1,0 +1,818 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Distributions with SymPy</title>
+    <meta name="author" content="Brian Zhang">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+    <meta name="description" content="Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
+Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.">
+    <meta property="og:description" content="Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
+Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Distributions with SymPy">
+    <meta property="og:url" content="/2018/04/distributions-with-sympy/">
+    <meta property="og:site_name" content="Home | Brian Zhang">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Home | Brian Zhang">
+    <meta name="twitter:description" content="Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
+Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.">
+    
+      <meta name="twitter:creator" content="@brianczhang">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+    
+    <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css' rel='stylesheet' type='text/css'>
+    
+
+    
+      
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113303717-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">Home | Brian Zhang</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Brian Zhang</h4>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/brianzhang01/brianzhang01.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Distributions with SymPy
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-04-04T00:00:00Z">
+        
+  April 4, 2018
+
+      </time>
+    
+    
+      <span class="middotDivider">&middot;</span>
+      <span class="readingTime">7 min read</span>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!</p>
+<p>Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as <a href="https://www.wolframalpha.com/">WolframAlpha</a>. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.</p>
+<p>The main options I looked into were <a href="http://www.sagemath.org/">Sage</a>, <a href="http://maxima.sourceforge.net/index.html">Maxima</a>, and <a href="http://www.sympy.org/en/index.html">SymPy</a>, and I eventually decided to take SymPy for a spin. This will also be my first post in Python, which is well-supported by the knitr / R Markdown framework.</p>
+<div id="expectations-as-integrals" class="section level2">
+<h2>Expectations as integrals</h2>
+<p>Given a PDF <span class="math inline">\(f(x)\)</span> of a continuous random variable <span class="math inline">\(X\)</span>, expectations of functions of <span class="math inline">\(X\)</span> take the form of integrals. Concretely, let <span class="math inline">\(g(X)\)</span> be a function of the random variable. Then <span class="math display">\[
+\mathbb{E}_X[g(X)] = \int_{-\infty}^{\infty}g(x)f(x)dx
+\]</span> (If <span class="math inline">\(X\)</span> is a multivariate random variable, the integral should be appropriately converted to multiple dimensions.)</p>
+<p>The normalization condition of a PDF can be written as: <span class="math display">\[
+\mathbb{E}_X[1] = \int_{-\infty}^{\infty}f(x)dx = 1
+\]</span> Moments of <span class="math inline">\(X\)</span> take the form: <span class="math display">\[
+\mathbb{E}_X[X^n] = \int_{-\infty}^{\infty}x^nf(x)dx = 1
+\]</span> From which one can get the mean, <span class="math inline">\(\mathbb{E}_X[X]\)</span>, and variance, <span class="math display">\[
+Var(X) = \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2
+\]</span> One final useful expectation is the <a href="https://en.wikipedia.org/wiki/Moment-generating_function">moment generating function</a>, or MGF. For a real variable <span class="math inline">\(t\)</span>, the MGF is a function of <span class="math inline">\(t\)</span> in a neighborhood around 0 such that the expectation <span class="math display">\[
+M_X(t) = \mathbb{E}_X[e^{tX} ]= \int_{-\infty}^{\infty}e^{tx}f(x)dx
+\]</span> exists.</p>
+<p>In this post, we’ll use SymPy to try to compute these quantities analytically for a few distributions. The type of software exemplified by SymPy and Mathematica is called a <a href="https://en.wikipedia.org/wiki/List_of_computer_algebra_systems">computer algebra system</a>, and uses coded rules to manipulate expressions.</p>
+</div>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>First we import SymPy:</p>
+<pre class="python"><code>import sympy as sym
+print sym.__version__</code></pre>
+<pre><code>## 1.1.1</code></pre>
+<p>To write SymPy expressions, one first defines the symbols that are manipulated. We start out with <span class="math inline">\(x\)</span>, the variable with respect to which PDFs are defined, and <span class="math inline">\(t\)</span>, the variable for MGFs. We then define some pretty simple helpful functions for expressing our expectations of interest.</p>
+<pre class="python"><code>sym.init_printing()
+x, t = sym.symbols(&#39;x t&#39;, real=True)
+def area(dist):
+    return sym.simplify(sym.integrate(dist, (x, -sym.oo, sym.oo)))
+def mean(dist):
+    return area(dist*x)
+def EX2(dist):
+    return area(dist*x**2)
+def variance(dist):
+    return sym.simplify(EX2(dist) - mean(dist)**2)
+def mgf(dist):
+    return sym.simplify(area(dist*sym.exp(x*t)))
+def latex(result):
+    return &quot;$&quot; + sym.latex(result) + &quot;$\n&quot; 
+def summarize(dist):
+    print &quot;Distribution:&quot; + latex(dist)
+    print &quot;Mean:&quot; + latex(mean(dist))
+    print &quot;Variance:&quot; + latex(variance(dist))
+    print &quot;MGF:&quot; + latex(mgf(dist))
+summarise = summarize  # alias</code></pre>
+<p>Our <code>summarize</code> (or <code>summarise</code>) function allows us to print the relevant summary information given a “distribution”, which is just a SymPy function of <code>x</code>.</p>
+<p>Next, we define the other symbols that will be used throughout this post.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<pre class="python"><code># Define other symbols that show up
+mu = sym.symbols(&#39;mu&#39;, real=True)
+sigma, a, b, lamb, nu = sym.symbols(&#39;sigma a b lambda nu&#39;, positive=True)</code></pre>
+</div>
+<div id="distributions" class="section level2">
+<h2>Distributions</h2>
+<div id="normal-distribution-mathcalnx-mu-sigma2" class="section level3">
+<h3>Normal distribution: <span class="math inline">\(\mathcal{N}(x; \mu, \sigma^2)\)</span></h3>
+<p>We start with the normal distribution:<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<pre class="python"><code>normal = (2*sym.pi*sigma**2) ** sym.Rational(-1, 2) * sym.exp(-(x-mu)**2/(2*sigma**2))
+summarize(normal)</code></pre>
+<p>Distribution:<span class="math inline">\(\frac{\sqrt{2}}{2 \sqrt{\pi} \sigma} e^{- \frac{\left(- \mu + x\right)^{2}}{2 \sigma^{2}}}\)</span></p>
+<p>Mean:<span class="math inline">\(\mu\)</span></p>
+<p>Variance:<span class="math inline">\(\sigma^{2}\)</span></p>
+<p>MGF:<span class="math inline">\(e^{\frac{t}{2} \left(2 \mu + \sigma^{2} t\right)}\)</span> All four quantities are correct! (See <a href="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</a>.)</p>
+</div>
+<div id="laplace-distribution-doubleexpx-mu-b" class="section level3">
+<h3>Laplace distribution: <span class="math inline">\(DoubleExp(x; \mu, b)\)</span></h3>
+<pre class="python"><code>laplace = (2*b) ** (-1) * sym.exp(-sym.Abs(x-mu)/b)
+summarize(laplace)</code></pre>
+<p>Distribution:<span class="math inline">\(\frac{1}{2 b} e^{- \frac{1}{b} \left|{\mu - x}\right|}\)</span></p>
+<p>Mean:<span class="math inline">\(\mu\)</span></p>
+<p>Variance:<span class="math inline">\(2 b^{2}\)</span></p>
+<p>MGF:<span class="math inline">\(\begin{cases} - \frac{e^{\mu t}}{b^{2} t^{2} - 1} &amp; \text{for}\: \operatorname{periodic_{argument}}{\left (e^{\frac{i \pi}{2}} \operatorname{polar\_lift}{\left (t \right )},\infty \right )} = 0 \\\int_{-\infty}^{\infty} \frac{1}{2 b} e^{\frac{1}{b} \left(b t x - \left|{\mu - x}\right|\right)}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>I have no idea what the intimidating condition is, but the MGF is correct.</p>
+</div>
+<div id="exponential-distribution-expx-lambda" class="section level3">
+<h3>Exponential distribution: <span class="math inline">\(Exp(x; \lambda)\)</span></h3>
+<p>This function is defined piecewise:</p>
+<pre class="python"><code>expo = sym.Piecewise(
+    (0, x &lt; 0),
+    (lamb * sym.exp(-lamb*x), True)
+)
+summarize(expo)</code></pre>
+<p>Distribution:<span class="math inline">\(\begin{cases} 0 &amp; \text{for}\: x &lt; 0 \\\lambda e^{- \lambda x} &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>Mean:<span class="math inline">\(\frac{1}{\lambda}\)</span></p>
+<p>Variance:<span class="math inline">\(\frac{1}{\lambda^{2}}\)</span></p>
+<p>MGF:<span class="math inline">\(\begin{cases} \frac{\lambda}{\lambda - t} &amp; \text{for}\: \left|{\operatorname{periodic_{argument}}{\left (e^{i \pi} \operatorname{polar\_lift}{\left (t \right )},\infty \right )}}\right| \leq \frac{\pi}{2} \\\int_{-\infty}^{\infty} \begin{cases} 0 &amp; \text{for}\: x &lt; 0 \\\lambda e^{- x \left(\lambda - t\right)} &amp; \text{otherwise} \end{cases}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
+</div>
+<div id="gamma-distribution-gammax-a-b" class="section level3">
+<h3>Gamma distribution: <span class="math inline">\(Gamma(x; a, b)\)</span></h3>
+<pre class="python"><code>gamma = sym.Piecewise(
+    (0, x &lt; 0),
+    (b**a / sym.gamma(a) * x**(a-1) * sym.exp(-x*b), True)
+)
+summarize(gamma)</code></pre>
+<p>Distribution:<span class="math inline">\(\begin{cases} 0 &amp; \text{for}\: x &lt; 0 \\\frac{b^{a} x^{a - 1}}{\Gamma{\left(a \right)}} e^{- b x} &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>Mean:<span class="math inline">\(\frac{a}{b}\)</span></p>
+<p>Variance:<span class="math inline">\(\frac{a}{b^{2}}\)</span></p>
+<p>MGF:<span class="math inline">\(\begin{cases} \begin{cases} b^{a} t^{- a} \left(\frac{1}{t} \left(b - t\right)\right)^{- a} &amp; \text{for}\: \frac{b}{\left|{t}\right|} &gt; 1 \\b^{a} t^{- a} \left(\frac{1}{t} \left(- b + t\right)\right)^{- a} e^{- i \pi a} &amp; \text{otherwise} \end{cases} &amp; \text{for}\: \left|{\operatorname{periodic_{argument}}{\left (e^{i \pi} \operatorname{polar\_lift}{\left (t \right )},\infty \right )}}\right| \leq \frac{\pi}{2} \\\int_{-\infty}^{\infty} \begin{cases} 0 &amp; \text{for}\: x &lt; 0 \\\frac{b^{a} x^{a - 1}}{\Gamma{\left(a \right)}} e^{x \left(- b + t\right)} &amp; \text{otherwise} \end{cases}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
+</div>
+<div id="beta-distribution-betax-a-b" class="section level3">
+<h3>Beta distribution: <span class="math inline">\(Beta(x; a, b)\)</span></h3>
+<p>The Beta distribution is the first one that SymPy was unable to evaluate. When I tried the mean, variance, and MGF, all the integrals hanged, and I had to abort the operation.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<pre class="python"><code>beta = sym.Piecewise(
+    (0, x &lt; 0),
+    (0, x &gt; 1),
+    (x**(a-1)*(1-x)**(b-1)/(sym.gamma(a)*sym.gamma(b)/sym.gamma(a+b)), True)
+)
+print &quot;Distribution:&quot; + latex(beta)
+# mean(beta)  # had to abort</code></pre>
+<p>Distribution:<span class="math inline">\(\begin{cases} 0 &amp; \text{for}\: x &gt; 1 \vee x &lt; 0 \\\frac{x^{a - 1} \Gamma{\left(a + b \right)}}{\Gamma{\left(a \right)} \Gamma{\left(b \right)}} \left(- x + 1\right)^{b - 1} &amp; \text{otherwise} \end{cases}\)</span></p>
+</div>
+<div id="uniform-distribution" class="section level3">
+<h3>Uniform distribution</h3>
+<p>However, the Uniform distribution, a special case of the Beta with <span class="math inline">\(a = b = 1\)</span>, works just fine:</p>
+<pre class="python"><code>uniform = sym.Piecewise(
+    (0, x &lt; 0),
+    (0, x &gt; 1),
+    (1, True)
+)
+summarize(uniform)</code></pre>
+<p>Distribution:<span class="math inline">\(\begin{cases} 0 &amp; \text{for}\: x &gt; 1 \vee x &lt; 0 \\1 &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>Mean:<span class="math inline">\(\frac{1}{2}\)</span></p>
+<p>Variance:<span class="math inline">\(\frac{1}{12}\)</span></p>
+<p>MGF:<span class="math inline">\(\begin{cases} 1 &amp; \text{for}\: t = 0 \\\frac{1}{t} \left(e^{t} - 1\right) &amp; \text{otherwise} \end{cases}\)</span></p>
+</div>
+<div id="student-t-distribution" class="section level3">
+<h3>Student t distribution</h3>
+<p>Last we come to the Student t distribution. This one doesn’t have an MGF (see <a href="https://en.wikipedia.org/wiki/Student%27s_t-distribution">Wikipedia</a>), so we display each quantity of interest separately rather than use our <code>summarize</code> function.</p>
+<pre class="python"><code>student = (1 + ((x-mu) / sigma)**2 / nu)**(-(1+nu)/2) * sym.gamma((nu+1)/2)/(sym.gamma(nu/2)*sym.sqrt(nu*sym.pi)*sigma)
+print &quot;Distribution:&quot; + latex(student)</code></pre>
+<p>Distribution:<span class="math inline">\(\frac{\left(1 + \frac{\left(- \mu + x\right)^{2}}{\nu \sigma^{2}}\right)^{- \frac{\nu}{2} - \frac{1}{2}}}{\sqrt{\pi} \sqrt{\nu} \sigma \Gamma{\left(\frac{\nu}{2} \right)}} \Gamma{\left(\frac{\nu}{2} + \frac{1}{2} \right)}\)</span></p>
+<pre class="python"><code>print &quot;Mean:&quot; + latex(mean(student))</code></pre>
+<p>Mean:<span class="math inline">\(\begin{cases} \mu &amp; \text{for}\: \frac{\nu}{2} + \frac{1}{2} &gt; 1 \\\int_{-\infty}^{\infty} \frac{\nu^{\frac{\nu}{2} + 1} \sigma^{\nu} x \Gamma{\left(\frac{\nu}{2} + \frac{1}{2} \right)}}{2 \sqrt{\pi} \Gamma{\left(\frac{\nu}{2} + 1 \right)}} \left(\mu^{2} - 2 \mu x + \nu \sigma^{2} + x^{2}\right)^{- \frac{\nu}{2} - \frac{1}{2}}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
+<pre class="python"><code>print &quot;Variance:&quot; + latex(sym.trigsimp(variance(student)))</code></pre>
+<p>Variance:<span class="math inline">\(- \begin{cases} \mu^{2} &amp; \text{for}\: \frac{\nu}{2} + \frac{1}{2} &gt; 1 \\\left(\int_{-\infty}^{\infty} \frac{\nu^{\frac{\nu}{2} + 1} \sigma^{\nu} x \Gamma{\left(\frac{\nu}{2} + \frac{1}{2} \right)}}{2 \sqrt{\pi} \Gamma{\left(\frac{\nu}{2} + 1 \right)}} \left(\mu^{2} - 2 \mu x + \nu \sigma^{2} + x^{2}\right)^{- \frac{\nu}{2} - \frac{1}{2}}\, dx\right)^{2} &amp; \text{otherwise} \end{cases} + \begin{cases} \frac{2 \left(\mu^{2} \nu - 2 \mu^{2} + \nu \sigma^{2}\right) \cos^{2}{\left (\frac{\pi \nu}{2} \right )}}{\left(\nu - 2\right) \left(\cos{\left (\pi \nu \right )} + 1\right)} &amp; \text{for}\: - \frac{\nu}{2} + \frac{5}{2} &lt; 2 \wedge - \frac{\nu}{2} + 3 &lt; 2 \\\int_{-\infty}^{\infty} \frac{\nu^{\frac{\nu}{2} + 1} \sigma^{\nu} x^{2} \Gamma{\left(\frac{\nu}{2} + \frac{1}{2} \right)}}{2 \sqrt{\pi} \Gamma{\left(\frac{\nu}{2} + 1 \right)}} \left(\mu^{2} - 2 \mu x + \nu \sigma^{2} + x^{2}\right)^{- \frac{\nu}{2} - \frac{1}{2}}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>Here, I used <code>sym.trigsimp</code>, which added a few simplifications compared to <code>sym.simplify</code> (you can check this yourself). Yet still, SymPy doesn’t quite get the simplified expression for the variance. Notice that <span class="math display">\[
+2\cos^2(y/2) = \cos(y) + 1
+\]</span> so the expressions with <span class="math inline">\(y = \pi \nu\)</span> should cancel. If we notice this by eye, we can then use SymPy to finish the job, which is valid for <span class="math inline">\(\nu &gt; 2\)</span>.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<pre class="python"><code>expression = -mu**2 + (mu**2*nu-2*mu**2+nu*sigma**2)/(nu-2)
+print(latex(expression))</code></pre>
+<p><span class="math inline">\(- \mu^{2} + \frac{1}{\nu - 2} \left(\mu^{2} \nu - 2 \mu^{2} + \nu \sigma^{2}\right)\)</span></p>
+<pre class="python"><code>print(latex(sym.simplify(expression)))</code></pre>
+<p><span class="math inline">\(\frac{\nu \sigma^{2}}{\nu - 2}\)</span></p>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>Out of seven common continuous distributions, SymPy pretty much solved five of them. For the Beta distribution, it had trouble with all the integrals, and for the Student t distribution, it failed to notice some simplifications.</p>
+<p>I imagine this is not competitive with Mathematica, but for its free price and Python integration, I do think SymPy could make a valuable addition to a statistician’s toolbox.</p>
+<p><strong><em>This blog post was generated from an R Markdown file using the <code>knitr</code> and <code>blogdown</code> packages. The original source can be downloaded <a href="https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2018-04-04-distributions-with-sympy.Rmd">from GitHub</a>.</em></strong></p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><code>lamb</code> instead of <code>lambda</code>, because <code>lambda</code> is a predefined Python construct.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>See <a href="http://docs.sympy.org/latest/tutorial/gotchas.html#two-final-notes-and">this link</a> for the rationale behind <code>sym.Rational</code>.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>This is also documented by another user as a <a href="https://github.com/sympy/sympy/issues/11169">GitHub issue</a>.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>I also find it strange that SymPy wasn’t able to simplifity the conditions on <span class="math inline">\(\nu\)</span> to give <span class="math inline">\(\nu &gt; 1\)</span> for the first part and <span class="math inline">\(\nu &gt; 2\)</span> for the second.<a href="#fnref4">↩</a></p></li>
+</ol>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/01/clustering-with-k-means-and-em/" data-tooltip="Clustering with K-Means and EM">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Brian Zhang. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/01/clustering-with-k-means-and-em/" data-tooltip="Clustering with K-Means and EM">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbrianzhang01.github.io%2F2018%2F04%2Fdistributions-with-sympy%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fbrianzhang01.github.io%2F2018%2F04%2Fdistributions-with-sympy%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fbrianzhang01.github.io%2F2018%2F04%2Fdistributions-with-sympy%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Brian Zhang</h4>
+    
+      <div id="about-card-bio">Blog built using <a href="https://gohugo.io/">Hugo</a> and <a href="https://github.com/rstudio/blogdown">blogdown</a>. Theme is <a href="https://github.com/kakawait/hugo-tranquilpeak-theme">kakawait&rsquo;s port</a> of the <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak">Tranquilpeak theme</a>, originally by <a href="https://github.com/LouisBarranqueiro">Louis Barranqueiro</a>. Cover image © Flickr, <a href="https://creativecommons.org/licenses/by-nc/2.0/#">Creative Commons Attribution License</a>, user <a href="https://www.flickr.com/photos/alexwhite/4509083932">alexwhite</a>.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Statistics PhD Student
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        University of Oxford
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
+                <h3 class="media-heading">Distributions with SymPy</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
+Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/01/clustering-with-k-means-and-em/">
+                <h3 class="media-heading">Clustering with K-Means and EM</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
+I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
+ Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
+ Structural similarities in the algorithms, by splitting up K-means into an E and M step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/statistics-ml-books/">
+                <h3 class="media-heading">Statistics / ML Books</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!1
+This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
+ The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2009, 2nd Ed.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/polynomial-regression/">
+                <h3 class="media-heading">Polynomial Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
+At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/blogging-aims/">
+                <h3 class="media-heading">Blogging Aims</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
+As of September, I&rsquo;ve been a first-year PhD student at Oxford&rsquo;s Statistics department. I received my bachelor&rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         5 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://brianzhang01.github.io/images/radcam.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/r.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/yaml.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/python.min.js"></script>
+
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<script async type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/brianzhang01.github.io\/2018\/04\/distributions-with-sympy\/';
+          
+            this.page.identifier = '\/2018\/04\/distributions-with-sympy\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'brianzhang01-stats';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

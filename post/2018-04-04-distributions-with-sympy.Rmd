@@ -1,0 +1,182 @@
+---
+title: Distributions with SymPy
+author: Brian Zhang
+date: '2018-04-04'
+slug: distributions-with-sympy
+categories: []
+tags: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
+
+Previously, especially coming from a physics background, I've worked a lot with Mathematica, an advanced version of the software available online as [WolframAlpha](https://www.wolframalpha.com/). Mathematica is extremely powerful, but it's not open-source and comes with a hefty license, so I decided to research alternatives.
+
+The main options I looked into were [Sage](http://www.sagemath.org/), [Maxima](http://maxima.sourceforge.net/index.html), and [SymPy](http://www.sympy.org/en/index.html), and I eventually decided to take SymPy for a spin. This will also be my first post in Python, which is well-supported by the knitr / R Markdown framework.
+
+## Expectations as integrals
+Given a PDF $f(x)$ of a continuous random variable $X$, expectations of functions of $X$ take the form of integrals. Concretely, let $g(X)$ be a function of the random variable. Then
+$$
+\mathbb{E}_X[g(X)] = \int_{-\infty}^{\infty}g(x)f(x)dx
+$$
+(If $X$ is a multivariate random variable, the integral should be appropriately converted to multiple dimensions.)
+
+The normalization condition of a PDF can be written as:
+$$
+\mathbb{E}_X[1] = \int_{-\infty}^{\infty}f(x)dx = 1
+$$
+Moments of $X$ take the form:
+$$
+\mathbb{E}_X[X^n] = \int_{-\infty}^{\infty}x^nf(x)dx = 1
+$$
+From which one can get the mean, $\mathbb{E}_X[X]$, and variance,
+$$
+Var(X) = \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2
+$$
+One final useful expectation is the [moment generating function](https://en.wikipedia.org/wiki/Moment-generating_function), or MGF. For a real variable $t$, the MGF is a function of $t$ in a neighborhood around 0 such that the expectation
+$$
+M_X(t) = \mathbb{E}_X[e^{tX} ]= \int_{-\infty}^{\infty}e^{tx}f(x)dx
+$$
+exists.
+
+In this post, we'll use SymPy to try to compute these quantities analytically for a few distributions. The type of software exemplified by SymPy and Mathematica is called a [computer algebra system](https://en.wikipedia.org/wiki/List_of_computer_algebra_systems), and uses coded rules to manipulate expressions.
+
+## Setup
+First we import SymPy:
+```{r imports, engine='python', engine.path="~/anaconda/bin/python"}
+import sympy as sym
+print sym.__version__
+```
+
+To write SymPy expressions, one first defines the symbols that are manipulated. We start out with $x$, the variable with respect to which PDFs are defined, and $t$, the variable for MGFs. We then define some pretty simple helpful functions for expressing our expectations of interest.
+```{r functions, engine='python', engine.path="~/anaconda/bin/python"}
+sym.init_printing()
+x, t = sym.symbols('x t', real=True)
+
+def area(dist):
+    return sym.simplify(sym.integrate(dist, (x, -sym.oo, sym.oo)))
+
+def mean(dist):
+    return area(dist*x)
+
+def EX2(dist):
+    return area(dist*x**2)
+
+def variance(dist):
+    return sym.simplify(EX2(dist) - mean(dist)**2)
+
+def mgf(dist):
+    return sym.simplify(area(dist*sym.exp(x*t)))
+
+def latex(result):
+    return "$" + sym.latex(result) + "$\n" 
+
+def summarize(dist):
+    print "Distribution:" + latex(dist)
+    print "Mean:" + latex(mean(dist))
+    print "Variance:" + latex(variance(dist))
+    print "MGF:" + latex(mgf(dist))
+
+summarise = summarize  # alias
+```
+
+Our `summarize` (or `summarise`) function allows us to print the relevant summary information given a "distribution", which is just a SymPy function of `x`.
+
+Next, we define the other symbols that will be used throughout this post.^[`lamb` instead of `lambda`, because `lambda` is a predefined Python construct.]
+```{r symbols, engine="python", engine.path="~/anaconda/bin/python"}
+# Define other symbols that show up
+mu = sym.symbols('mu', real=True)
+sigma, a, b, lamb, nu = sym.symbols('sigma a b lambda nu', positive=True)
+```
+
+## Distributions
+
+### Normal distribution: $\mathcal{N}(x; \mu, \sigma^2)$
+We start with the normal distribution:^[See [this link](http://docs.sympy.org/latest/tutorial/gotchas.html#two-final-notes-and) for the rationale behind `sym.Rational`.]
+```{r normal, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
+normal = (2*sym.pi*sigma**2) ** sym.Rational(-1, 2) * sym.exp(-(x-mu)**2/(2*sigma**2))
+summarize(normal)
+```
+All four quantities are correct! (See [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution).)
+
+### Laplace distribution: $DoubleExp(x; \mu, b)$
+```{r laplace, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
+laplace = (2*b) ** (-1) * sym.exp(-sym.Abs(x-mu)/b)
+summarize(laplace)
+```
+
+I have no idea what the intimidating condition is, but the MGF is correct.
+
+### Exponential distribution: $Exp(x; \lambda)$
+This function is defined piecewise:
+```{r expo, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
+expo = sym.Piecewise(
+    (0, x < 0),
+    (lamb * sym.exp(-lamb*x), True)
+)
+summarize(expo)
+```
+
+### Gamma distribution: $Gamma(x; a, b)$
+```{r gamma, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
+gamma = sym.Piecewise(
+    (0, x < 0),
+    (b**a / sym.gamma(a) * x**(a-1) * sym.exp(-x*b), True)
+)
+summarize(gamma)
+```
+
+### Beta distribution: $Beta(x; a, b)$
+The Beta distribution is the first one that SymPy was unable to evaluate. When I tried the mean, variance, and MGF, all the integrals hanged, and I had to abort the operation.^[This is also documented by another user as a [GitHub issue](https://github.com/sympy/sympy/issues/11169).]
+```{r beta, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
+beta = sym.Piecewise(
+    (0, x < 0),
+    (0, x > 1),
+    (x**(a-1)*(1-x)**(b-1)/(sym.gamma(a)*sym.gamma(b)/sym.gamma(a+b)), True)
+)
+print "Distribution:" + latex(beta)
+# mean(beta)  # had to abort
+```
+
+### Uniform distribution
+However, the Uniform distribution, a special case of the Beta with $a = b = 1$, works just fine:
+```{r uniform, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
+uniform = sym.Piecewise(
+    (0, x < 0),
+    (0, x > 1),
+    (1, True)
+)
+summarize(uniform)
+```
+
+### Student t distribution
+Last we come to the Student t distribution. This one doesn't have an MGF (see [Wikipedia](https://en.wikipedia.org/wiki/Student%27s_t-distribution)), so we display each quantity of interest separately rather than use our `summarize` function.
+```{r student, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
+student = (1 + ((x-mu) / sigma)**2 / nu)**(-(1+nu)/2) * sym.gamma((nu+1)/2)/(sym.gamma(nu/2)*sym.sqrt(nu*sym.pi)*sigma)
+print "Distribution:" + latex(student)
+print "Mean:" + latex(mean(student))
+print "Variance:" + latex(sym.trigsimp(variance(student)))
+```
+
+Here, I used `sym.trigsimp`, which added a few simplifications compared to `sym.simplify` (you can check this yourself). Yet still, SymPy doesn't quite get the simplified expression for the variance. Notice that
+$$
+2\cos^2(y/2) = \cos(y) + 1
+$$
+so the expressions with $y = \pi \nu$ should cancel. If we notice this by eye, we can then use SymPy to finish the job, which is valid for $\nu > 2$.^[I also find it strange that SymPy wasn't able to simplifity the conditions on $\nu$ to give $\nu > 1$ for the first part and $\nu > 2$ for the second.]
+
+```{r student-var, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
+expression = -mu**2 + (mu**2*nu-2*mu**2+nu*sigma**2)/(nu-2)
+print(latex(expression))
+print(latex(sym.simplify(expression)))
+```
+
+## Conclusion
+
+Out of seven common continuous distributions, SymPy pretty much solved five of them. For the Beta distribution, it had trouble with all the integrals, and for the Student t distribution, it failed to notice some simplifications.
+
+I imagine this is not competitive with Mathematica, but for its free price and Python integration, I do think SymPy could make a valuable addition to a statistician's toolbox.
+
+***This blog post was generated from an R Markdown file using the `knitr` and `blogdown` packages. The original source can be downloaded [from GitHub](https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2018-04-04-distributions-with-sympy.Rmd).***
