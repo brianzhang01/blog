@@ -100,6 +100,7 @@ We start with the normal distribution:^[See [this link](http://docs.sympy.org/la
 normal = (2*sym.pi*sigma**2) ** sym.Rational(-1, 2) * sym.exp(-(x-mu)**2/(2*sigma**2))
 summarize(normal)
 ```
+
 All four quantities are correct! (See [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution).)
 
 ### Laplace distribution: $DoubleExp(x; \mu, b)$
@@ -165,7 +166,7 @@ Here, I used `sym.trigsimp`, which added a few simplifications compared to `sym.
 $$
 2\cos^2(y/2) = \cos(y) + 1
 $$
-so the expressions with $y = \pi \nu$ should cancel. If we notice this by eye, we can then use SymPy to finish the job, which is valid for $\nu > 2$.^[I also find it strange that SymPy wasn't able to simplifity the conditions on $\nu$ to give $\nu > 1$ for the first part and $\nu > 2$ for the second.]
+so the expressions with $y = \pi \nu$ should cancel. If we notice this by eye, we can then use SymPy to finish the job, which is valid for $\nu > 2$.^[I find it strange that SymPy wasn't able to simplify the conditions on $\nu$ to give $\nu > 1$ for the first part and $\nu > 2$ for the second.]
 
 ```{r student-var, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
 expression = -mu**2 + (mu**2*nu-2*mu**2+nu*sigma**2)/(nu-2)
