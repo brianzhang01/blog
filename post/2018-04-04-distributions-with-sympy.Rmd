@@ -15,7 +15,7 @@ Any good statistics student will need to do some integrals in her / his life. Wh
 
 Previously, especially coming from a physics background, I've worked a lot with Mathematica, an advanced version of the software available online as [WolframAlpha](https://www.wolframalpha.com/). Mathematica is extremely powerful, but it's not open-source and comes with a hefty license, so I decided to research alternatives.
 
-The main options I looked into were [Sage](http://www.sagemath.org/), [Maxima](http://maxima.sourceforge.net/index.html), and [SymPy](http://www.sympy.org/en/index.html), and I eventually decided to take SymPy for a spin. This will also be my first post in Python, which is well-supported by the knitr / R Markdown framework.
+The main options I looked into were [Sage](http://www.sagemath.org/), [Maxima](http://maxima.sourceforge.net/index.html), and [SymPy](http://www.sympy.org/en/index.html), and I eventually decided to take SymPy for a spin.^[I found these all from [this](https://mathematica.stackexchange.com/questions/28162/alternatives-to-mathematica) StackExchange thread.] This will also be my first post in Python, which is well-supported by the knitr / R Markdown framework.
 
 ## Expectations as integrals
 Given a PDF $f(x)$ of a continuous random variable $X$, expectations of functions of $X$ take the form of integrals. Concretely, let $g(X)$ be a function of the random variable. Then
@@ -75,10 +75,10 @@ def latex(result):
     return "$" + sym.latex(result) + "$\n" 
 
 def summarize(dist):
-    print "Distribution:" + latex(dist)
-    print "Mean:" + latex(mean(dist))
-    print "Variance:" + latex(variance(dist))
-    print "MGF:" + latex(mgf(dist))
+    print "Distribution: " + latex(dist)
+    print "Mean: " + latex(mean(dist))
+    print "Variance: " + latex(variance(dist))
+    print "MGF: " + latex(mgf(dist))
 
 summarise = summarize  # alias
 ```
@@ -130,6 +130,8 @@ gamma = sym.Piecewise(
 summarize(gamma)
 ```
 
+Fun fact: [Wikipedia tells us](https://en.wikipedia.org/wiki/Gamma_distribution) that the Exponential, Chi-squared, and Erlang distributions are all special cases of the Gamma.
+
 ### Beta distribution: $Beta(x; a, b)$
 The Beta distribution is the first one that SymPy was unable to evaluate. When I tried the mean, variance, and MGF, all the integrals hanged, and I had to abort the operation.^[This is also documented by another user as a [GitHub issue](https://github.com/sympy/sympy/issues/11169).]
 ```{r beta, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
@@ -138,7 +140,7 @@ beta = sym.Piecewise(
     (0, x > 1),
     (x**(a-1)*(1-x)**(b-1)/(sym.gamma(a)*sym.gamma(b)/sym.gamma(a+b)), True)
 )
-print "Distribution:" + latex(beta)
+print "Distribution: " + latex(beta)
 # mean(beta)  # had to abort
 ```
 
@@ -157,9 +159,9 @@ summarize(uniform)
 Last we come to the Student t distribution. This one doesn't have an MGF (see [Wikipedia](https://en.wikipedia.org/wiki/Student%27s_t-distribution)), so we display each quantity of interest separately rather than use our `summarize` function.
 ```{r student, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
 student = (1 + ((x-mu) / sigma)**2 / nu)**(-(1+nu)/2) * sym.gamma((nu+1)/2)/(sym.gamma(nu/2)*sym.sqrt(nu*sym.pi)*sigma)
-print "Distribution:" + latex(student)
-print "Mean:" + latex(mean(student))
-print "Variance:" + latex(sym.trigsimp(variance(student)))
+print "Distribution: " + latex(student)
+print "Mean: " + latex(mean(student))
+print "Variance: " + latex(sym.trigsimp(variance(student)))
 ```
 
 Here, I used `sym.trigsimp`, which added a few simplifications compared to `sym.simplify` (you can check this yourself). Yet still, SymPy doesn't quite get the simplified expression for the variance. Notice that
