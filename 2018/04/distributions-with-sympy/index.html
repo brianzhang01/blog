@@ -225,7 +225,7 @@ ga('send', 'pageview');
     
     
       <span class="middotDivider">&middot;</span>
-      <span class="readingTime">7 min read</span>
+      <span class="readingTime">8 min read</span>
     
     
   </div>
@@ -245,7 +245,7 @@ ga('send', 'pageview');
 <p>The normalization condition of a PDF can be written as: <span class="math display">\[
 \mathbb{E}_X[1] = \int_{-\infty}^{\infty}f(x)dx = 1
 \]</span> Moments of <span class="math inline">\(X\)</span> take the form: <span class="math display">\[
-\mathbb{E}_X[X^n] = \int_{-\infty}^{\infty}x^nf(x)dx = 1
+\mathbb{E}_X[X^n] = \int_{-\infty}^{\infty}x^nf(x)dx
 \]</span> From which one can get the mean, <span class="math inline">\(\mathbb{E}_X[X]\)</span>, and variance, <span class="math display">\[
 Var(X) = \mathbb{E}_X[X^2] - (\mathbb{E}_X[X])^2
 \]</span> One final useful expectation is the <a href="https://en.wikipedia.org/wiki/Moment-generating_function">moment generating function</a>, or MGF. For a real variable <span class="math inline">\(t\)</span>, the MGF is a function of <span class="math inline">\(t\)</span> in a neighborhood around 0 such that the expectation <span class="math display">\[
@@ -259,7 +259,7 @@ M_X(t) = \mathbb{E}_X[e^{tX} ]= \int_{-\infty}^{\infty}e^{tx}f(x)dx
 <pre class="python"><code>import sympy as sym
 print sym.__version__</code></pre>
 <pre><code>## 1.1.1</code></pre>
-<p>To write SymPy expressions, one first defines the symbols that are manipulated. We start out with <span class="math inline">\(x\)</span>, the variable with respect to which PDFs are defined, and <span class="math inline">\(t\)</span>, the variable for MGFs. We then define some pretty simple helpful functions for expressing our expectations of interest.</p>
+<p>To write SymPy expressions, one first defines the symbols that are manipulated. We start out with <span class="math inline">\(x\)</span>, the variable with respect to which PDFs are defined, and <span class="math inline">\(t\)</span>, the variable for MGFs. We then define some simple helper functions for expressing our expectations of interest.</p>
 <pre class="python"><code>sym.init_printing()
 x, t = sym.symbols(&#39;x t&#39;, real=True)
 def area(dist):
@@ -276,6 +276,7 @@ def latex(result):
     return &quot;$&quot; + sym.latex(result) + &quot;$\n&quot; 
 def summarize(dist):
     print &quot;Distribution: &quot; + latex(dist)
+    print &quot;Area: &quot; + latex(area(dist))
     print &quot;Mean: &quot; + latex(mean(dist))
     print &quot;Variance: &quot; + latex(variance(dist))
     print &quot;MGF: &quot; + latex(mgf(dist))
@@ -294,16 +295,18 @@ sigma, a, b, lamb, nu = sym.symbols(&#39;sigma a b lambda nu&#39;, positive=True
 <pre class="python"><code>normal = (2*sym.pi*sigma**2) ** sym.Rational(-1, 2) * sym.exp(-(x-mu)**2/(2*sigma**2))
 summarize(normal)</code></pre>
 <p>Distribution: <span class="math inline">\(\frac{\sqrt{2}}{2 \sqrt{\pi} \sigma} e^{- \frac{\left(- \mu + x\right)^{2}}{2 \sigma^{2}}}\)</span></p>
+<p>Area: <span class="math inline">\(1\)</span></p>
 <p>Mean: <span class="math inline">\(\mu\)</span></p>
 <p>Variance: <span class="math inline">\(\sigma^{2}\)</span></p>
 <p>MGF: <span class="math inline">\(e^{\frac{t}{2} \left(2 \mu + \sigma^{2} t\right)}\)</span></p>
-<p>All four quantities are correct! (See <a href="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</a>.)</p>
+<p>All four quantities are correct! (See <a href="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</a>.)<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
 </div>
 <div id="laplace-distribution-doubleexpx-mu-b" class="section level3">
 <h3>Laplace distribution: <span class="math inline">\(DoubleExp(x; \mu, b)\)</span></h3>
 <pre class="python"><code>laplace = (2*b) ** (-1) * sym.exp(-sym.Abs(x-mu)/b)
 summarize(laplace)</code></pre>
 <p>Distribution: <span class="math inline">\(\frac{1}{2 b} e^{- \frac{1}{b} \left|{\mu - x}\right|}\)</span></p>
+<p>Area: <span class="math inline">\(1\)</span></p>
 <p>Mean: <span class="math inline">\(\mu\)</span></p>
 <p>Variance: <span class="math inline">\(2 b^{2}\)</span></p>
 <p>MGF: <span class="math inline">\(\begin{cases} - \frac{e^{\mu t}}{b^{2} t^{2} - 1} &amp; \text{for}\: \operatorname{periodic_{argument}}{\left (e^{\frac{i \pi}{2}} \operatorname{polar\_lift}{\left (t \right )},\infty \right )} = 0 \\\int_{-\infty}^{\infty} \frac{1}{2 b} e^{\frac{1}{b} \left(b t x - \left|{\mu - x}\right|\right)}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
@@ -318,6 +321,7 @@ summarize(laplace)</code></pre>
 )
 summarize(expo)</code></pre>
 <p>Distribution: <span class="math inline">\(\begin{cases} 0 &amp; \text{for}\: x &lt; 0 \\\lambda e^{- \lambda x} &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>Area: <span class="math inline">\(1\)</span></p>
 <p>Mean: <span class="math inline">\(\frac{1}{\lambda}\)</span></p>
 <p>Variance: <span class="math inline">\(\frac{1}{\lambda^{2}}\)</span></p>
 <p>MGF: <span class="math inline">\(\begin{cases} \frac{\lambda}{\lambda - t} &amp; \text{for}\: \left|{\operatorname{periodic_{argument}}{\left (e^{i \pi} \operatorname{polar\_lift}{\left (t \right )},\infty \right )}}\right| \leq \frac{\pi}{2} \\\int_{-\infty}^{\infty} \begin{cases} 0 &amp; \text{for}\: x &lt; 0 \\\lambda e^{- x \left(\lambda - t\right)} &amp; \text{otherwise} \end{cases}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
@@ -330,6 +334,7 @@ summarize(expo)</code></pre>
 )
 summarize(gamma)</code></pre>
 <p>Distribution: <span class="math inline">\(\begin{cases} 0 &amp; \text{for}\: x &lt; 0 \\\frac{b^{a} x^{a - 1}}{\Gamma{\left(a \right)}} e^{- b x} &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>Area: <span class="math inline">\(1\)</span></p>
 <p>Mean: <span class="math inline">\(\frac{a}{b}\)</span></p>
 <p>Variance: <span class="math inline">\(\frac{a}{b^{2}}\)</span></p>
 <p>MGF: <span class="math inline">\(\begin{cases} \begin{cases} b^{a} t^{- a} \left(\frac{1}{t} \left(b - t\right)\right)^{- a} &amp; \text{for}\: \frac{b}{\left|{t}\right|} &gt; 1 \\b^{a} t^{- a} \left(\frac{1}{t} \left(- b + t\right)\right)^{- a} e^{- i \pi a} &amp; \text{otherwise} \end{cases} &amp; \text{for}\: \left|{\operatorname{periodic_{argument}}{\left (e^{i \pi} \operatorname{polar\_lift}{\left (t \right )},\infty \right )}}\right| \leq \frac{\pi}{2} \\\int_{-\infty}^{\infty} \begin{cases} 0 &amp; \text{for}\: x &lt; 0 \\\frac{b^{a} x^{a - 1}}{\Gamma{\left(a \right)}} e^{x \left(- b + t\right)} &amp; \text{otherwise} \end{cases}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
@@ -337,14 +342,14 @@ summarize(gamma)</code></pre>
 </div>
 <div id="beta-distribution-betax-a-b" class="section level3">
 <h3>Beta distribution: <span class="math inline">\(Beta(x; a, b)\)</span></h3>
-<p>The Beta distribution is the first one that SymPy was unable to evaluate. When I tried the mean, variance, and MGF, all the integrals hanged, and I had to abort the operation.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<p>The Beta distribution is the first one that SymPy was unable to evaluate. When I tried the area, mean, variance, and MGF, all the integrals hanged, and I had to abort the operation.<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></p>
 <pre class="python"><code>beta = sym.Piecewise(
     (0, x &lt; 0),
     (0, x &gt; 1),
     (x**(a-1)*(1-x)**(b-1)/(sym.gamma(a)*sym.gamma(b)/sym.gamma(a+b)), True)
 )
 print &quot;Distribution: &quot; + latex(beta)
-# mean(beta)  # had to abort</code></pre>
+# area(beta)  # had to abort</code></pre>
 <p>Distribution: <span class="math inline">\(\begin{cases} 0 &amp; \text{for}\: x &gt; 1 \vee x &lt; 0 \\\frac{x^{a - 1} \Gamma{\left(a + b \right)}}{\Gamma{\left(a \right)} \Gamma{\left(b \right)}} \left(- x + 1\right)^{b - 1} &amp; \text{otherwise} \end{cases}\)</span></p>
 </div>
 <div id="uniform-distribution" class="section level3">
@@ -357,6 +362,7 @@ print &quot;Distribution: &quot; + latex(beta)
 )
 summarize(uniform)</code></pre>
 <p>Distribution: <span class="math inline">\(\begin{cases} 0 &amp; \text{for}\: x &gt; 1 \vee x &lt; 0 \\1 &amp; \text{otherwise} \end{cases}\)</span></p>
+<p>Area: <span class="math inline">\(1\)</span></p>
 <p>Mean: <span class="math inline">\(\frac{1}{2}\)</span></p>
 <p>Variance: <span class="math inline">\(\frac{1}{12}\)</span></p>
 <p>MGF: <span class="math inline">\(\begin{cases} 1 &amp; \text{for}\: t = 0 \\\frac{1}{t} \left(e^{t} - 1\right) &amp; \text{otherwise} \end{cases}\)</span></p>
@@ -367,13 +373,15 @@ summarize(uniform)</code></pre>
 <pre class="python"><code>student = (1 + ((x-mu) / sigma)**2 / nu)**(-(1+nu)/2) * sym.gamma((nu+1)/2)/(sym.gamma(nu/2)*sym.sqrt(nu*sym.pi)*sigma)
 print &quot;Distribution: &quot; + latex(student)</code></pre>
 <p>Distribution: <span class="math inline">\(\frac{\left(1 + \frac{\left(- \mu + x\right)^{2}}{\nu \sigma^{2}}\right)^{- \frac{\nu}{2} - \frac{1}{2}}}{\sqrt{\pi} \sqrt{\nu} \sigma \Gamma{\left(\frac{\nu}{2} \right)}} \Gamma{\left(\frac{\nu}{2} + \frac{1}{2} \right)}\)</span></p>
+<pre class="python"><code>print &quot;Area: &quot; + latex(area(student))</code></pre>
+<p>Area: <span class="math inline">\(1\)</span></p>
 <pre class="python"><code>print &quot;Mean: &quot; + latex(mean(student))</code></pre>
 <p>Mean: <span class="math inline">\(\begin{cases} \mu &amp; \text{for}\: \frac{\nu}{2} + \frac{1}{2} &gt; 1 \\\int_{-\infty}^{\infty} \frac{\nu^{\frac{\nu}{2} + 1} \sigma^{\nu} x \Gamma{\left(\frac{\nu}{2} + \frac{1}{2} \right)}}{2 \sqrt{\pi} \Gamma{\left(\frac{\nu}{2} + 1 \right)}} \left(\mu^{2} - 2 \mu x + \nu \sigma^{2} + x^{2}\right)^{- \frac{\nu}{2} - \frac{1}{2}}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
 <pre class="python"><code>print &quot;Variance: &quot; + latex(sym.trigsimp(variance(student)))</code></pre>
 <p>Variance: <span class="math inline">\(- \begin{cases} \mu^{2} &amp; \text{for}\: \frac{\nu}{2} + \frac{1}{2} &gt; 1 \\\left(\int_{-\infty}^{\infty} \frac{\nu^{\frac{\nu}{2} + 1} \sigma^{\nu} x \Gamma{\left(\frac{\nu}{2} + \frac{1}{2} \right)}}{2 \sqrt{\pi} \Gamma{\left(\frac{\nu}{2} + 1 \right)}} \left(\mu^{2} - 2 \mu x + \nu \sigma^{2} + x^{2}\right)^{- \frac{\nu}{2} - \frac{1}{2}}\, dx\right)^{2} &amp; \text{otherwise} \end{cases} + \begin{cases} \frac{2 \left(\mu^{2} \nu - 2 \mu^{2} + \nu \sigma^{2}\right) \cos^{2}{\left (\frac{\pi \nu}{2} \right )}}{\left(\nu - 2\right) \left(\cos{\left (\pi \nu \right )} + 1\right)} &amp; \text{for}\: - \frac{\nu}{2} + \frac{5}{2} &lt; 2 \wedge - \frac{\nu}{2} + 3 &lt; 2 \\\int_{-\infty}^{\infty} \frac{\nu^{\frac{\nu}{2} + 1} \sigma^{\nu} x^{2} \Gamma{\left(\frac{\nu}{2} + \frac{1}{2} \right)}}{2 \sqrt{\pi} \Gamma{\left(\frac{\nu}{2} + 1 \right)}} \left(\mu^{2} - 2 \mu x + \nu \sigma^{2} + x^{2}\right)^{- \frac{\nu}{2} - \frac{1}{2}}\, dx &amp; \text{otherwise} \end{cases}\)</span></p>
 <p>Here, I used <code>sym.trigsimp</code>, which added a few simplifications compared to <code>sym.simplify</code> (you can check this yourself). Yet still, SymPy doesn’t quite get the simplified expression for the variance. Notice that <span class="math display">\[
 2\cos^2(y/2) = \cos(y) + 1
-\]</span> so the expressions with <span class="math inline">\(y = \pi \nu\)</span> should cancel. If we notice this by eye, we can then use SymPy to finish the job, which is valid for <span class="math inline">\(\nu &gt; 2\)</span>.<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></p>
+\]</span> so the expressions with <span class="math inline">\(y = \pi \nu\)</span> should cancel. If we notice this by eye, we can then use SymPy to finish the job, which is valid for <span class="math inline">\(\nu &gt; 2\)</span>.<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></p>
 <pre class="python"><code>expression = -mu**2 + (mu**2*nu-2*mu**2+nu*sigma**2)/(nu-2)
 print(latex(expression))</code></pre>
 <p><span class="math inline">\(- \mu^{2} + \frac{1}{\nu - 2} \left(\mu^{2} \nu - 2 \mu^{2} + \nu \sigma^{2}\right)\)</span></p>
@@ -386,6 +394,7 @@ print(latex(expression))</code></pre>
 <p>Out of seven common continuous distributions, SymPy pretty much solved five of them. For the Beta distribution, it had trouble with all the integrals, and for the Student t distribution, it failed to notice some simplifications.</p>
 <p>I imagine this is not competitive with Mathematica, but for its free price and Python integration, I do think SymPy could make a valuable addition to a statistician’s toolbox.</p>
 <p><strong><em>This blog post was generated from an R Markdown file using the <code>knitr</code> and <code>blogdown</code> packages. The original source can be downloaded <a href="https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2018-04-04-distributions-with-sympy.Rmd">from GitHub</a>.</em></strong></p>
+<p><strong><em>UPDATE 2018-04-06: printing the area calculation (PDF normalization) as well.</em></strong></p>
 </div>
 <div class="footnotes">
 <hr />
@@ -393,8 +402,9 @@ print(latex(expression))</code></pre>
 <li id="fn1"><p>I found these all from <a href="https://mathematica.stackexchange.com/questions/28162/alternatives-to-mathematica">this</a> StackExchange thread.<a href="#fnref1">↩</a></p></li>
 <li id="fn2"><p><code>lamb</code> instead of <code>lambda</code>, because <code>lambda</code> is a predefined Python construct.<a href="#fnref2">↩</a></p></li>
 <li id="fn3"><p>See <a href="http://docs.sympy.org/latest/tutorial/gotchas.html#two-final-notes-and">this link</a> for the rationale behind <code>sym.Rational</code>.<a href="#fnref3">↩</a></p></li>
-<li id="fn4"><p>This is also documented by another user as a <a href="https://github.com/sympy/sympy/issues/11169">GitHub issue</a>.<a href="#fnref4">↩</a></p></li>
-<li id="fn5"><p>I find it strange that SymPy wasn’t able to simplify the conditions on <span class="math inline">\(\nu\)</span> to give <span class="math inline">\(\nu &gt; 1\)</span> for the first part and <span class="math inline">\(\nu &gt; 2\)</span> for the second.<a href="#fnref5">↩</a></p></li>
+<li id="fn4"><p>I chose to display code output using the <code>knitr</code> option <code>results=&quot;asis&quot;</code>, so that the LaTeX formatting would show up.<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>This is also documented by another user as a <a href="https://github.com/sympy/sympy/issues/11169">GitHub issue</a>.<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>I find it strange that SymPy wasn’t able to simplify the conditions on <span class="math inline">\(\nu\)</span> to give <span class="math inline">\(\nu &gt; 1\)</span> for the first part and <span class="math inline">\(\nu &gt; 2\)</span> for the second.<a href="#fnref6">↩</a></p></li>
 </ol>
 </div>
 

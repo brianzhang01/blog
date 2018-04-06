@@ -30,7 +30,7 @@ $$
 $$
 Moments of $X$ take the form:
 $$
-\mathbb{E}_X[X^n] = \int_{-\infty}^{\infty}x^nf(x)dx = 1
+\mathbb{E}_X[X^n] = \int_{-\infty}^{\infty}x^nf(x)dx
 $$
 From which one can get the mean, $\mathbb{E}_X[X]$, and variance,
 $$
@@ -51,7 +51,7 @@ import sympy as sym
 print sym.__version__
 ```
 
-To write SymPy expressions, one first defines the symbols that are manipulated. We start out with $x$, the variable with respect to which PDFs are defined, and $t$, the variable for MGFs. We then define some pretty simple helpful functions for expressing our expectations of interest.
+To write SymPy expressions, one first defines the symbols that are manipulated. We start out with $x$, the variable with respect to which PDFs are defined, and $t$, the variable for MGFs. We then define some simple helper functions for expressing our expectations of interest.
 ```{r functions, engine='python', engine.path="~/anaconda/bin/python"}
 sym.init_printing()
 x, t = sym.symbols('x t', real=True)
@@ -76,6 +76,7 @@ def latex(result):
 
 def summarize(dist):
     print "Distribution: " + latex(dist)
+    print "Area: " + latex(area(dist))
     print "Mean: " + latex(mean(dist))
     print "Variance: " + latex(variance(dist))
     print "MGF: " + latex(mgf(dist))
@@ -101,7 +102,7 @@ normal = (2*sym.pi*sigma**2) ** sym.Rational(-1, 2) * sym.exp(-(x-mu)**2/(2*sigm
 summarize(normal)
 ```
 
-All four quantities are correct! (See [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution).)
+All four quantities are correct! (See [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution).)^[I chose to display code output using the `knitr` option `results="asis"`, so that the LaTeX formatting would show up.]
 
 ### Laplace distribution: $DoubleExp(x; \mu, b)$
 ```{r laplace, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
@@ -133,7 +134,7 @@ summarize(gamma)
 Fun fact: [Wikipedia tells us](https://en.wikipedia.org/wiki/Gamma_distribution) that the Exponential, Chi-squared, and Erlang distributions are all special cases of the Gamma.
 
 ### Beta distribution: $Beta(x; a, b)$
-The Beta distribution is the first one that SymPy was unable to evaluate. When I tried the mean, variance, and MGF, all the integrals hanged, and I had to abort the operation.^[This is also documented by another user as a [GitHub issue](https://github.com/sympy/sympy/issues/11169).]
+The Beta distribution is the first one that SymPy was unable to evaluate. When I tried the area, mean, variance, and MGF, all the integrals hanged, and I had to abort the operation.^[This is also documented by another user as a [GitHub issue](https://github.com/sympy/sympy/issues/11169).]
 ```{r beta, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
 beta = sym.Piecewise(
     (0, x < 0),
@@ -141,7 +142,7 @@ beta = sym.Piecewise(
     (x**(a-1)*(1-x)**(b-1)/(sym.gamma(a)*sym.gamma(b)/sym.gamma(a+b)), True)
 )
 print "Distribution: " + latex(beta)
-# mean(beta)  # had to abort
+# area(beta)  # had to abort
 ```
 
 ### Uniform distribution
@@ -160,6 +161,7 @@ Last we come to the Student t distribution. This one doesn't have an MGF (see [W
 ```{r student, engine="python", engine.path="~/anaconda/bin/python", results="asis"}
 student = (1 + ((x-mu) / sigma)**2 / nu)**(-(1+nu)/2) * sym.gamma((nu+1)/2)/(sym.gamma(nu/2)*sym.sqrt(nu*sym.pi)*sigma)
 print "Distribution: " + latex(student)
+print "Area: " + latex(area(student))
 print "Mean: " + latex(mean(student))
 print "Variance: " + latex(sym.trigsimp(variance(student)))
 ```
@@ -183,3 +185,5 @@ Out of seven common continuous distributions, SymPy pretty much solved five of t
 I imagine this is not competitive with Mathematica, but for its free price and Python integration, I do think SymPy could make a valuable addition to a statistician's toolbox.
 
 ***This blog post was generated from an R Markdown file using the `knitr` and `blogdown` packages. The original source can be downloaded [from GitHub](https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2018-04-04-distributions-with-sympy.Rmd).***
+
+***UPDATE 2018-04-06: printing the area calculation (PDF normalization) as well.***
