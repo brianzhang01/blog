@@ -266,9 +266,9 @@ ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
 </div>
 <div id="a-simple-linear-regression" class="section level2">
 <h2>A simple linear regression</h2>
-<p>Linear least-squares regression seeks to learn the parameters <span class="math inline">\(\beta_0, \beta_1\)</span> that minimize <span class="math display">\[
+<p>Linear least-squares regression seeks to learn the parameters <span class="math">\(\beta_0, \beta_1\)</span> that minimize <span class="math">\[
 \sum_i (y_i-(\beta_0 + \beta_1 x_i))^2
-\]</span> If we introduce matrices <span class="math display">\[
+\]</span> If we introduce matrices <span class="math">\[
 \mathbf{y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix},
 \mathbf{X} = \begin{pmatrix}
 1 &amp; x_1\\
@@ -277,11 +277,11 @@ ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
 1 &amp; x_n\\
 \end{pmatrix},
 \boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \end{pmatrix}
-\]</span> The loss function can be written as <span class="math display">\[
+\]</span> The loss function can be written as <span class="math">\[
 l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y}) = (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})^\intercal (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})
-\]</span> Without going through all the algebra, the minimum of this function with respect to <span class="math inline">\(\boldsymbol{\beta}\)</span> can be obtained by setting the derivative to zero. After using some matrix identities, the solution is <span class="math display">\[
+\]</span> Without going through all the algebra, the minimum of this function with respect to <span class="math">\(\boldsymbol{\beta}\)</span> can be obtained by setting the derivative to zero. After using some matrix identities, the solution is <span class="math">\[
 \mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y}
-\]</span> In R, the function <code>lm</code> can solve linear regression for us, but instead we can also code up the solution manually. First, we set up our matrices <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(\mathbf{y}\)</span>:</p>
+\]</span> In R, the function <code>lm</code> can solve linear regression for us, but instead we can also code up the solution manually. First, we set up our matrices <span class="math">\(\mathbf{X}\)</span> and <span class="math">\(\mathbf{y}\)</span>:</p>
 <pre class="r"><code>x_matrix = cbind(rep(1, 10), x)
 x_matrix</code></pre>
 <pre><code>##             x
@@ -308,7 +308,7 @@ y_matrix</code></pre>
 ##  [8,]  2.95
 ##  [9,]  5.13
 ## [10,]  5.18</code></pre>
-<p>Next we write the matrix algebra solution for computing <span class="math inline">\(\mathbf{\hat{\boldsymbol{\beta}}}\)</span>. If you’re new to R, the notation may be unfamiliar to you, and you may want to consult <a href="https://www.statmethods.net/advstats/matrix.html">this cheatsheet</a>.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>Next we write the matrix algebra solution for computing <span class="math">\(\mathbf{\hat{\boldsymbol{\beta}}}\)</span>. If you’re new to R, the notation may be unfamiliar to you, and you may want to consult <a href="https://www.statmethods.net/advstats/matrix.html">this cheatsheet</a>.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <pre class="r"><code>beta = solve(t(x_matrix) %*% x_matrix) %*% t(x_matrix) %*% y_matrix
 beta</code></pre>
 <pre><code>##       [,1]
@@ -322,9 +322,9 @@ beta</code></pre>
 </div>
 <div id="generalizing-to-polynomial-regression" class="section level2">
 <h2>Generalizing to polynomial regression</h2>
-What if instead of fitting a line, we wanted to fit a quadratic to our data? Our quadratic would then have three parameters, and we would want to minimize: <span class="math display">\[
+What if instead of fitting a line, we wanted to fit a quadratic to our data? Our quadratic would then have three parameters, and we would want to minimize: <span class="math">\[
 \sum_i (y_i-(\beta_0 + \beta_1 x_i + \beta_2 x_i^2))^2
-\]</span> This loss function <span class="math inline">\(l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y})\)</span> can be put in the exact same form as before, as long as we instead define our matrices as:<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> <span class="math display">\[
+\]</span> This loss function <span class="math">\(l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y})\)</span> can be put in the exact same form as before, as long as we instead define our matrices as:<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> <span class="math">\[
 \mathbf{y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix},
 \mathbf{X} = \begin{pmatrix}
 1 &amp; x_1 &amp; x_1^2\\
@@ -334,12 +334,9 @@ What if instead of fitting a line, we wanted to fit a quadratic to our data? Our
 \end{pmatrix},
 \boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{pmatrix}
 \]</span> We then get:
-<span class="math display">\[\begin{gather*}
-l(\boldsymbol{\beta}; \mathbf{X}, \mathbf{y}) = (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})^\intercal (\mathbf{y}-\mathbf{X}\boldsymbol{\beta})\\
-\mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y}
-\end{gather*}\]</span>
-<p>It should be clear that this pattern continues on, at least until the degree <span class="math inline">\(d\)</span> of the polynomial equals <span class="math inline">\(n - 1\)</span>. At that point, we are able to hit all our <span class="math inline">\(n\)</span> points exactly (assuming the <span class="math inline">\(x\)</span>-coordinates are all different), since the polynomial has <span class="math inline">\(n\)</span> free parameters. If we then take <span class="math inline">\(d \geq n\)</span>, there are multiple polynomial solutions, and we should no longer trust our expression to give the single right solution.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
-<p>Using the above result, we can perform polynomial regression on our <span class="math inline">\(n = 10\)</span> data points with <span class="math inline">\(d = 0\)</span> to <span class="math inline">\(9\)</span>. Once we have the <span class="math inline">\(\boldsymbol{\beta}\)</span> coefficients, we sweep over an <span class="math inline">\(x\)</span>-range from -2.5 to 3 and generate the corresponding <span class="math inline">\(y\)</span> value for the polynomial. We keep the resulting polynomial data in a data frame.</p>
+
+<p>It should be clear that this pattern continues on, at least until the degree <span class="math">\(d\)</span> of the polynomial equals <span class="math">\(n - 1\)</span>. At that point, we are able to hit all our <span class="math">\(n\)</span> points exactly (assuming the <span class="math">\(x\)</span>-coordinates are all different), since the polynomial has <span class="math">\(n\)</span> free parameters. If we then take <span class="math">\(d \geq n\)</span>, there are multiple polynomial solutions, and we should no longer trust our expression to give the single right solution.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<p>Using the above result, we can perform polynomial regression on our <span class="math">\(n = 10\)</span> data points with <span class="math">\(d = 0\)</span> to <span class="math">\(9\)</span>. Once we have the <span class="math">\(\boldsymbol{\beta}\)</span> coefficients, we sweep over an <span class="math">\(x\)</span>-range from -2.5 to 3 and generate the corresponding <span class="math">\(y\)</span> value for the polynomial. We keep the resulting polynomial data in a data frame.</p>
 <pre class="r"><code>x_matrix = NULL
 y_matrix = as.matrix(y)
 x_curve = seq(-2.5, 3, 0.05)
@@ -353,7 +350,7 @@ for(i in 1:10) {
   }
   y_data = rbind(y_data, data.frame(x=x_curve, y=y_curve, d=(i-1)))
 }</code></pre>
-<p>Let’s take a look at our final matrix for <span class="math inline">\(\mathbf{X}\)</span> for <span class="math inline">\(d=9\)</span>.</p>
+<p>Let’s take a look at our final matrix for <span class="math">\(\mathbf{X}\)</span> for <span class="math">\(d=9\)</span>.</p>
 <pre class="r"><code>round(x_matrix, digits=2)</code></pre>
 <pre><code>##       [,1]  [,2] [,3]  [,4]  [,5]   [,6]   [,7]   [,8]    [,9]   [,10]
 ##  [1,]    1 -1.87 3.50 -6.54 12.23 -22.87  42.76 -79.96  149.53 -279.62
@@ -413,13 +410,13 @@ for(i in 1:10) {
 <hr />
 <ol>
 <li id="fn1"><p>Another note for new R users: you can pull up the documentation for a command like <code>solve</code> by executing <code>?solve</code> in the console.<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>Thanks to Shoucheng Zhang for pointing out that the general <span class="math inline">\(\mathbf{X}\)</span> matrix is known as the <a href="https://en.wikipedia.org/wiki/Vandermonde_matrix">Vandermonde matrix</a>.<a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p>Interestingly, I tried this out on our data using <span class="math inline">\(d=n=10\)</span>. The math expression is <span class="math display">\[
+<li id="fn2"><p>Thanks to Shoucheng Zhang for pointing out that the general <span class="math">\(\mathbf{X}\)</span> matrix is known as the <a href="https://en.wikipedia.org/wiki/Vandermonde_matrix">Vandermonde matrix</a>.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Interestingly, I tried this out on our data using <span class="math">\(d=n=10\)</span>. The math expression is <span class="math">\[
 \mathbf{\hat{\boldsymbol{\beta}}} = (\mathbf{X}^\intercal\mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y},
 \]</span> and when I get to the inversion step, I receive an error message:</p>
 <pre><code>Error in solve.default(t(x_matrix) %*% x_matrix) : 
 system is computationally singular: reciprocal condition number = 1.10547e-20</code></pre>
-<p>This suggests that for <span class="math inline">\(d \geq n\)</span>, the matrix <span class="math inline">\((\mathbf{X}^\intercal\mathbf{X})\)</span> is no longer full-rank. Indeed, looking online, I seem to find that for any real matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)\)</span>. In this case, where <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\(n\)</span> by <span class="math inline">\((d+1)\)</span>, we have <span class="math inline">\(\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n\)</span>, the number of columns of <span class="math inline">\(\mathbf{X}^\intercal\)</span>, but <span class="math inline">\(\mathbf{X}^\intercal\mathbf{X}\)</span> is a <span class="math inline">\((d+1)\)</span> by <span class="math inline">\((d+1)\)</span> matrix, so it cannot be full-rank.</p>
+<p>This suggests that for <span class="math">\(d \geq n\)</span>, the matrix <span class="math">\((\mathbf{X}^\intercal\mathbf{X})\)</span> is no longer full-rank. Indeed, looking online, I seem to find that for any real matrix <span class="math">\(\mathbf{A}\)</span>, <span class="math">\(\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)\)</span>. In this case, where <span class="math">\(\mathbf{X}\)</span> is <span class="math">\(n\)</span> by <span class="math">\((d+1)\)</span>, we have <span class="math">\(\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n\)</span>, the number of columns of <span class="math">\(\mathbf{X}^\intercal\)</span>, but <span class="math">\(\mathbf{X}^\intercal\mathbf{X}\)</span> is a <span class="math">\((d+1)\)</span> by <span class="math">\((d+1)\)</span> matrix, so it cannot be full-rank.</p>
 <p>For a similar presentation in Python, see <a href="http://jakevdp.github.io/blog/2015/07/06/model-complexity-myth/#The-Mathematics-of-Underdetermined-Models">this blog post</a> by Jake VanderPlas.<a href="#fnref3">↩</a></p></li>
 </ol>
 </div>

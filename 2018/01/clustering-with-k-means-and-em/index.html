@@ -272,10 +272,10 @@ ggplot(points, aes(x = x, y = y)) + geom_point() +
 <p>One of the aims of this post is to show how the common EM clustering algorithm reduces to K-means in a particular limit. To do this, we should first put both algorithms into a common form.</p>
 <p>If you’ve worked through the algorithms before, you’ll see that both K-means and EM consist of a step where points are assigned to clusters, followed by a step where parameter updates are computed from those assignments. They look like the following:</p>
 <ul>
-<li>EM E step: compute soft assignments of assigning a probability distribution for each point over the <span class="math inline">\(K\)</span> clusters</li>
+<li>EM E step: compute soft assignments of assigning a probability distribution for each point over the <span class="math">\(K\)</span> clusters</li>
 <li>K-means “E step”: compute hard assignments of assigning every data point to its nearest cluster center</li>
-<li>EM M step: using the soft assignments, update <span class="math inline">\(\mathbf{\mu}_i\)</span>, the Gaussian means, <span class="math inline">\(\mathbf{\Sigma}_i\)</span>, the Gaussian covariance matrices, and <span class="math inline">\(\mathbf{\pi}\)</span>, the cluster weights</li>
-<li>K-means “M step”: using the hard assignments, update <span class="math inline">\(\mathbf{\mu}_i\)</span>, the cluster centers</li>
+<li>EM M step: using the soft assignments, update <span class="math">\(\mathbf{\mu}_i\)</span>, the Gaussian means, <span class="math">\(\mathbf{\Sigma}_i\)</span>, the Gaussian covariance matrices, and <span class="math">\(\mathbf{\pi}\)</span>, the cluster weights</li>
+<li>K-means “M step”: using the hard assignments, update <span class="math">\(\mathbf{\mu}_i\)</span>, the cluster centers</li>
 </ul>
 <p>Our approach will be to implement these four helper functions, and then string them together using a common interface. This also cuts down on duplication. The high-level program takes an E function, an M function, and starting inputs to an E step, and alternates the two steps while keeping track of all intermediate results:</p>
 <pre class="r"><code>iterate_em = function(nsteps, K, points, e_step, m_step, m_params.init) {
@@ -587,10 +587,11 @@ ggplot(data=data.frame(x=1:nsteps, y=lls)) +
 <video width="672"  controls loop>
 <source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-base.mp4" />
 </video>
+
 </div>
 <div id="the-k-means-limit" class="section level2">
 <h2>The K-means limit</h2>
-<p>To make the EM algorithm more like K-means, we start by limiting the M step to only change the <span class="math inline">\(\mathbf{\mu}\)</span> parameters. The correspondence is pretty clear – the Gaussian means correspond to the K-means cluster centers.</p>
+<p>To make the EM algorithm more like K-means, we start by limiting the M step to only change the <span class="math">\(\mathbf{\mu}\)</span> parameters. The correspondence is pretty clear – the Gaussian means correspond to the K-means cluster centers.</p>
 <p>If you look closely above, I added some extra arguments to the EM M step that allows for this change. Since the <code>iterate_em</code> function accepts a function for the M step, we can use the <code>partial</code> function from the <code>pryr</code> package to set these arguments appropriately.</p>
 <pre class="r"><code>fixed_sigma = partial(em.m, fix_sigma=sigma, fix_weights=weights)
 em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
@@ -598,8 +599,9 @@ make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
 <source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-fixed-big.mp4" />
 </video>
+
 <p>In the above animation, you’ll see that the shapes of the Gaussians do not change; only their centers do. One can show that this leads to linear decision boundaries for the most likely cluster, just like K-means. However, the algorithm evolution is still not the same as K-means.</p>
-<p>To allow the two algorithms to finally match up, we need to take a limit where the fixed covariance for each mixture component is <span class="math inline">\(\epsilon I\)</span>, and we take <span class="math inline">\(\epsilon\)</span> to 0. In this case, we take <span class="math inline">\(\epsilon\)</span> to be 0.01, corresponding to a standard deviation of 0.1. The log-sum-exp trick I mentioned earlier was necessary for my results to not under / overflow in this case.</p>
+<p>To allow the two algorithms to finally match up, we need to take a limit where the fixed covariance for each mixture component is <span class="math">\(\epsilon I\)</span>, and we take <span class="math">\(\epsilon\)</span> to 0. In this case, we take <span class="math">\(\epsilon\)</span> to be 0.01, corresponding to a standard deviation of 0.1. The log-sum-exp trick I mentioned earlier was necessary for my results to not under / overflow in this case.</p>
 <pre class="r"><code>sigma001 = NULL
 for(k in 1:K) {
   sigma001[[k]] = diag(D)*0.01
@@ -611,11 +613,12 @@ make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
 <source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-fixed-small.mp4" />
 </video>
+
 <p>The two sides match very well!</p>
 </div>
 <div id="extra-k-8" class="section level2">
 <h2>Extra: K = 8</h2>
-<p>We can repeat this entire process for a different value of <span class="math inline">\(K\)</span>. With regular EM:</p>
+<p>We can repeat this entire process for a different value of <span class="math">\(K\)</span>. With regular EM:</p>
 <pre class="r"><code># Run K means and EM
 K = 8
 set.seed(3)
@@ -638,14 +641,16 @@ make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
 <source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-base.mp4" />
 </video>
-<p>With only <span class="math inline">\(\mathbf{\mu}\)</span> updates, and <span class="math inline">\(I\)</span> covariance:</p>
+
+<p>With only <span class="math">\(\mathbf{\mu}\)</span> updates, and <span class="math">\(I\)</span> covariance:</p>
 <pre class="r"><code>fixed_sigma = partial(em.m, fix_sigma=sigma, fix_weights=weights)
 em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
 make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
 <source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-fixed-big.mp4" />
 </video>
-<p>With only <span class="math inline">\(\mathbf{\mu}\)</span> updates, and <span class="math inline">\(0.01I\)</span> covariance:</p>
+
+<p>With only <span class="math">\(\mathbf{\mu}\)</span> updates, and <span class="math">\(0.01I\)</span> covariance:</p>
 <pre class="r"><code>sigma001 = NULL
 for(k in 1:K) {
   sigma001[[k]] = diag(D)*0.01
@@ -657,6 +662,7 @@ make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
 <source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-fixed-small.mp4" />
 </video>
+
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
