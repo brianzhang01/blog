@@ -1,0 +1,822 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Random Graphs and Giant Components</title>
+    <meta name="author" content="Brian Zhang">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+    <meta name="description" content="This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
+There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.">
+    <meta property="og:description" content="This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
+There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Random Graphs and Giant Components">
+    <meta property="og:url" content="/2018/07/random-graphs-and-giant-components/">
+    <meta property="og:site_name" content="Home | Brian Zhang">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Home | Brian Zhang">
+    <meta name="twitter:description" content="This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
+There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.">
+    
+      <meta name="twitter:creator" content="@brianczhang">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+    
+    <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css' rel='stylesheet' type='text/css'>
+    
+
+    
+      
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113303717-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">Home | Brian Zhang</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Brian Zhang</h4>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/brianzhang01/brianzhang01.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Random Graphs and Giant Components
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-07-10T00:00:00Z">
+        
+  July 10, 2018
+
+      </time>
+    
+    
+      <span class="middotDivider">&middot;</span>
+      <span class="readingTime">14 min read</span>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.</p>
+<p>There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.</p>
+<p>In addition to code that sits inside the R markdown file for this post, I also wrote some C++ code to generate the more time-intensive examples. That repository is accessible on GitHub <a href="https://github.com/brianzhang01/giant_demo">here</a>.</p>
+<div id="introduction-random-graphs" class="section level2">
+<h2>Introduction: random graphs</h2>
+<p>Someone recently asked me at a pub what it takes to get a probability distribution named after you. Are new distributions still being discovered today?</p>
+<p>I answered that we usually think of probability distributions as over the one-dimensional real line, for which most distributions have been with us for perhaps a century.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> However, one can study the probability distributions of all sorts of abstract objects – from a deck of cards to randomly broken sticks – and many of these areas remain ripe for discovery.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<p>The field of random graphs is one such area. Recall from college-level math or computer science that an undirected graph is a collection of <em>vertices</em> (also called nodes), with some pairs of vertices connected by <em>edges</em>. (A depiction of an example graph is below.) Originally, those working in graph theory focused on proving many deterministic properties of graphs. For instance, let the <em>degree</em> of a vertex be the number of other vertices it is connected to. Then the <a href="https://en.wikipedia.org/wiki/Handshaking_lemma">handshake lemma</a> says that the sum of all the degrees is always an even number (proof omitted here).</p>
+<p><img src="/post/2018-07-10-random-graphs-and-giant-components_files/figure-html/graph-example-1.png" width="672" /></p>
+<p>By contrast, the field of random graphs is interested in probabilistic properties of graphs given a random process for generating them. Here’s the simplest type of random graph that is studied. Fix a positive integer <span class="math">\(n\)</span> and a probability <span class="math">\(p\)</span> between 0 and 1. Given <span class="math">\(n\)</span> vertices, there are <span class="math">\(\binom{n}{2}\)</span> possible edges between them, so choose to connect each edge with independent probability <span class="math">\(p\)</span> (e.g. by flipping a biased coin <span class="math">\(\binom{n}{2}\)</span> times). Voilà! You have generated a random graph. As long as <span class="math">\(p\)</span> is not 0 or 1, this process can generate any undirected graph on <span class="math">\(n\)</span> vertices. However, some configurations will be more probable while others are less probable. This probability distribution over undirected graphs, or equivalently the generative process described, are called the Erdős-Rényi random graph with parameters <span class="math">\(n\)</span> and <span class="math">\(p\)</span>.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<p>Since each edge is sampled independently, we can derive a result on the total number of edges in the graph: it follows a <span class="math">\(\mbox{Binomial}(\binom{n}{2}, p)\)</span> distribution. Similarly, if we consider a single vertex, there are <span class="math">\(n - 1\)</span> possible edges that involve that vertex. Since each is sampled independently, the degree of each vertex follows a <span class="math">\(\mbox{Binomial}(n-1, p)\)</span> distribution. The expression <span class="math">\((n-1)p\)</span> will thus be the mean degree of a vertex.</p>
+</div>
+<div id="they-might-be-giants" class="section level2">
+<h2>They Might Be Giants</h2>
+<p>Going back to my pub acquaintance’s question, what did Erdős and Rényi need to do to get their names on this random graph distribution? It turns out that they didn’t just define the generative process, but rather proved a surprising and groundbreaking result in two papers around 1960. This result has come to be known as the “giant component” in random graphs.</p>
+<p>A <em>component</em> in a graph is a set of vertices that are disconnected from the rest of the graph, but which have some connecting path through any two vertices in the set. For instance, in the example graph shown above, the vertices are split into four components of size 5, 2, 2, and 1. Erdős and Rényi considered the size of the largest component as <span class="math">\(n\)</span> goes to infinity. Call this random variable <span class="math">\(L\)</span> for “largest.” They found that for any <span class="math">\(\epsilon &gt; 0\)</span>, when <span class="math">\(p\)</span> is less than <span class="math">\(\frac{1 - \epsilon}{n}\)</span>, <span class="math">\(L\)</span> has size <span class="math">\(o(n)\)</span> with probability 1, while when <span class="math">\(p\)</span> is greater than <span class="math">\(\frac{1 + \epsilon}{n}\)</span>, <span class="math">\(L\)</span> has size <span class="math">\(\Omega(n)\)</span> with probability 1. Intuitively, in the second case, the largest component almost surely contains a constant fraction of the graph’s vertices, while in the first case, it is almost surely the case that no components contain a constant fraction of vertices.</p>
+<p>We can express the condition on <span class="math">\(p\)</span> a different way. Recalling that the mean degree of a vertex is <span class="math">\((n-1)p\)</span>, we have the equivalent conditions <span class="math">\((n-1)p &lt; 1-\epsilon\)</span> in the first case, and <span class="math">\((n-1)p &gt; 1+\epsilon\)</span> in the second case, since <span class="math">\(p\)</span> is around <span class="math">\(1/n\)</span> and <span class="math">\(n\)</span> is tending to infinity. If the mean degree is significantly less than 1 (say 0.1), vertices with degree 0 are the most common in the graph, and it will be hard to grow a very large component. On the other hand, if the mean degree is significantly greater than 1 (say 5), then starting from a single vertex we can imagine a large multiplying effect as we include all vertices 1, 2, 3, … steps away, and we would expect a sizable largest component. So the boundary of 1 seems the right order of magnitude.</p>
+<p>What is so surprising is that the change between an <span class="math">\(o(n)\)</span> and an <span class="math">\(\Omega(n)\)</span> largest component occurs suddenly for almost all graphs at <span class="math">\((n-1)p = 1\)</span>. The resulting largest component is called a giant component not only because its size is <span class="math">\(\Omega(n)\)</span>, but also because it dwarfs all other components, which almost surely have size <span class="math">\(o(n)\)</span> (a result that we won’t examine here).</p>
+</div>
+<div id="simulations-when-n-50-and-500" class="section level2">
+<h2>Simulations when <span class="math">\(n = 50\)</span> and <span class="math">\(500\)</span></h2>
+<p>We can start to examine the largest component behavior for some simulated Erdős-Rényi random graphs. It’s fairly easy to simulate one of these graphs, after which a simple depth-first or breadth-first search algorithm is able to calculate components and output the largest component size. However, it’s nice to have a picture of what’s going on, so I’ll use the <code>igraph</code> package to draw and also compute component sizes of our graphs.</p>
+<p>First, we’ll start out with <span class="math">\(n = 50\)</span> and sweep over a range of probabilities <span class="math">\(p\)</span> including the transition point <span class="math">\((n-1)p = 1\)</span>. Throughout the run, I fix the seed used to simulate the i.i.d. <span class="math">\(\mbox{Uniform}(0, 1)\)</span> values for each edge, and keep those edges with value less than <span class="math">\(p\)</span>. Later we can use several different seeds for each <span class="math">\(p\)</span>, but the current setup has the nice visual effect of gradually growing a graph as we increase <span class="math">\(p\)</span>.</p>
+<p>Our helper functions are as follows:</p>
+<pre class="r"><code>library(igraph)
+
+make_graph = function(n, p, seed=1) {
+  set.seed(seed)
+  probs = runif(n*(n-1)/2)
+  k = 1
+  edges = NULL
+  for (i in 1:(n-1)) {
+    for (j in (i+1):n) {
+      if (probs[k] &lt; p) {
+        edges = c(edges, c(i, j))
+      }
+      k = k + 1
+    }
+  }
+  return(graph(edges=edges, n=n, directed=F))
+}
+
+plot_graph = function(g, main=&quot;&quot;, layout=layout_in_circle, vsize=5) {
+  comp = components(g)
+  max_comp = (comp$membership == which.max(comp$csize))
+  special = ifelse(max_comp, &quot;orange&quot;, &quot;blue&quot;)
+  plot(g, layout=layout, vertex.size=vsize, vertex.label=NA,
+       vertex.color=special, main=main)
+}</code></pre>
+<p>The below code runs for <span class="math">\(n=50\)</span> and a fixed seed of <span class="math">\(1\)</span>, and displays the graph using the <code>layout_in_circle</code> option. <code>knitr</code> / R Markdown turn the for loop into an animation.</p>
+<pre class="r"><code>n = 50
+mean_degree = c(seq(0, 4, 0.25))
+max_size = NULL
+for (i in 1:length(mean_degree)) {
+  d = mean_degree[i]
+  p = d / (n-1)
+  g = make_graph(n, p)
+  max_size[i] = max(components(g)$csize)
+  
+  layout(matrix(c(1, 2), 1), c(4, 3))
+  plot_graph(
+    g, layout=layout_in_circle,
+    main=paste0(&quot;p*(n-1)=&quot;, sprintf(&quot;%.2f&quot;, d), &quot;, max_size=&quot;, max_size[i]))
+  plot(c(0, max(mean_degree)), c(0, n), type=&quot;n&quot;,
+       main=&quot;Summary&quot;, xlab=&quot;mean_degree&quot;, ylab=&quot;max_size&quot;)
+  lines(mean_degree[1:i], max_size, type=&quot;o&quot;, pch=19)
+}</code></pre>
+<video width="672"  controls loop>
+<source src="/post/2018-07-10-random-graphs-and-giant-components_files/figure-html/graph-viz-50.webm" />
+</video>
+
+<p>In this case, the largest component size (marked out by orange in the visualization) shows a large jump when <span class="math">\(p(n-1)\)</span> goes from <span class="math">\(1.25\)</span> to <span class="math">\(1.50\)</span>. By the value <span class="math">\(3.25\)</span>, all vertices are part of one component.</p>
+<p>For <span class="math">\(n = 500\)</span>, we again fix the seed at <span class="math">\(1\)</span> and use the <code>layout_in_sphere</code> option:</p>
+<pre class="r"><code>n = 500
+mean_degree = c(seq(0, 6, 0.25))
+max_size = NULL
+for (i in 1:length(mean_degree)) {
+  d = mean_degree[i]
+  p = d / (n-1)
+  g = make_graph(n, p)
+  max_size[i] = max(components(g)$csize)
+  
+  layout(matrix(c(1, 2), 1), c(4, 3))
+  plot_graph(
+    g, layout=layout_on_sphere,
+    main=paste0(&quot;p*(n-1)=&quot;, sprintf(&quot;%.2f&quot;, d), &quot;, max_size=&quot;, max_size[i]))
+  plot(c(0, max(mean_degree)), c(0, n), type=&quot;n&quot;,
+       main=&quot;Summary&quot;, xlab=&quot;mean_degree&quot;, ylab=&quot;max_size&quot;)
+  lines(mean_degree[1:i], max_size, type=&quot;o&quot;, pch=19)
+}</code></pre>
+<video width="672"  controls loop>
+<source src="/post/2018-07-10-random-graphs-and-giant-components_files/figure-html/graph-viz-500.webm" />
+</video>
+
+<p>In this case, the largest component looks relatively small when <span class="math">\(p(n-1) &lt; 0.75\)</span>, and increases quickly in the range from <span class="math">\(1\)</span> to <span class="math">\(3\)</span>.</p>
+<p>We can increase the scale of the above experiment, running several different seeds and plotting each seed in a different color to show continuity. While <code>igraph</code> would have sufficed for this, I decided to write my own <a href="https://github.com/brianzhang01/giant_demo">C++ implementation</a> for practice and with an eye of pushing <span class="math">\(n\)</span> to very large values. Because I was interested in the interval of mean degree around <span class="math">\(1\)</span>, I sampled a finer grid of values going from <span class="math">\(0\)</span> to <span class="math">\(1.5\)</span> in steps of <span class="math">\(0.1\)</span>, then sampled values in steps of <span class="math">\(0.5\)</span> up to <span class="math">\(\lceil \ln(n) \rceil\)</span>.</p>
+<p>Here are the results for <span class="math">\(n=50\)</span> with <span class="math">\(40\)</span> seeds: <img src="/data/giant_summary_n50.png" height="500" /></p>
+<p>And the results for <span class="math">\(n=500\)</span>: <img src="/data/giant_summary_n500.png" height="500" /></p>
+</div>
+<div id="simulations-for-large-n" class="section level2">
+<h2>Simulations for large <span class="math">\(n\)</span></h2>
+<p>As we increase <span class="math">\(n\)</span>, the graphs start to show a more striking quality. For <span class="math">\(n = 10,000\)</span>:</p>
+<p><img src="/data/giant_summary_n10000.png" height="500" /></p>
+<p>Here, it is clear that something interesting is going on at <span class="math">\(p(n-1) = 1\)</span>. We can zoom in on that area:</p>
+<p><img src="/data/giant_summary_n10000_small.png" height="500" /></p>
+<p>We can also zoom in on the region leading up to <span class="math">\(p(n-1) \approx \ln(n)\)</span>, which in the case of <span class="math">\(n = 10,000\)</span> is about <span class="math">\(9.2\)</span>.</p>
+<p><img src="/data/giant_summary_n10000_big.png" height="500" /></p>
+<p>Note how all the observations collapse into <span class="math">\(5\)</span>, then <span class="math">\(4\)</span>, then <span class="math">\(3\)</span> dots. This suggests that at the very right of the plot, the giant component sizes are all either <span class="math">\(99,998\)</span>, <span class="math">\(99,999\)</span>, or <span class="math">\(100,000\)</span>. In fact, Erdős and Rényi also proved a second result saying that when <span class="math">\(p(n-1) &gt; \ln(n)\)</span>, the entire graph becomes “almost entirely connected” almost surely.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<p>Lastly, we can visualize <span class="math">\(n = 1,000,000\)</span>, for which my simulations took several hours, mainly due to simulating <span class="math">\(O(n^2)\)</span> uniform numbers for the edges:</p>
+<p><img src="/data/giant_summary_n1000000.png" height="500" /></p>
+<p>Wow! Cool right?</p>
+<p><img src="/data/giant_summary_n1000000_small.png" height="500" /></p>
+<p>There’s a strange phenomenon here of two separated clusters of points when <span class="math">\(p(n-1) = 1.1\)</span>. I would love to know if this has a nice theoretical justification.</p>
+<p><img src="/data/giant_summary_n1000000_big.png" height="500" /></p>
+<p>Feel free to play around with <a href="(https://github.com/brianzhang01/giant_demo)">my code</a> and investigate some other cases!</p>
+</div>
+<div id="conclusion-and-bibliography" class="section level2">
+<h2>Conclusion and Bibliography</h2>
+<p>That concludes my example of analyzing the largest component size in Erdős-Rényi random graphs. However, as I mentioned at the start of this post, this only scratches the surface, and there’s a lot more to dig into in terms of the mathematical details, history, and current work in this area. Here’s my attempt at a survey of what else is out there.</p>
+<p>Note: while I have used the term “random graph” in this post so far, many prefer the terms “random networks” and “network science” to refer to this area of study.</p>
+<p><strong>Books.</strong> To my knowledge, there are two established textbooks in the area of random graphs. The first and older work is Mark Newman’s <em>Networks: An Introduction</em> (2010), a lofty 789-page work. The most relevant sections are chapters 12-15, with results on the Erdős-Rényi model covered in chapter 12.</p>
+<p>A newer work, <em>Network Science</em> (2016) by Albert-László Barabási, has the advantage of being <a href="http://networksciencebook.com">freely available online</a>. Here, the results for the Erdős-Rényi model are covered in chapter 3. Both these books have a good blend of theory and interest in real datasets. I would recommend starting with Barabási’s book and referring to Newman’s for more details and references.</p>
+<p><strong>Proofs and stuff.</strong> Now for one of the more important parts: where can I find proofs of the results in this post? Well, I’ve skimmed both books above and they have sections with mathematical details that I’m assuming offer full proofs. As a disclaimer, I actually haven’t worked through any proofs myself! But I plan to make it a priority now that this post is published.</p>
+<p>I’ve enjoyed the work of blogger Jeremy Kun, and he has <a href="https://jeremykun.com/2013/08/22/the-erdos-renyi-random-graph/">three</a> <a href="https://jeremykun.com/2015/02/02/the-giant-component-and-explosive-percolation/">blog</a> <a href="https://jeremykun.com/2015/02/09/zero-one-laws-for-random-graphs/">posts</a> I was able to find on random graphs, which are much more theoretical than mine but also include an example in Python. Wikipedia’s articles on “<a href="https://en.wikipedia.org/wiki/Giant_component">Giant component</a>” and “<a href="https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93R%C3%A9nyi_model">Erdős-Rényi model</a>” are great too.</p>
+<p>I would additionally recommend going back to the three original papers detailing these discoveries. They are two papers by Paul Erdős and Alfred Rényi in 1959 (<a href="https://users.renyi.hu/~p_erdos/1959-11.pdf"><em>On random graphs I</em></a>) and 1960 (<a href="https://users.renyi.hu/~p_erdos/1960-10.pdf"><em>On the evolution of random graphs</em></a>), as well as a 1959 paper by Edgar Gilbert (<a href="https://projecteuclid.org/euclid.aoms/1177706098"><em>Random Graphs</em></a>). Here I need to offer a clarification. Erdős and Rényi’s original results on the giant component actually dealt with a slightly different random graph model. In their model, <span class="math">\(G(n, M)\)</span>, we fix the number <span class="math">\(M\)</span> of edges out of <span class="math">\(\binom{n}{2}\)</span> that we want. Each sample from the model is a random configuration containing exactly <span class="math">\(M\)</span> edges, with all configurations equally likely. This turns out to have many of the same properties as the model <span class="math">\(G(n, p)\)</span> which was introduced by Gilbert and covered in this post. Because of their virtually identical behavior as <span class="math">\(n\)</span> tends to infinity, the term Erdős-Rényi random graph is used to refer to both of these models, though <span class="math">\(G(n, p)\)</span> is the one more commonly used in literature.</p>
+<p><strong>Other critical behavior.</strong> The sudden emergence of the giant component is one example of a critical behavior or phase transition. In this example, the boundary point <span class="math">\(p = 1/n\)</span> separates two very different types of graphs, and represents a discrete rather than a continuous transition. One can notice similarities in the transitions between solid, liquid, and gas phases when we vary the temperature and/or pressure of a system – we observe definite phase boundaries that separate radically different behavior. In fact, the field of condensed matter physics introduces many physical models like the Erdős-Rényi model to study and explain phase transitions in the real world, including more exotic magnetic and superconducting phases.</p>
+<p>Random graphs can also show different critical behavior beyond the size of the largest component. In fact, I was first introduced to the giant component phenomenon by a talk given by Fiona Skerman on the critical phenomenon of network modularity. Roughly, modularity measures the degree to which a network clusters into different components. Skerman and Professor Colin McDiarmid studied how <span class="math">\(p = 1/n\)</span> also represents a critical point in this quantity for Erdős-Rényi random graphs, and continued with extensions on other random trees and networks. They have a <a href="https://arxiv.org/abs/1606.09101">publication in progress</a>, and Skerman’s <a href="https://ora.ox.ac.uk/objects/uuid:1bbaaac7-bad0-469d-add4-6a0dbf75f7c6">Oxford PhD thesis</a> won the Department of Statistics 2016 Corcoran Memorial Prize, for which I heard her speak.</p>
+<p><strong>Beyond the Erdős-Rényi model.</strong> The Erdős-Rényi model is only the beginning as far as network models go. One of its glaring deficiencies is that it is homogeneous – all vertices in the graph have identical degree distributions. This is clearly not true for many real-world graphs; for instance, in social networks, many individuals are hubs with many friends, connecting the rest of the network. Alternative models like the <a href="https://en.wikipedia.org/wiki/Barab%C3%A1si%E2%80%93Albert_model">Barabási-Albert model</a> grow networks in such a way that more connected nodes are even more likely to get new connections. Many so-called inhomogeneous random graphs also show critical behavior like the giant component, with research in this area kicked off by an influential <a href="https://arxiv.org/abs/math/0504589">2005 paper by Bollobás, Janson, and Riordan</a>.</p>
+<p><strong>Software and network visualization.</strong> I chose to go with the <a href="http://igraph.org/"><code>igraph</code> package</a> to prepare my network visualizations, and was very pleased with that choice. <code>igraph</code>, a C library with R and Python APIs, contains implementations of graph algorithms like component detection, methods to generate Erdős-Rényi and other classes of random graphs, and support for network visualization. To learn <code>igraph</code>, I used a <a href="http://kateto.net/netscix2016">shortened version</a> of <a href="http://www.kateto.net/network-visualization">this excellent tutorial</a> by Katya Ognyanova. (I include the link to the shortened version because it loaded much faster in my browser; the full tutorial was quite slow.) Ognyanova asks for a citation, so here it is:</p>
+<p>Ognyanova, K. (2018) <em>Network visualization with R</em>. Retrieved from <a href="http://www.kateto.net/network-visualization">www.kateto.net/network-visualization</a>.</p>
+<p>I also found <a href="http://kateto.net/2016/05/network-datasets/">this post</a> by Ognyanova interesting, on some actual network datasets. It could be a good place to start with real network analysis!</p>
+<p>On the web, my favorite visualization that I found illustrating the giant component is <a href="https://cs4423.github.io/notes/2018/02/15/note10.html">this one</a>, done by <a href="http://schmidt.ucg.ie/~goetz/">Professor Götz Pfeiffer</a> for CS4423 at the National University of Ireland, Galway. It’s a beautiful <a href="https://d3js.org/">D3.js</a> animation, and the code can be found online <a href="https://github.com/cs4423/cs4423.github.io/blob/master/js/random.js">here</a>.</p>
+<p><strong>Acknowledgments.</strong> As mentioned earlier, I was first exposed to the surprising critical behavior of random graphs during a lecture by Fiona Skerman in November 2017. In preparing this post, the <code>igraph</code> package and Ognyanova’s tutorial proved very helpful. I am thankful to Juho Lee for introducing me to the paper on inhomogeneous random graphs. Finally, Ryan Lee and Ruth Fong provided useful feedback which influenced my final presentation.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>See for instance, my previous post. There exist some interesting counterexamples, like the <a href="https://en.wikipedia.org/wiki/Marchenko%E2%80%93Pastur_distribution">Marchenko-Pastur</a> (1960s) and <a href="https://en.wikipedia.org/wiki/Tracy%E2%80%93Widom_distribution">Tracy-Widom</a> (1990s) distributions.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>I am particularly thinking of the <a href="https://en.wikipedia.org/wiki/Gilbert%E2%80%93Shannon%E2%80%93Reeds_model">Gilbert-Shannon-Reeds model</a> and the <a href="https://en.wikipedia.org/wiki/Dirichlet_process">Dirichlet process</a>.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>For a more nuanced discussion of the naming of this model, see the last section of this post.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>Quoting <a href="http://networksciencebook.com/chapter/3#evolution-network">Barabási (2016) Section 3.6</a>, “In the absence of isolated nodes the network becomes connected.”<a href="#fnref4">↩</a></p></li>
+</ol>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/distributions-with-sympy/" data-tooltip="Distributions with SymPy">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Brian Zhang. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/distributions-with-sympy/" data-tooltip="Distributions with SymPy">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbrianzhang01.github.io%2F2018%2F07%2Frandom-graphs-and-giant-components%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fbrianzhang01.github.io%2F2018%2F07%2Frandom-graphs-and-giant-components%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fbrianzhang01.github.io%2F2018%2F07%2Frandom-graphs-and-giant-components%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Brian Zhang</h4>
+    
+      <div id="about-card-bio">Blog built using <a href="https://gohugo.io/">Hugo</a> and <a href="https://github.com/rstudio/blogdown">blogdown</a>. Theme is <a href="https://github.com/kakawait/hugo-tranquilpeak-theme">kakawait&rsquo;s port</a> of the <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak">Tranquilpeak theme</a>, originally by <a href="https://github.com/LouisBarranqueiro">Louis Barranqueiro</a>. Cover image © Flickr, <a href="https://creativecommons.org/licenses/by-nc/2.0/#">Creative Commons Attribution License</a>, user <a href="https://www.flickr.com/photos/alexwhite/4509083932">alexwhite</a>.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Statistics PhD Student
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        University of Oxford
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/">
+                <h3 class="media-heading">Random Graphs and Giant Components</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
+There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
+                <h3 class="media-heading">Distributions with SymPy</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
+Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/01/clustering-with-k-means-and-em/">
+                <h3 class="media-heading">Clustering with K-Means and EM</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
+I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
+ Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
+ Structural similarities in the algorithms, by splitting up K-means into an E and M step.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/statistics-ml-books/">
+                <h3 class="media-heading">Statistics / ML Books</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!1
+This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
+ The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2009, 2nd Ed.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/polynomial-regression/">
+                <h3 class="media-heading">Polynomial Regression</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
+At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/blogging-aims/">
+                <h3 class="media-heading">Blogging Aims</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
+As of September, I&rsquo;ve been a first-year PhD student at Oxford&rsquo;s Statistics department. I received my bachelor&rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         6 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://brianzhang01.github.io/images/radcam.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/r.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/yaml.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/python.min.js"></script>
+
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  },
+  CommonHTML: { linebreaks: { automatic: true } },
+  "HTML-CSS": { linebreaks: { automatic: true } },
+         SVG: { linebreaks: { automatic: true } }
+});
+</script>
+<script async type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/brianzhang01.github.io\/2018\/07\/random-graphs-and-giant-components\/';
+          
+            this.page.identifier = '\/2018\/07\/random-graphs-and-giant-components\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'brianzhang01-stats';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

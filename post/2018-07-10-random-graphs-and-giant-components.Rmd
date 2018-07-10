@@ -1,0 +1,205 @@
+---
+title: Random Graphs and Giant Components
+author: Brian Zhang
+date: '2018-07-10'
+slug: random-graphs-and-giant-components
+categories: []
+tags: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we'll be looking at the "giant component" and how that arises in random graphs.
+
+There's a lot more than this example that I find exciting, so I've deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.
+
+In addition to code that sits inside the R markdown file for this post, I also wrote some C++ code to generate the more time-intensive examples. That repository is accessible on GitHub [here](https://github.com/brianzhang01/giant_demo).
+
+## Introduction: random graphs
+
+Someone recently asked me at a pub what it takes to get a probability distribution named after you. Are new distributions still being discovered today?
+
+I answered that we usually think of probability distributions as over the one-dimensional real line, for which most distributions have been with us for perhaps a century.^[See for instance, my previous post. There exist some interesting counterexamples, like the [Marchenko-Pastur](https://en.wikipedia.org/wiki/Marchenko%E2%80%93Pastur_distribution) (1960s) and [Tracy-Widom](https://en.wikipedia.org/wiki/Tracy%E2%80%93Widom_distribution) (1990s) distributions.] However, one can study the probability distributions of all sorts of abstract objects -- from a deck of cards to randomly broken sticks -- and many of these areas remain ripe for discovery.^[I am particularly thinking of the [Gilbert-Shannon-Reeds model](https://en.wikipedia.org/wiki/Gilbert%E2%80%93Shannon%E2%80%93Reeds_model) and the [Dirichlet process](https://en.wikipedia.org/wiki/Dirichlet_process).]
+
+The field of random graphs is one such area. Recall from college-level math or computer science that an undirected graph is a collection of *vertices* (also called nodes), with some pairs of vertices connected by *edges*. (A depiction of an example graph is below.) Originally, those working in graph theory focused on proving many deterministic properties of graphs. For instance, let the *degree* of a vertex be the number of other vertices it is connected to. Then the [handshake lemma](https://en.wikipedia.org/wiki/Handshaking_lemma) says that the sum of all the degrees is always an even number (proof omitted here).
+
+```{r graph-example, echo=FALSE, warning=FALSE, message=FALSE}
+library(igraph)
+set.seed(3)
+g_example = graph(edges=c(
+    c(1, 2), c(1, 3), c(2, 3), c(3, 4),
+    c(4, 5), c(6, 7), c(8, 9)),
+    n=10, directed=F)
+plot(g_example, vertex.label=NA,
+     xlab="An example graph with 10 vertices and 7 edges")
+```
+
+By contrast, the field of random graphs is interested in probabilistic properties of graphs given a random process for generating them. Here's the simplest type of random graph that is studied. Fix a positive integer $n$ and a probability $p$ between 0 and 1. Given $n$ vertices, there are $\binom{n}{2}$ possible edges between them, so choose to connect each edge with independent probability $p$ (e.g. by flipping a biased coin $\binom{n}{2}$ times). Voilà! You have generated a random graph. As long as $p$ is not 0 or 1, this process can generate any undirected graph on $n$ vertices. However, some configurations will be more probable while others are less probable. This probability distribution over undirected graphs, or equivalently the generative process described, are called the Erdős-Rényi random graph with parameters $n$ and $p$.^[For a more nuanced discussion of the naming of this model, see the last section of this post.]
+
+Since each edge is sampled independently, we can derive a result on the total number of edges in the graph: it follows a $\mbox{Binomial}(\binom{n}{2}, p)$ distribution. Similarly, if we consider a single vertex, there are $n - 1$ possible edges that involve that vertex. Since each is sampled independently, the degree of each vertex follows a $\mbox{Binomial}(n-1, p)$ distribution. The expression $(n-1)p$ will thus be the mean degree of a vertex.
+
+## They Might Be Giants
+
+Going back to my pub acquaintance's question, what did Erdős and Rényi need to do to get their names on this random graph distribution? It turns out that they didn't just define the generative process, but rather proved a surprising and groundbreaking result in two papers around 1960. This result has come to be known as the "giant component" in random graphs.
+
+A *component* in a graph is a set of vertices that are disconnected from the rest of the graph, but which have some connecting path through any two vertices in the set. For instance, in the example graph shown above, the vertices are split into four components of size 5, 2, 2, and 1. Erdős and Rényi considered the size of the largest component as $n$ goes to infinity. Call this random variable $L$ for "largest." They found that for any $\epsilon > 0$, when $p$ is less than $\frac{1 - \epsilon}{n}$, $L$ has size $o(n)$ with probability 1, while when $p$ is greater than $\frac{1 + \epsilon}{n}$, $L$ has size $\Omega(n)$ with probability 1. Intuitively, in the second case, the largest component almost surely contains a constant fraction of the graph's vertices, while in the first case, it is almost surely the case that no components contain a constant fraction of vertices.
+
+We can express the condition on $p$ a different way. Recalling that the mean degree of a vertex is $(n-1)p$, we have the equivalent conditions $(n-1)p < 1-\epsilon$ in the first case, and $(n-1)p > 1+\epsilon$ in the second case, since $p$ is around $1/n$ and $n$ is tending to infinity. If the mean degree is significantly less than 1 (say 0.1), vertices with degree 0 are the most common in the graph, and it will be hard to grow a very large component. On the other hand, if the mean degree is significantly greater than 1 (say 5), then starting from a single vertex we can imagine a large multiplying effect as we include all vertices 1, 2, 3, ... steps away, and we would expect a sizable largest component. So the boundary of 1 seems the right order of magnitude.
+
+What is so surprising is that the change between an $o(n)$ and an $\Omega(n)$ largest component occurs suddenly for almost all graphs at $(n-1)p = 1$. The resulting largest component is called a giant component not only because its size is $\Omega(n)$, but also because it dwarfs all other components, which almost surely have size $o(n)$ (a result that we won't examine here).
+
+## Simulations when $n = 50$ and $500$
+
+We can start to examine the largest component behavior for some simulated Erdős-Rényi random graphs. It's fairly easy to simulate one of these graphs, after which a simple depth-first or breadth-first search algorithm is able to calculate components and output the largest component size. However, it's nice to have a picture of what's going on, so I'll use the `igraph` package to draw and also compute component sizes of our graphs.
+
+First, we'll start out with $n = 50$ and sweep over a range of probabilities $p$ including the transition point $(n-1)p = 1$. Throughout the run, I fix the seed used to simulate the i.i.d. $\mbox{Uniform}(0, 1)$ values for each edge, and keep those edges with value less than $p$. Later we can use several different seeds for each $p$, but the current setup has the nice visual effect of gradually growing a graph as we increase $p$.
+
+Our helper functions are as follows:
+
+```{r graph-functions, warning=FALSE, message=FALSE}
+library(igraph)
+
+make_graph = function(n, p, seed=1) {
+  set.seed(seed)
+  probs = runif(n*(n-1)/2)
+  k = 1
+  edges = NULL
+  for (i in 1:(n-1)) {
+    for (j in (i+1):n) {
+      if (probs[k] < p) {
+        edges = c(edges, c(i, j))
+      }
+      k = k + 1
+    }
+  }
+  return(graph(edges=edges, n=n, directed=F))
+}
+
+plot_graph = function(g, main="", layout=layout_in_circle, vsize=5) {
+  comp = components(g)
+  max_comp = (comp$membership == which.max(comp$csize))
+  special = ifelse(max_comp, "orange", "blue")
+  plot(g, layout=layout, vertex.size=vsize, vertex.label=NA,
+       vertex.color=special, main=main)
+}
+```
+
+The below code runs for $n=50$ and a fixed seed of $1$, and displays the graph using the `layout_in_circle` option. `knitr` / R Markdown turn the for loop into an animation.
+
+```{r graph-viz-50, fig.show="animate"}
+n = 50
+mean_degree = c(seq(0, 4, 0.25))
+max_size = NULL
+for (i in 1:length(mean_degree)) {
+  d = mean_degree[i]
+  p = d / (n-1)
+  g = make_graph(n, p)
+  max_size[i] = max(components(g)$csize)
+  
+  layout(matrix(c(1, 2), 1), c(4, 3))
+  plot_graph(
+    g, layout=layout_in_circle,
+    main=paste0("p*(n-1)=", sprintf("%.2f", d), ", max_size=", max_size[i]))
+  plot(c(0, max(mean_degree)), c(0, n), type="n",
+       main="Summary", xlab="mean_degree", ylab="max_size")
+  lines(mean_degree[1:i], max_size, type="o", pch=19)
+}
+```
+
+In this case, the largest component size (marked out by orange in the visualization) shows a large jump when $p(n-1)$ goes from $1.25$ to $1.50$. By the value $3.25$, all vertices are part of one component.
+
+For $n = 500$, we again fix the seed at $1$ and use the `layout_in_sphere` option:
+
+```{r graph-viz-500, fig.show="animate"}
+n = 500
+mean_degree = c(seq(0, 6, 0.25))
+max_size = NULL
+for (i in 1:length(mean_degree)) {
+  d = mean_degree[i]
+  p = d / (n-1)
+  g = make_graph(n, p)
+  max_size[i] = max(components(g)$csize)
+  
+  layout(matrix(c(1, 2), 1), c(4, 3))
+  plot_graph(
+    g, layout=layout_on_sphere,
+    main=paste0("p*(n-1)=", sprintf("%.2f", d), ", max_size=", max_size[i]))
+  plot(c(0, max(mean_degree)), c(0, n), type="n",
+       main="Summary", xlab="mean_degree", ylab="max_size")
+  lines(mean_degree[1:i], max_size, type="o", pch=19)
+}
+```
+
+In this case, the largest component looks relatively small when $p(n-1) < 0.75$, and increases quickly in the range from $1$ to $3$.
+
+We can increase the scale of the above experiment, running several different seeds and plotting each seed in a different color to show continuity. While `igraph` would have sufficed for this, I decided to write my own [C++ implementation](https://github.com/brianzhang01/giant_demo) for practice and with an eye of pushing $n$ to very large values. Because I was interested in the interval of mean degree around $1$, I sampled a finer grid of values going from $0$ to $1.5$ in steps of $0.1$, then sampled values in steps of $0.5$ up to $\lceil \ln(n) \rceil$.
+
+Here are the results for $n=50$ with $40$ seeds:
+<img src="/data/giant_summary_n50.png" height="500" />
+
+And the results for $n=500$:
+<img src="/data/giant_summary_n500.png" height="500" />
+
+## Simulations for large $n$
+
+As we increase $n$, the graphs start to show a more striking quality. For $n = 10,000$:
+
+<img src="/data/giant_summary_n10000.png" height="500" />
+
+Here, it is clear that something interesting is going on at $p(n-1) = 1$. We can zoom in on that area:
+
+<img src="/data/giant_summary_n10000_small.png" height="500" /> 
+
+We can also zoom in on the region leading up to $p(n-1) \approx \ln(n)$, which in the case of $n = 10,000$ is about $9.2$.
+
+<img src="/data/giant_summary_n10000_big.png" height="500" />
+
+Note how all the observations collapse into $5$, then $4$, then $3$ dots. This suggests that at the very right of the plot, the giant component sizes are all either $99,998$, $99,999$, or $100,000$. In fact, Erdős and Rényi also proved a second result saying that when $p(n-1) > \ln(n)$, the entire graph becomes "almost entirely connected" almost surely.^[Quoting [Barabási (2016) Section 3.6](http://networksciencebook.com/chapter/3#evolution-network), "In the absence of isolated nodes the network becomes connected."]
+
+Lastly, we can visualize $n = 1,000,000$, for which my simulations took several hours, mainly due to simulating $O(n^2)$ uniform numbers for the edges:
+
+<img src="/data/giant_summary_n1000000.png" height="500" />
+
+Wow! Cool right?
+
+<img src="/data/giant_summary_n1000000_small.png" height="500" />
+
+There's a strange phenomenon here of two separated clusters of points when $p(n-1) = 1.1$. I would love to know if this has a nice theoretical justification.
+
+<img src="/data/giant_summary_n1000000_big.png" height="500" />
+
+Feel free to play around with [my code]((https://github.com/brianzhang01/giant_demo)) and investigate some other cases!
+
+## Conclusion and Bibliography
+
+That concludes my example of analyzing the largest component size in Erdős-Rényi random graphs. However, as I mentioned at the start of this post, this only scratches the surface, and there's a lot more to dig into in terms of the mathematical details, history, and current work in this area. Here's my attempt at a survey of what else is out there.
+
+Note: while I have used the term "random graph" in this post so far, many prefer the terms "random networks" and "network science" to refer to this area of study.
+
+**Books.** To my knowledge, there are two established textbooks in the area of random graphs. The first and older work is Mark Newman's *Networks: An Introduction* (2010), a lofty 789-page work. The most relevant sections are chapters 12-15, with results on the Erdős-Rényi model covered in chapter 12.
+
+A newer work, *Network Science* (2016) by Albert-László Barabási, has the advantage of being [freely available online](http://networksciencebook.com). Here, the results for the Erdős-Rényi model are covered in chapter 3. Both these books have a good blend of theory and interest in real datasets. I would recommend starting with Barabási's book and referring to Newman's for more details and references.
+
+**Proofs and stuff.** Now for one of the more important parts: where can I find proofs of the results in this post? Well, I've skimmed both books above and they have sections with mathematical details that I'm assuming offer full proofs. As a disclaimer, I actually haven't worked through any proofs myself! But I plan to make it a priority now that this post is published.
+
+I've enjoyed the work of blogger Jeremy Kun, and he has [three](https://jeremykun.com/2013/08/22/the-erdos-renyi-random-graph/) [blog](https://jeremykun.com/2015/02/02/the-giant-component-and-explosive-percolation/) [posts](https://jeremykun.com/2015/02/09/zero-one-laws-for-random-graphs/) I was able to find on random graphs, which are much more theoretical than mine but also include an example in Python. Wikipedia's articles on "[Giant component](https://en.wikipedia.org/wiki/Giant_component)" and "[Erdős-Rényi model](https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93R%C3%A9nyi_model)" are great too.
+
+I would additionally recommend going back to the three original papers detailing these discoveries. They are two papers by Paul Erdős and Alfred Rényi in 1959 ([*On random graphs I*](https://users.renyi.hu/~p_erdos/1959-11.pdf)) and 1960 ([*On the evolution of random graphs*](https://users.renyi.hu/~p_erdos/1960-10.pdf)), as well as a 1959 paper by Edgar Gilbert ([*Random Graphs*](https://projecteuclid.org/euclid.aoms/1177706098)). Here I need to offer a clarification. Erdős and Rényi's original results on the giant component actually dealt with a slightly different random graph model. In their model, $G(n, M)$, we fix the number $M$ of edges out of $\binom{n}{2}$ that we want. Each sample from the model is a random configuration containing exactly $M$ edges, with all configurations equally likely. This turns out to have many of the same properties as the model $G(n, p)$ which was introduced by Gilbert and covered in this post. Because of their virtually identical behavior as $n$ tends to infinity, the term Erdős-Rényi random graph is used to refer to both of these models, though $G(n, p)$ is the one more commonly used in literature.
+
+**Other critical behavior.** The sudden emergence of the giant component is one example of a critical behavior or phase transition. In this example, the boundary point $p = 1/n$ separates two very different types of graphs, and represents a discrete rather than a continuous transition. One can notice similarities in the transitions between solid, liquid, and gas phases when we vary the temperature and/or pressure of a system -- we observe definite phase boundaries that separate radically different behavior. In fact, the field of condensed matter physics introduces many physical models like the Erdős-Rényi model to study and explain phase transitions in the real world, including more exotic magnetic and superconducting phases.
+
+Random graphs can also show different critical behavior beyond the size of the largest component. In fact, I was first introduced to the giant component phenomenon by a talk given by Fiona Skerman on the critical phenomenon of network modularity. Roughly, modularity measures the degree to which a network clusters into different components. Skerman and Professor Colin McDiarmid studied how $p = 1/n$ also represents a critical point in this quantity for Erdős-Rényi random graphs, and continued with extensions on other random trees and networks. They have a [publication in progress](https://arxiv.org/abs/1606.09101), and Skerman's [Oxford PhD thesis](https://ora.ox.ac.uk/objects/uuid:1bbaaac7-bad0-469d-add4-6a0dbf75f7c6) won the Department of Statistics 2016 Corcoran Memorial Prize, for which I heard her speak.
+
+**Beyond the Erdős-Rényi model.** The Erdős-Rényi model is only the beginning as far as network models go. One of its glaring deficiencies is that it is homogeneous -- all vertices in the graph have identical degree distributions. This is clearly not true for many real-world graphs; for instance, in social networks, many individuals are hubs with many friends, connecting the rest of the network. Alternative models like the [Barabási-Albert model](https://en.wikipedia.org/wiki/Barab%C3%A1si%E2%80%93Albert_model) grow networks in such a way that more connected nodes are even more likely to get new connections. Many so-called inhomogeneous random graphs also show critical behavior like the giant component, with research in this area kicked off by an influential [2005 paper by Bollobás, Janson, and Riordan](https://arxiv.org/abs/math/0504589).
+
+**Software and network visualization.** I chose to go with the [`igraph` package](http://igraph.org/) to prepare my network visualizations, and was very pleased with that choice. `igraph`, a C library with R and Python APIs, contains implementations of graph algorithms like component detection, methods to generate Erdős-Rényi and other classes of random graphs, and support for network visualization. To learn `igraph`, I used a [shortened version](http://kateto.net/netscix2016) of [this excellent tutorial](http://www.kateto.net/network-visualization) by Katya Ognyanova. (I include the link to the shortened version because it loaded much faster in my browser; the full tutorial was quite slow.) Ognyanova asks for a citation, so here it is:
+
+Ognyanova, K. (2018) *Network visualization with R*. Retrieved from [www.kateto.net/network-visualization](http://www.kateto.net/network-visualization).
+
+I also found [this post](http://kateto.net/2016/05/network-datasets/) by Ognyanova interesting, on some actual network datasets. It could be a good place to start with real network analysis!
+
+On the web, my favorite visualization that I found illustrating the giant component is [this one](https://cs4423.github.io/notes/2018/02/15/note10.html), done by [Professor Götz Pfeiffer](http://schmidt.ucg.ie/~goetz/) for CS4423 at the National University of Ireland, Galway. It's a beautiful [D3.js](https://d3js.org/) animation, and the code can be found online [here](https://github.com/cs4423/cs4423.github.io/blob/master/js/random.js).
+
+**Acknowledgments.** As mentioned earlier, I was first exposed to the surprising critical behavior of random graphs during a lecture by Fiona Skerman in November 2017. In preparing this post, the `igraph` package and Ognyanova's tutorial proved very helpful. I am thankful to Juho Lee for introducing me to the paper on inhomogeneous random graphs. Finally, Ryan Lee and Ruth Fong provided useful feedback which influenced my final presentation.
