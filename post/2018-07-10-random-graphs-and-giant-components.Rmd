@@ -170,7 +170,7 @@ There's a strange phenomenon here of two separated clusters of points when $p(n-
 
 <img src="/data/giant_summary_n1000000_big.png" height="500" />
 
-Feel free to play around with [my code]((https://github.com/brianzhang01/giant_demo)) and investigate some other cases!
+Feel free to play around with [my code](https://github.com/brianzhang01/giant_demo) and investigate some other cases!
 
 ## Conclusion and Bibliography
 
