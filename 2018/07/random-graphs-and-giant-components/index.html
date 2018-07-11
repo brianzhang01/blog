@@ -302,7 +302,7 @@ for (i in 1:length(mean_degree)) {
   lines(mean_degree[1:i], max_size, type=&quot;o&quot;, pch=19)
 }</code></pre>
 <video width="672"  controls loop>
-<source src="/post/2018-07-10-random-graphs-and-giant-components_files/figure-html/graph-viz-50.webm" />
+<source src="/post/2018-07-10-random-graphs-and-giant-components_files/figure-html/graph-viz-50.mp4" />
 </video>
 
 <p>In this case, the largest component size (marked out by orange in the visualization) shows a large jump when <span class="math">\(p(n-1)\)</span> goes from <span class="math">\(1.25\)</span> to <span class="math">\(1.50\)</span>. By the value <span class="math">\(3.25\)</span>, all vertices are part of one component.</p>
@@ -325,29 +325,30 @@ for (i in 1:length(mean_degree)) {
   lines(mean_degree[1:i], max_size, type=&quot;o&quot;, pch=19)
 }</code></pre>
 <video width="672"  controls loop>
-<source src="/post/2018-07-10-random-graphs-and-giant-components_files/figure-html/graph-viz-500.webm" />
+<source src="/post/2018-07-10-random-graphs-and-giant-components_files/figure-html/graph-viz-500.mp4" />
 </video>
 
 <p>In this case, the largest component looks relatively small when <span class="math">\(p(n-1) &lt; 0.75\)</span>, and increases quickly in the range from <span class="math">\(1\)</span> to <span class="math">\(3\)</span>.</p>
 <p>We can increase the scale of the above experiment, running several different seeds and plotting each seed in a different color to show continuity. While <code>igraph</code> would have sufficed for this, I decided to write my own <a href="https://github.com/brianzhang01/giant_demo">C++ implementation</a> for practice and with an eye of pushing <span class="math">\(n\)</span> to very large values. Because I was interested in the interval of mean degree around <span class="math">\(1\)</span>, I sampled a finer grid of values going from <span class="math">\(0\)</span> to <span class="math">\(1.5\)</span> in steps of <span class="math">\(0.1\)</span>, then sampled values in steps of <span class="math">\(0.5\)</span> up to <span class="math">\(\lceil \ln(n) \rceil\)</span>.</p>
 <p>Here are the results for <span class="math">\(n=50\)</span> with <span class="math">\(40\)</span> seeds: <img src="/data/giant_summary_n50.png" height="500" /></p>
-<p>And the results for <span class="math">\(n=500\)</span>: <img src="/data/giant_summary_n500.png" height="500" /></p>
+<p>And the results for <span class="math">\(n=500\)</span> (<span class="math">\(40\)</span> seeds): <img src="/data/giant_summary_n500.png" height="500" /></p>
 </div>
 <div id="simulations-for-large-n" class="section level2">
 <h2>Simulations for large <span class="math">\(n\)</span></h2>
-<p>As we increase <span class="math">\(n\)</span>, the graphs start to show a more striking quality. For <span class="math">\(n = 10,000\)</span>:</p>
+<p>As we increase <span class="math">\(n\)</span>, the graphs start to show a more striking quality. For <span class="math">\(n = 10,000\)</span> (<span class="math">\(40\)</span> seeds):</p>
 <p><img src="/data/giant_summary_n10000.png" height="500" /></p>
 <p>Here, it is clear that something interesting is going on at <span class="math">\(p(n-1) = 1\)</span>. We can zoom in on that area:</p>
 <p><img src="/data/giant_summary_n10000_small.png" height="500" /></p>
 <p>We can also zoom in on the region leading up to <span class="math">\(p(n-1) \approx \ln(n)\)</span>, which in the case of <span class="math">\(n = 10,000\)</span> is about <span class="math">\(9.2\)</span>.</p>
 <p><img src="/data/giant_summary_n10000_big.png" height="500" /></p>
 <p>Note how all the observations collapse into <span class="math">\(5\)</span>, then <span class="math">\(4\)</span>, then <span class="math">\(3\)</span> dots. This suggests that at the very right of the plot, the giant component sizes are all either <span class="math">\(99,998\)</span>, <span class="math">\(99,999\)</span>, or <span class="math">\(100,000\)</span>. In fact, Erdős and Rényi also proved a second result saying that when <span class="math">\(p(n-1) &gt; \ln(n)\)</span>, the entire graph becomes “almost entirely connected” almost surely.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
-<p>Lastly, we can visualize <span class="math">\(n = 1,000,000\)</span>, for which my simulations took several hours, mainly due to simulating <span class="math">\(O(n^2)\)</span> uniform numbers for the edges:</p>
+<p>Lastly, we can visualize <span class="math">\(n = 1,000,000\)</span> (<span class="math">\(40\)</span> seeds), for which my simulations took several hours, mainly due to simulating <span class="math">\(O(n^2)\)</span> uniform numbers for the edges:</p>
 <p><img src="/data/giant_summary_n1000000.png" height="500" /></p>
 <p>Wow! Cool right?</p>
 <p><img src="/data/giant_summary_n1000000_small.png" height="500" /></p>
 <p>There’s a strange phenomenon here of two separated clusters of points when <span class="math">\(p(n-1) = 1.1\)</span>. I would love to know if this has a nice theoretical justification.</p>
 <p><img src="/data/giant_summary_n1000000_big.png" height="500" /></p>
+<p>For reference, <span class="math">\(\ln(1000000) \approx 13.8\)</span>.</p>
 <p>Feel free to play around with <a href="https://github.com/brianzhang01/giant_demo">my code</a> and investigate some other cases!</p>
 </div>
 <div id="conclusion-and-bibliography" class="section level2">

@@ -9,6 +9,7 @@ tags: []
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(ffmpeg.format = 'mp4')
 ```
 
 This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we'll be looking at the "giant component" and how that arises in random graphs.
@@ -139,12 +140,12 @@ We can increase the scale of the above experiment, running several different see
 Here are the results for $n=50$ with $40$ seeds:
 <img src="/data/giant_summary_n50.png" height="500" />
 
-And the results for $n=500$:
+And the results for $n=500$ ($40$ seeds):
 <img src="/data/giant_summary_n500.png" height="500" />
 
 ## Simulations for large $n$
 
-As we increase $n$, the graphs start to show a more striking quality. For $n = 10,000$:
+As we increase $n$, the graphs start to show a more striking quality. For $n = 10,000$ ($40$ seeds):
 
 <img src="/data/giant_summary_n10000.png" height="500" />
 
@@ -158,7 +159,7 @@ We can also zoom in on the region leading up to $p(n-1) \approx \ln(n)$, which i
 
 Note how all the observations collapse into $5$, then $4$, then $3$ dots. This suggests that at the very right of the plot, the giant component sizes are all either $99,998$, $99,999$, or $100,000$. In fact, Erdős and Rényi also proved a second result saying that when $p(n-1) > \ln(n)$, the entire graph becomes "almost entirely connected" almost surely.^[Quoting [Barabási (2016) Section 3.6](http://networksciencebook.com/chapter/3#evolution-network), "In the absence of isolated nodes the network becomes connected."]
 
-Lastly, we can visualize $n = 1,000,000$, for which my simulations took several hours, mainly due to simulating $O(n^2)$ uniform numbers for the edges:
+Lastly, we can visualize $n = 1,000,000$ ($40$ seeds), for which my simulations took several hours, mainly due to simulating $O(n^2)$ uniform numbers for the edges:
 
 <img src="/data/giant_summary_n1000000.png" height="500" />
 
@@ -169,6 +170,8 @@ Wow! Cool right?
 There's a strange phenomenon here of two separated clusters of points when $p(n-1) = 1.1$. I would love to know if this has a nice theoretical justification.
 
 <img src="/data/giant_summary_n1000000_big.png" height="500" />
+
+For reference, $\ln(1000000) \approx 13.8$.
 
 Feel free to play around with [my code](https://github.com/brianzhang01/giant_demo) and investigate some other cases!
 
