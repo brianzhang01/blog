@@ -6,10 +6,21 @@
     <description>Recent content on Home | Brian Zhang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 24 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brianzhang01.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Missing Heritability and Microaggressions</title>
+      <link>https://brianzhang01.github.io/2018/10/missing-heritability-and-microaggressions/</link>
+      <pubDate>Wed, 24 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://brianzhang01.github.io/2018/10/missing-heritability-and-microaggressions/</guid>
+      <description>Missing heritability is like microaggressions: many seemingly insignificant effects can add up.
+Two weeks ago, as I was taking a journey back to London Heathrow / Oxford, I came across a small connection in a journal article and a podcast. It was a nice moment of seeing two ideas click together.
+The podcast, which came second, was an episode of Nomad, a British podcast discussing Christian faith outside the institutional church.</description>
+    </item>
     
     <item>
       <title>Random Graphs and Giant Components</title>
