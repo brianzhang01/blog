@@ -1,0 +1,87 @@
+---
+title: Subtle Observations on Range Queries
+author: Brian Zhang
+date: '2019-01-22'
+slug: subtle-observations-on-range-queries
+categories: []
+tags: []
+---
+
+For my current research, I've had to read Kelleher et al.'s excellent [`msprime` paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004842) (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through [USACO](http://www.usaco.org/) and [Project Euler](https://projecteuler.net/)), I took a bit more time to learn this data structure.
+
+One of the questions that arose in my learning is when to use Fenwick trees and when to use their related cousin, segment trees. At first, I seemed to encounter varying advice that differed from website to website. However, now I believe there's a more fundamental principle that stems from a subtle difference between the `sum` and `min` operations.
+
+This is a post that I suspect is closely related to functional programming, so I will preface by saying I'm interested in learning more, but don't have much experience in functional programming myself. Thus, any feedback is very welcome!
+
+## `sum` and `min`: are they so different?
+Let's start small with some familiar concepts: `sum`, `min`, and the set of integers. (We could just as well consider the real numbers.) We'll first describe `sum` and `min` as binary operations: they take two values and output another value. For instance,
+
+* `sum(2, 3)` = 5
+* `min(2, 3)` = 2
+
+However, besides thinking of them as binary operations, we often think of `sum` and `min` as applying to a collection^[In functional programming, this would be called a *bag* -- equivalent to a [multiset](https://en.wikipedia.org/wiki/Multiset), because we allow duplicate entries.] of integers. For instance,
+
+* `sum(2, 3, 4, 5, 3)` = 17
+* `min(2, 3, 4, 5, 3)` = 2
+
+In other words, both of these are also thought of as *[aggregate functions](https://en.wikipedia.org/wiki/Aggregate_function)*, such that we can produce a single summary value from a collection. And we find that we can construct the aggregate definition by composing the binary definition many times. For instance,
+
+* `sum(2, 3, 4, 5, 3) = sum(2, sum(3, sum(4, sum(5, 3))))`
+* `min(2, 3, 4, 5, 3) = min(2, min(3, min(4, min(5, 3))))`
+
+(Not all aggregate functions are built up by composition in this way, such as mean, median and mode.)
+
+The key properties that allow `sum` and `min` to function both as binary operations and as aggregate functions are that they are both *commutative* and *associative* binary operations. In other words, $f(a, b) = f(b, a)$ and $f(a, f(b, c)) = f(f(a, b), c)$. If this were not the case, then there could be a few ways to apply the binary operation over a collection to get a summary value. Commutativity and associativity together imply that however the operations are performed, the end result will be the same.
+
+A corollary of these properties is that both the `sum` and `min` functions invite parallelism. For instance, if we wanted to compute the aggregate of one of these functions over 4000 integers, and had 4 computing cores, we could have each core compute the aggregate over 1000 integers, then combine the results. This is the essence of map-reduce parallelism.
+
+## Lists and `fold`
+Now, instead of an unordered collection of integers, we consider an ordered list or sequence of integers. The list is the fundamental data structure of functional programming languages like Haskell. If we wanted to apply a binary operation multiple times over the entire list, this is called the [`fold` mechanism](https://en.wikipedia.org/wiki/Fold_(higher-order_function)) within functional programming.
+
+Once again, it's important that the binary operation satisfies certain properties for a `fold` to make sense. In the case of `sum`, this is like saying that the string
+```
+2 + 3 + 4 + 5 + 3
+```
+has an unambiguous meaning.
+
+We might want to specify the same two properties from earlier, but it turns out that we actually only need associativity for `fold` to be unique; commutativity is not necessary. As an example of a binary operation which is associative but not commutative, one can take general matrix multiplication. If $a$, $b$, $c$, $d$ are matrices, then we can write $a \times b \times c \times d$ and the meaning is unambiguous.
+
+At a more advanced level, the functional programming community has concepts like left fold, right fold, list homomorphisms, and the [Third Homomorphism Theorem](https://www.iis.sinica.edu.tw/~scm/2008/constructing-list-homomorphism/), which all seem related in this context.
+
+## Range queries and prefix sums
+For now, let's move in a more concrete direction. We introduce range queries. Given a 1-indexed list with $N$ elements, and an associative binary operation like `sum` or `min`, we want to know the result of applying the binary operation to the sublist from $i$ to $j$ inclusive, where $1 \leq i \leq j \leq N$. This is called a range query, where the range consists of all elements from $i$ to $j$. It is easy to see that there are $N(N-1)/2$ possible range queries to answer.
+
+If we have a static list, there is a helpful trick for answering range queries in $O(1)$ time called *prefix sums*. We illustrate with the example of `sum`. The idea is to keep an array that calculates the sum of the first $k$ elements, for all $0 \leq k \leq N$. This can be done in $O(N)$ time. For instance, if the sequence is $(2, 3, 4, 5, 3)$, then we compute (`ps` for "prefix sum")
+```
+ps[k = 0] = 0
+ps[k = 1] = ps[0] + 2 = 2
+ps[k = 2] = ps[1] + 3 = 5
+ps[k = 3] = ps[2] + 4 = 9
+ps[k = 4] = ps[3] + 5 = 14
+ps[k = 5] = ps[4] + 3 = 17
+```
+Now, to answer a query like $i = 2, j = 4$, we simply compute `ps[j] - ps[i-1] = ps[4] - ps[1] = 14 - 2 = 12`.
+
+This is great, but here we meet a difference between `sum` and `min`. The prefix sum approach doesn't generalize to a prefix min! This is because to answer the range query, we have introduced the `-` operation.
+
+If we have the sum of the first 4 elements and the sum of the first 1 element, subtracting will get us the sum of elements 2 to 4. However, if we have the min of the first 4 elements and the min of the first 1 element, there is no similar operation *if the two quantities are the same*. For instance, if I tell you "the first 4 elements have min 2, now I remove element 1 which has value 2", you can't tell me if the remaining min is still 2 or is now something greater. Yet this is what we would need to answer from prefix mins in our case.
+
+The difference, one realizes, is that the `sum` operation allows for inverse elements. `sum` provides a proper [group structure](https://en.wikipedia.org/wiki/Group_(mathematics)), while `min` does not. We could even say that both operations have an identity element, which is infinity or `MAX_INT` for `min`. But the inverse is what allows us to use subtraction (recall that $a - b = a + (-b)$), which we don't have for `min`. More formally, the integers with infinity form a monoid under `min`.
+
+Thus, competitive programming needs to have a separate set of algorithms devoted to [range minimum queries](https://en.wikipedia.org/wiki/Range_minimum_query), which cannot be simply derived from algorithms for range sum queries.
+
+## Fenwick trees and segment trees: do we need both?
+Prefix sums are a good approach for answering range sum queries when the list under question is static -- it is provided once and then kept fixed. However, prefix sums are suboptimal when the list is allowed to change after initialization. In this dynamic case, a [Fenwick tree](https://csacademy.com/lesson/fenwick_trees/) or a [segment tree](https://csacademy.com/lesson/segment_trees/) can be used.^[Thanks to [Benjamin Qi's GitHub](https://github.com/bqi343/USACO/blob/master/Implementations/09%20-%20Range%20Queries%20(2)/README.md) for pointing me to these tutorials.]
+
+I won't give a full explanation of each these data structures. The idea is similar to prefix sums, in which the full list is decomposed into a set of sublists, and the range query is calculated over each of these sublists. However, when a value of the list is updated, only $O(\log N)$ range queries need to be recalculated, compared to $O(N)$ for prefix sums. To answer a given range query takes $O(\log N)$ time, compared to $O(1)$ for prefix sums.
+
+Both Fenwick trees and segment trees can be used when the operation is `sum`. But when the operation is `min`, only segment trees can be used. This is because to get out the range in question, a Fenwick tree requires joining *and* subtracting its precomputed ranges. For a segment tree, any range can be assembled *through joining only*. Since `min` is not compatible with the prefix sum-style subtraction that is used in Fenwick trees, one needs to use a segment tree.
+
+It seems like segment trees are strictly better than Fenwick trees since they can answer both range sum and range minimum queries, and the two have the same time complexity. However, for range sum queries many competitive programming sites teach Fenwick trees, because 1. they are easier to code up, and 2. the Fenwick tree representation requires a factor of 2 less memory.
+
+## Some other real-world examples
+I thought of a few other examples where one needs to beware of the prefix sum approach. These could easily show up in real-world cases, or in tricky programming questions!
+
+First, consider the binary operation of `mul`, or multiplication. Say we need to answer many range queries for a static list. It may seem like the prefix sum approach will work, since the analog of subtraction is division. However, what if elements of 0 are allowed? Let's say I want the product of entries 3 to 5, and there is a 0 in position 2. Then both prefix products in question will be 0, and division will not be able to recover the correct product from 3 to 5. In order for prefix sums to work, we need a guarantee that no values in the list are 0.
+
+Second, consider a `numpy` array for which we want to answer range sum queries. However, this `numpy` array has some values which are `NaN`. If a `NaN` is found in a range, we want to return `NaN`, and otherwise we return the regular sum. In this case as well, suppose we want the sum of entries 3 to 5, but there is a `NaN` in position 2. Then both prefix sums will be `NaN`. There is no easy way to subtract off a `NaN`, so a prefix sum approach will not work! This may affect data analysis pipelines with missing data, since missing data values are usually represented by `NaN` in both Python and R.

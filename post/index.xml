@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Home | Brian Zhang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 24 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brianzhang01.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Subtle Observations on Range Queries</title>
+      <link>https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/</link>
+      <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/</guid>
+      <description>For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.</description>
+    </item>
     
     <item>
       <title>Missing Heritability and Microaggressions</title>
