@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Home | Brian Zhang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 22 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brianzhang01.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Software Engineering Tools Across 4 Languages</title>
+      <link>https://brianzhang01.github.io/2019/09/software-engineering-tools-across-4-languages/</link>
+      <pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://brianzhang01.github.io/2019/09/software-engineering-tools-across-4-languages/</guid>
+      <description>It&amp;rsquo;s been two years since I started blogging, as well as two years since I started my PhD in the Oxford Statistics department. While it&amp;rsquo;s been several months since my last post, I hope to get back into sharing some shorter posts and ideas going forward.
+To get myself writing again, I thought I&amp;rsquo;d broaden the scope of my posts beyond statistics and machine learning. In particular, over the past two years, I&amp;rsquo;ve found myself getting more interested in abstract math as well as software engineering.</description>
+    </item>
     
     <item>
       <title>Subtle Observations on Range Queries</title>
