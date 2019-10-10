@@ -1,799 +1,198 @@
-
-
-  
-    
-  
-
-
-  
-
-
-
-
-  
-
-
-  
-
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
-    <title>Subtle Observations on Range Queries</title>
-    <meta name="author" content="Brian Zhang">
-    <meta name="keywords" content="">
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Subtle Observations on Range Queries - Brian Zhang&#39;s writings</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Subtle Observations on Range Queries" />
+<meta property="og:description" content="For my current research, I&rsquo;ve had to read Kelleher et al.&rsquo;s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2019/01/subtle-observations-on-range-queries/" />
+<meta property="article:published_time" content="2019-01-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-01-22T00:00:00+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Subtle Observations on Range Queries"/>
+<meta name="twitter:description" content="For my current research, I&rsquo;ve had to read Kelleher et al.&rsquo;s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure."/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
 
-    <link rel="icon" href="/favicon.png">
-    
+	<link rel="stylesheet" type="text/css" media="screen" href="http://example.org/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="http://example.org/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="http://example.org/js/main.js"></script>
+</head>
 
-    
-    <meta name="description" content="For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.">
-    <meta property="og:description" content="For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.">
-    <meta property="og:type" content="blog">
-    <meta property="og:title" content="Subtle Observations on Range Queries">
-    <meta property="og:url" content="/2019/01/subtle-observations-on-range-queries/">
-    <meta property="og:site_name" content="Home | Brian Zhang">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Home | Brian Zhang">
-    <meta name="twitter:description" content="For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.">
-    
-      <meta name="twitter:creator" content="@brianczhang">
-    
-    
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title">Brian Zhang&#39;s writings</h1>
+	<div class="site-description"><h2>Statistics and other topics</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/brianzhang01" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/brianczhang" title="Twitter"><i data-feather="twitter"></i></a></ul>
+		</nav>
+	</div>
 
-    
-    
-
-    
-      <meta property="og:image" content="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=640">
-    
-
-    
-    
-    
-
-    
-
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
-    
-    
-    <link rel="stylesheet" href="/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
-    
-    
-
-    
-    
-    <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css' rel='stylesheet' type='text/css'>
-    
-
-    
-      
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-113303717-1', 'auto');
-ga('send', 'pageview');
-</script>
-
-    
-    
-  </head>
-
-  <body>
-    <div id="blog">
-      <header id="header" data-behavior="4">
-  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-  <div class="header-title">
-    <a class="header-title-link" href="/">Home | Brian Zhang</a>
-  </div>
-  
-    
-      <a class="header-right-picture "
-         href="/#about">
-    
-    
-    
-      
-        <img class="header-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=90" alt="Author&#39;s picture" />
-      
-    
-    </a>
-  
-</header>
-
-      <nav id="sidebar" data-behavior="4">
-  <div class="sidebar-container">
-    
-      <div class="sidebar-profile">
-        <a href="/#about">
-          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=110" alt="Author&#39;s picture" />
-        </a>
-        <h4 class="sidebar-profile-name">Brian Zhang</h4>
-        
-      </div>
-    
-    <ul class="sidebar-buttons">
-      
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="/">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-      
-      <span class="sidebar-button-desc">Home</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="/tags">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-      
-      <span class="sidebar-button-desc">Tags</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="/archives">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-      
-      <span class="sidebar-button-desc">Archives</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="/#about">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-      
-      <span class="sidebar-button-desc">About</span>
-    </a>
-  </li>
-
-
-    </ul>
-    <ul class="sidebar-buttons">
-      
-
-    </ul>
-    <ul class="sidebar-buttons">
-      
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://github.com/brianzhang01/brianzhang01.github.io" target="_blank" rel="noopener">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-      
-      <span class="sidebar-button-desc">GitHub</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="/index.xml">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-      
-      <span class="sidebar-button-desc">RSS</span>
-    </a>
-  </li>
-
-
-    </ul>
-  </div>
-</nav>
-
-      
-
-      <div id="main" data-behavior="4"
-        class="
-               hasCoverMetaIn
-               ">
-        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
-          
-          
-            <div class="post-header main-content-wrap text-left">
-  
-    <h1 class="post-title" itemprop="headline">
-      Subtle Observations on Range Queries
-    </h1>
-  
-  
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2019-01-22T00:00:00Z">
-        
-  January 22, 2019
-
-      </time>
-    
-    
-      <span class="middotDivider">&middot;</span>
-      <span class="readingTime">9 min read</span>
-    
-    
-  </div>
-
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/post">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
 </div>
-          
-          <div class="post-content markdown" itemprop="articleBody">
-            <div class="main-content-wrap">
-              <p>For my current research, I’ve had to read Kelleher et al.’s excellent <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004842"><code>msprime</code> paper</a> (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through <a href="http://www.usaco.org/">USACO</a> and <a href="https://projecteuler.net/">Project Euler</a>), I took a bit more time to learn this data structure.</p>
-<p>One of the questions that arose in my learning is when to use Fenwick trees and when to use their related cousin, segment trees. At first, I seemed to encounter varying advice that differed from website to website. However, now I believe there’s a more fundamental principle that stems from a subtle difference between the <code>sum</code> and <code>min</code> operations.</p>
-<p>This is a post that I suspect is closely related to functional programming, so I will preface by saying I’m interested in learning more, but don’t have much experience in functional programming myself. Thus, any feedback is very welcome!</p>
-<div id="sum-and-min-are-they-so-different" class="section level2">
-<h2><code>sum</code> and <code>min</code>: are they so different?</h2>
-<p>Let’s start small with some familiar concepts: <code>sum</code>, <code>min</code>, and the set of integers. (We could just as well consider the real numbers.) We’ll first describe <code>sum</code> and <code>min</code> as binary operations: they take two values and output another value. For instance,</p>
+
+
+		<div class="post-header">
+			<h1 class="title">Subtle Observations on Range Queries</h1>
+			<div class="meta">Posted Jan 22, 2019 &middot; 9 min read</div>
+		</div>
+
+		<div class="markdown">
+			
+
+<p>For my current research, I&rsquo;ve had to read Kelleher et al.&rsquo;s excellent <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004842"><code>msprime</code> paper</a> (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through <a href="http://www.usaco.org/">USACO</a> and <a href="https://projecteuler.net/">Project Euler</a>), I took a bit more time to learn this data structure.</p>
+
+<p>One of the questions that arose in my learning is when to use Fenwick trees and when to use their related cousin, segment trees. At first, I seemed to encounter varying advice that differed from website to website. However, now I believe there&rsquo;s a more fundamental principle that stems from a subtle difference between the <code>sum</code> and <code>min</code> operations.</p>
+
+<p>This is a post that I suspect is closely related to functional programming, so I will preface by saying I&rsquo;m interested in learning more, but don&rsquo;t have much experience in functional programming myself. Thus, any feedback is very welcome!</p>
+
+<h2 id="sum-and-min-are-they-so-different"><code>sum</code> and <code>min</code>: are they so different?</h2>
+
+<p>Let&rsquo;s start small with some familiar concepts: <code>sum</code>, <code>min</code>, and the set of integers. (We could just as well consider the real numbers.) We&rsquo;ll first describe <code>sum</code> and <code>min</code> as binary operations: they take two values and output another value. For instance,</p>
+
 <ul>
 <li><code>sum(2, 3)</code> = 5</li>
 <li><code>min(2, 3)</code> = 2</li>
 </ul>
-<p>However, besides thinking of them as binary operations, we often think of <code>sum</code> and <code>min</code> as applying to a collection<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> of integers. For instance,</p>
+
+<p>However, besides thinking of them as binary operations, we often think of <code>sum</code> and <code>min</code> as applying to a collection<sup class="footnote-ref" id="fnref:In-functional-pr"><a href="#fn:In-functional-pr">1</a></sup> of integers. For instance,</p>
+
 <ul>
 <li><code>sum(2, 3, 4, 5, 3)</code> = 17</li>
 <li><code>min(2, 3, 4, 5, 3)</code> = 2</li>
 </ul>
+
 <p>In other words, both of these are also thought of as <em><a href="https://en.wikipedia.org/wiki/Aggregate_function">aggregate functions</a></em>, such that we can produce a single summary value from a collection. And we find that we can construct the aggregate definition by composing the binary definition many times. For instance,</p>
+
 <ul>
 <li><code>sum(2, 3, 4, 5, 3) = sum(2, sum(3, sum(4, sum(5, 3))))</code></li>
 <li><code>min(2, 3, 4, 5, 3) = min(2, min(3, min(4, min(5, 3))))</code></li>
 </ul>
+
 <p>(Not all aggregate functions are built up by composition in this way, such as mean, median and mode.)</p>
-<p>The key properties that allow <code>sum</code> and <code>min</code> to function both as binary operations and as aggregate functions are that they are both <em>commutative</em> and <em>associative</em> binary operations. In other words, <span class="math">\(f(a, b) = f(b, a)\)</span> and <span class="math">\(f(a, f(b, c)) = f(f(a, b), c)\)</span>. If this were not the case, then there could be a few ways to apply the binary operation over a collection to get a summary value. Commutativity and associativity together imply that however the operations are performed, the end result will be the same.</p>
+
+<p>The key properties that allow <code>sum</code> and <code>min</code> to function both as binary operations and as aggregate functions are that they are both <em>commutative</em> and <em>associative</em> binary operations. In other words, $f(a, b) = f(b, a)$ and $f(a, f(b, c)) = f(f(a, b), c)$. If this were not the case, then there could be a few ways to apply the binary operation over a collection to get a summary value. Commutativity and associativity together imply that however the operations are performed, the end result will be the same.</p>
+
 <p>A corollary of these properties is that both the <code>sum</code> and <code>min</code> functions invite parallelism. For instance, if we wanted to compute the aggregate of one of these functions over 4000 integers, and had 4 computing cores, we could have each core compute the aggregate over 1000 integers, then combine the results. This is the essence of map-reduce parallelism.</p>
-</div>
-<div id="lists-and-fold" class="section level2">
-<h2>Lists and <code>fold</code></h2>
+
+<h2 id="lists-and-fold">Lists and <code>fold</code></h2>
+
 <p>Now, instead of an unordered collection of integers, we consider an ordered list or sequence of integers. The list is the fundamental data structure of functional programming languages like Haskell. If we wanted to apply a binary operation multiple times over the entire list, this is called the <a href="https://en.wikipedia.org/wiki/Fold_(higher-order_function)"><code>fold</code> mechanism</a> within functional programming.</p>
-<p>Once again, it’s important that the binary operation satisfies certain properties for a <code>fold</code> to make sense. In the case of <code>sum</code>, this is like saying that the string</p>
-<pre><code>2 + 3 + 4 + 5 + 3</code></pre>
+
+<p>Once again, it&rsquo;s important that the binary operation satisfies certain properties for a <code>fold</code> to make sense. In the case of <code>sum</code>, this is like saying that the string</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">2 + 3 + 4 + 5 + 3</pre></div>
 <p>has an unambiguous meaning.</p>
-<p>We might want to specify the same two properties from earlier, but it turns out that we actually only need associativity for <code>fold</code> to be unique; commutativity is not necessary. As an example of a binary operation which is associative but not commutative, one can take general matrix multiplication. If <span class="math">\(a\)</span>, <span class="math">\(b\)</span>, <span class="math">\(c\)</span>, <span class="math">\(d\)</span> are matrices, then we can write <span class="math">\(a \times b \times c \times d\)</span> and the meaning is unambiguous.</p>
+
+<p>We might want to specify the same two properties from earlier, but it turns out that we actually only need associativity for <code>fold</code> to be unique; commutativity is not necessary. As an example of a binary operation which is associative but not commutative, one can take general matrix multiplication. If $a$, $b$, $c$, $d$ are matrices, then we can write $a \times b \times c \times d$ and the meaning is unambiguous.</p>
+
 <p>At a more advanced level, the functional programming community has concepts like left fold, right fold, list homomorphisms, and the <a href="https://www.iis.sinica.edu.tw/~scm/2008/constructing-list-homomorphism/">Third Homomorphism Theorem</a>, which all seem related in this context.</p>
-</div>
-<div id="range-queries-and-prefix-sums" class="section level2">
-<h2>Range queries and prefix sums</h2>
-<p>For now, let’s move in a more concrete direction. We introduce range queries. Given a 1-indexed list with <span class="math">\(N\)</span> elements, and an associative binary operation like <code>sum</code> or <code>min</code>, we want to know the result of applying the binary operation to the sublist from <span class="math">\(i\)</span> to <span class="math">\(j\)</span> inclusive, where <span class="math">\(1 \leq i \leq j \leq N\)</span>. This is called a range query, where the range consists of all elements from <span class="math">\(i\)</span> to <span class="math">\(j\)</span>. It is easy to see that there are <span class="math">\(N(N-1)/2\)</span> possible range queries to answer.</p>
-<p>If we have a static list, there is a helpful trick for answering range queries in <span class="math">\(O(1)\)</span> time called <em>prefix sums</em>. We illustrate with the example of <code>sum</code>. The idea is to keep an array that calculates the sum of the first <span class="math">\(k\)</span> elements, for all <span class="math">\(0 \leq k \leq N\)</span>. This can be done in <span class="math">\(O(N)\)</span> time. For instance, if the sequence is <span class="math">\((2, 3, 4, 5, 3)\)</span>, then we compute (<code>ps</code> for “prefix sum”)</p>
-<pre><code>ps[k = 0] = 0
+
+<h2 id="range-queries-and-prefix-sums">Range queries and prefix sums</h2>
+
+<p>For now, let&rsquo;s move in a more concrete direction. We introduce range queries. Given a 1-indexed list with $N$ elements, and an associative binary operation like <code>sum</code> or <code>min</code>, we want to know the result of applying the binary operation to the sublist from $i$ to $j$ inclusive, where $1 \leq i \leq j \leq N$. This is called a range query, where the range consists of all elements from $i$ to $j$. It is easy to see that there are $N(N-1)/2$ possible range queries to answer.</p>
+
+<p>If we have a static list, there is a helpful trick for answering range queries in $O(1)$ time called <em>prefix sums</em>. We illustrate with the example of <code>sum</code>. The idea is to keep an array that calculates the sum of the first $k$ elements, for all $0 \leq k \leq N$. This can be done in $O(N)$ time. For instance, if the sequence is $(2, 3, 4, 5, 3)$, then we compute (<code>ps</code> for &ldquo;prefix sum&rdquo;)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">ps[k = 0] = 0
 ps[k = 1] = ps[0] + 2 = 2
 ps[k = 2] = ps[1] + 3 = 5
 ps[k = 3] = ps[2] + 4 = 9
 ps[k = 4] = ps[3] + 5 = 14
-ps[k = 5] = ps[4] + 3 = 17</code></pre>
-<p>Now, to answer a query like <span class="math">\(i = 2, j = 4\)</span>, we simply compute <code>ps[j] - ps[i-1] = ps[4] - ps[1] = 14 - 2 = 12</code>.</p>
-<p>This is great, but here we meet a difference between <code>sum</code> and <code>min</code>. The prefix sum approach doesn’t generalize to a prefix min! This is because to answer the range query, we have introduced the <code>-</code> operation.</p>
-<p>If we have the sum of the first 4 elements and the sum of the first 1 element, subtracting will get us the sum of elements 2 to 4. However, if we have the min of the first 4 elements and the min of the first 1 element, there is no similar operation <em>if the two quantities are the same</em>. For instance, if I tell you “the first 4 elements have min 2, now I remove element 1 which has value 2”, you can’t tell me if the remaining min is still 2 or is now something greater. Yet this is what we would need to answer from prefix mins in our case.</p>
-<p>The difference, one realizes, is that the <code>sum</code> operation allows for inverse elements. <code>sum</code> provides a proper <a href="https://en.wikipedia.org/wiki/Group_(mathematics)">group structure</a>, while <code>min</code> does not. We could even say that both operations have an identity element, which is infinity or <code>MAX_INT</code> for <code>min</code>. But the inverse is what allows us to use subtraction (recall that <span class="math">\(a - b = a + (-b)\)</span>), which we don’t have for <code>min</code>. More formally, the integers with infinity form a monoid under <code>min</code>.</p>
+ps[k = 5] = ps[4] + 3 = 17</pre></div>
+<p>Now, to answer a query like $i = 2, j = 4$, we simply compute <code>ps[j] - ps[i-1] = ps[4] - ps[1] = 14 - 2 = 12</code>.</p>
+
+<p>This is great, but here we meet a difference between <code>sum</code> and <code>min</code>. The prefix sum approach doesn&rsquo;t generalize to a prefix min! This is because to answer the range query, we have introduced the <code>-</code> operation.</p>
+
+<p>If we have the sum of the first 4 elements and the sum of the first 1 element, subtracting will get us the sum of elements 2 to 4. However, if we have the min of the first 4 elements and the min of the first 1 element, there is no similar operation <em>if the two quantities are the same</em>. For instance, if I tell you &ldquo;the first 4 elements have min 2, now I remove element 1 which has value 2&rdquo;, you can&rsquo;t tell me if the remaining min is still 2 or is now something greater. Yet this is what we would need to answer from prefix mins in our case.</p>
+
+<p>The difference, one realizes, is that the <code>sum</code> operation allows for inverse elements. <code>sum</code> provides a proper <a href="https://en.wikipedia.org/wiki/Group_(mathematics)">group structure</a>, while <code>min</code> does not. We could even say that both operations have an identity element, which is infinity or <code>MAX_INT</code> for <code>min</code>. But the inverse is what allows us to use subtraction (recall that $a - b = a + (-b)$), which we don&rsquo;t have for <code>min</code>. More formally, the integers with infinity form a monoid under <code>min</code>.</p>
+
 <p>Thus, competitive programming needs to have a separate set of algorithms devoted to <a href="https://en.wikipedia.org/wiki/Range_minimum_query">range minimum queries</a>, which cannot be simply derived from algorithms for range sum queries.</p>
-</div>
-<div id="fenwick-trees-and-segment-trees-do-we-need-both" class="section level2">
-<h2>Fenwick trees and segment trees: do we need both?</h2>
-<p>Prefix sums are a good approach for answering range sum queries when the list under question is static – it is provided once and then kept fixed. However, prefix sums are suboptimal when the list is allowed to change after initialization. In this dynamic case, a <a href="https://csacademy.com/lesson/fenwick_trees/">Fenwick tree</a> or a <a href="https://csacademy.com/lesson/segment_trees/">segment tree</a> can be used.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
-<p>I won’t give a full explanation of each these data structures. The idea is similar to prefix sums, in which the full list is decomposed into a set of sublists, and the range query is calculated over each of these sublists. However, when a value of the list is updated, only <span class="math">\(O(\log N)\)</span> range queries need to be recalculated, compared to <span class="math">\(O(N)\)</span> for prefix sums. To answer an arbitrary range query takes <span class="math">\(O(\log N)\)</span> time, compared to <span class="math">\(O(1)\)</span> for prefix sums.</p>
+
+<h2 id="fenwick-trees-and-segment-trees-do-we-need-both">Fenwick trees and segment trees: do we need both?</h2>
+
+<p>Prefix sums are a good approach for answering range sum queries when the list under question is static &ndash; it is provided once and then kept fixed. However, prefix sums are suboptimal when the list is allowed to change after initialization. In this dynamic case, a <a href="https://csacademy.com/lesson/fenwick_trees/">Fenwick tree</a> or a <a href="https://csacademy.com/lesson/segment_trees/">segment tree</a> can be used.<sup class="footnote-ref" id="fnref:Thanks-to-Benjam"><a href="#fn:Thanks-to-Benjam">2</a></sup></p>
+
+<p>I won&rsquo;t give a full explanation of each these data structures. The idea is similar to prefix sums, in which the full list is decomposed into a set of sublists, and the range query is calculated over each of these sublists. However, when a value of the list is updated, only $O(\log N)$ range queries need to be recalculated, compared to $O(N)$ for prefix sums. To answer an arbitrary range query takes $O(\log N)$ time, compared to $O(1)$ for prefix sums.</p>
+
 <p>Both Fenwick trees and segment trees can be used when the operation is <code>sum</code>. But when the operation is <code>min</code>, only segment trees can be used. This is because to get out the range in question, a Fenwick tree requires joining <em>and</em> subtracting its precomputed ranges. For a segment tree, any range can be assembled <em>through joining only</em>. Since <code>min</code> is not compatible with the prefix sum-style subtraction that is used in Fenwick trees, one needs to use a segment tree.</p>
+
 <p>It seems like segment trees are strictly better than Fenwick trees since they can answer both range sum and range minimum queries, and the two have the same time complexity. However, for range sum queries many competitive programming sites teach Fenwick trees, because 1. they are easier to code up, and 2. the Fenwick tree representation requires a factor of 2 less memory.</p>
-</div>
-<div id="some-other-real-world-examples" class="section level2">
-<h2>Some other real-world examples</h2>
+
+<h2 id="some-other-real-world-examples">Some other real-world examples</h2>
+
 <p>I thought of a few other examples where one needs to beware of the prefix sum approach. These could easily show up in real-world cases, or in tricky programming questions!</p>
-<p>First, consider the binary operation of <code>mul</code>, or multiplication. Say we need to answer many range queries for a static list. It may seem like the prefix sum approach will work, since the analog of subtraction is division. However, what if elements of 0 are allowed? Let’s say I want the product of entries 3 to 5, and there is a 0 in position 2. Then both prefix products in question will be 0, and division will not be able to recover the correct product from 3 to 5. In order for prefix sums to work, we need a guarantee that no values in the list are 0.</p>
+
+<p>First, consider the binary operation of <code>mul</code>, or multiplication. Say we need to answer many range queries for a static list. It may seem like the prefix sum approach will work, since the analog of subtraction is division. However, what if elements of 0 are allowed? Let&rsquo;s say I want the product of entries 3 to 5, and there is a 0 in position 2. Then both prefix products in question will be 0, and division will not be able to recover the correct product from 3 to 5. In order for prefix sums to work, we need a guarantee that no values in the list are 0.</p>
+
 <p>Second, consider a <code>numpy</code> array for which we want to answer range sum queries. However, this <code>numpy</code> array has some values which are <code>NaN</code>. If a <code>NaN</code> is found in a range, we want to return <code>NaN</code>, and otherwise we return the regular sum. In this case as well, suppose we want the sum of entries 3 to 5, but there is a <code>NaN</code> in position 2. Then both prefix sums will be <code>NaN</code>. There is no easy way to subtract off a <code>NaN</code>, so a prefix sum approach will not work! This may affect data analysis pipelines with missing data, since missing data values are usually represented by <code>NaN</code> in both Python and R.</p>
-</div>
 <div class="footnotes">
+
 <hr />
+
 <ol>
-<li id="fn1"><p>In functional programming, this would be called a <em>bag</em> – equivalent to a <a href="https://en.wikipedia.org/wiki/Multiset">multiset</a>, because we allow duplicate entries.<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>Thanks to <a href="https://github.com/bqi343/USACO/blob/master/Implementations/09%20-%20Range%20Queries%20(2)/README.md">Benjamin Qi’s GitHub</a> for pointing me to these tutorials.<a href="#fnref2">↩</a></p></li>
+<li id="fn:In-functional-pr">In functional programming, this would be called a <em>bag</em> &ndash; equivalent to a <a href="https://en.wikipedia.org/wiki/Multiset">multiset</a>, because we allow duplicate entries. <a class="footnote-return" href="#fnref:In-functional-pr"><sup>[return]</sup></a></li>
+<li id="fn:Thanks-to-Benjam">Thanks to <a href="https://github.com/bqi343/USACO/blob/master/Implementations/09%20-%20Range%20Queries%20(2)/README.md">Benjamin Qi&rsquo;s GitHub</a> for pointing me to these tutorials. <a class="footnote-return" href="#fnref:Thanks-to-Benjam"><sup>[return]</sup></a></li>
 </ol>
 </div>
 
-              
-            </div>
-          </div>
-          <div id="post-footer" class="post-footer main-content-wrap">
-            
-              
-            
-            
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-          
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/software-engineering-tools-across-4-languages/" data-tooltip="Software Engineering Tools Across 4 Languages">
-              
-                  <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
-                </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/missing-heritability-and-microaggressions/" data-tooltip="Missing Heritability and Microaggressions">
-              
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
-                  <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-          
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-        <li class="post-action hide-lg hide-md hide-sm">
-          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-            <i class="fa fa-share-alt"></i>
-          </a>
-        </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/">
-              <i class="fa fa-facebook-official"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
+		</div><div id="disqus_thread"></div>
+<script type="text/javascript">
+	(function () {
+		
+		
+		if (window.location.hostname == "localhost")
+			return;
 
-
-            
-              
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-              
-            
-          </div>
-        </article>
-        <footer id="footer" class="main-content-wrap">
-  <span class="copyrights">
-    &copy; 2019 Brian Zhang. All Rights Reserved
-  </span>
-</footer>
-
-      </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-        
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-          
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/software-engineering-tools-across-4-languages/" data-tooltip="Software Engineering Tools Across 4 Languages">
-              
-                  <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
-                </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/missing-heritability-and-microaggressions/" data-tooltip="Missing Heritability and Microaggressions">
-              
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
-                  <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-          
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-        <li class="post-action hide-lg hide-md hide-sm">
-          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-            <i class="fa fa-share-alt"></i>
-          </a>
-        </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/">
-              <i class="fa fa-facebook-official"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-
-      </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-  <i id="btn-close-shareoptions" class="fa fa-close"></i>
-  <ul class="share-options">
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbrianzhang01.github.io%2F2019%2F01%2Fsubtle-observations-on-range-queries%2F">
-          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-        </a>
-      </li>
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fbrianzhang01.github.io%2F2019%2F01%2Fsubtle-observations-on-range-queries%2F">
-          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-        </a>
-      </li>
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fbrianzhang01.github.io%2F2019%2F01%2Fsubtle-observations-on-range-queries%2F">
-          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
-        </a>
-      </li>
-    
-  </ul>
-</div>
-<div id="share-options-mask" class="share-options-mask"></div>
-    </div>
-    
-    <div id="about">
-  <div id="about-card">
-    <div id="about-btn-close">
-      <i class="fa fa-remove"></i>
-    </div>
-    
-      <img id="about-card-picture" src="//www.gravatar.com/avatar/7c2cf4f1fa646c195664e5e1ee08d390?s=110" alt="Author&#39;s picture" />
-    
-    <h4 id="about-card-name">Brian Zhang</h4>
-    
-      <div id="about-card-bio">Blog built using <a href="https://gohugo.io/">Hugo</a> and <a href="https://github.com/rstudio/blogdown">blogdown</a>. Theme is <a href="https://github.com/kakawait/hugo-tranquilpeak-theme">kakawait&rsquo;s port</a> of the <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak">Tranquilpeak theme</a>, originally by <a href="https://github.com/LouisBarranqueiro">Louis Barranqueiro</a>. Cover image © Flickr, <a href="https://creativecommons.org/licenses/by-nc/2.0/#">Creative Commons Attribution License</a>, user <a href="https://www.flickr.com/photos/alexwhite/4509083932">alexwhite</a>.</div>
-    
-    
-      <div id="about-card-job">
-        <i class="fa fa-briefcase"></i>
-        <br/>
-        Statistics PhD Student
-      </div>
-    
-    
-      <div id="about-card-location">
-        <i class="fa fa-map-marker"></i>
-        <br/>
-        University of Oxford
-      </div>
-    
-  </div>
-</div>
-
-    <div id="algolia-search-modal" class="modal-container">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="close-button"><i class="fa fa-close"></i></span>
-      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
-        <span class="searchby-algolia-text text-color-light text-small">by</span>
-        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-      </a>
-      <i class="search-icon fa fa-search"></i>
-      <form id="algolia-search-form">
-        <input type="text" id="algolia-search-input" name="search"
-          class="form-control input--large search-input" placeholder="Search" />
-      </form>
-    </div>
-    <div class="modal-body">
-      <div class="no-result text-color-light text-center">no post found</div>
-      <div class="results">
-        
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2019/09/software-engineering-tools-across-4-languages/">
-                <h3 class="media-heading">Software Engineering Tools Across 4 Languages</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Sep 9, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">It&rsquo;s been two years since I started blogging, as well as two years since I started my PhD in the Oxford Statistics department. While it&rsquo;s been several months since my last post, I hope to get back into sharing some shorter posts and ideas going forward.
-To get myself writing again, I thought I&rsquo;d broaden the scope of my posts beyond statistics and machine learning. In particular, over the past two years, I&rsquo;ve found myself getting more interested in abstract math as well as software engineering.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/">
-                <h3 class="media-heading">Subtle Observations on Range Queries</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/10/missing-heritability-and-microaggressions/">
-                <h3 class="media-heading">Missing Heritability and Microaggressions</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Oct 10, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Missing heritability is like microaggressions: many seemingly insignificant effects can add up.
-Two weeks ago, as I was taking a journey back to London Heathrow / Oxford, I came across a small connection in a journal article and a podcast. It was a nice moment of seeing two ideas click together.
-The podcast, which came second, was an episode of Nomad, a British podcast discussing Christian faith outside the institutional church.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/">
-                <h3 class="media-heading">Random Graphs and Giant Components</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jul 7, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
-There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/04/distributions-with-sympy/">
-                <h3 class="media-heading">Distributions with SymPy</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Apr 4, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
-Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2018/01/clustering-with-k-means-and-em/">
-                <h3 class="media-heading">Clustering with K-Means and EM</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
-I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
- Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
- Structural similarities in the algorithms, by splitting up K-means into an E and M step.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/statistics-ml-books/">
-                <h3 class="media-heading">Statistics / ML Books</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Nov 11, 2017
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!1
-This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
- The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2009, 2nd Ed.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/polynomial-regression/">
-                <h3 class="media-heading">Polynomial Regression</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Nov 11, 2017
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
-At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://brianzhang01.github.io/2017/11/blogging-aims/">
-                <h3 class="media-heading">Blogging Aims</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Nov 11, 2017
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
-As of September, I&rsquo;ve been a first-year PhD student at Oxford&rsquo;s Statistics department. I received my bachelor&rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-      </div>
-    </div>
-    <div class="modal-footer">
-      <p class="results-count text-medium"
-         data-message-zero="no post found"
-         data-message-one="1 post found"
-         data-message-other="{n} posts found">
-         9 posts found
-      </p>
-    </div>
-  </div>
-</div>
-    
-  
-    
-    <div id="cover" style="background-image:url('https://brianzhang01.github.io/images/radcam.jpg');"></div>
-  
-
-
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-
-
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/r.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/yaml.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/python.min.js"></script>
-
-<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-  },
-  CommonHTML: { linebreaks: { automatic: true } },
-  "HTML-CSS": { linebreaks: { automatic: true } },
-         SVG: { linebreaks: { automatic: true } }
-});
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		var disqus_shortname = 'brianzhang01-stats';
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
 </script>
-<script async type="text/javascript"
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+		Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © 2019 Brian Zhang. All rights reserved. |  Built with <a href="https://gohugo.io">Hugo</a>, <a href="https://github.com/rstudio/blogdown">blogdown</a>, and <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a></div>
+	</nav>
+</div>
+
+<script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
-
-<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
-
-
-
-
-
-
-  
-    
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/brianzhang01.github.io\/2019\/01\/subtle-observations-on-range-queries\/';
-          
-            this.page.identifier = '\/2019\/01\/subtle-observations-on-range-queries\/'
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'brianzhang01-stats';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
-    
-  
-
-
-
-    
-  </body>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-113303717-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
 </html>
-

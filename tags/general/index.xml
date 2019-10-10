@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>General on Home | Brian Zhang</title>
-    <link>https://brianzhang01.github.io/tags/general/</link>
-    <description>Recent content in General on Home | Brian Zhang</description>
+    <title>general on Brian Zhang&#39;s writings</title>
+    <link>http://example.org/tags/general/</link>
+    <description>Recent content in general on Brian Zhang&#39;s writings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <copyright>© 2019 Brian Zhang. All rights reserved.</copyright>
     <lastBuildDate>Wed, 24 Oct 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://brianzhang01.github.io/tags/general/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://example.org/tags/general/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Missing Heritability and Microaggressions</title>
-      <link>https://brianzhang01.github.io/2018/10/missing-heritability-and-microaggressions/</link>
+      <link>http://example.org/2018/10/missing-heritability-and-microaggressions/</link>
       <pubDate>Wed, 24 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2018/10/missing-heritability-and-microaggressions/</guid>
+      <guid>http://example.org/2018/10/missing-heritability-and-microaggressions/</guid>
       <description>Missing heritability is like microaggressions: many seemingly insignificant effects can add up.
 Two weeks ago, as I was taking a journey back to London Heathrow / Oxford, I came across a small connection in a journal article and a podcast. It was a nice moment of seeing two ideas click together.
 The podcast, which came second, was an episode of Nomad, a British podcast discussing Christian faith outside the institutional church.</description>
@@ -24,10 +25,10 @@ The podcast, which came second, was an episode of Nomad, a British podcast discu
     
     <item>
       <title>Statistics / ML Books</title>
-      <link>https://brianzhang01.github.io/2017/11/statistics-ml-books/</link>
+      <link>http://example.org/2017/11/statistics-ml-books/</link>
       <pubDate>Sat, 25 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2017/11/statistics-ml-books/</guid>
+      <guid>http://example.org/2017/11/statistics-ml-books/</guid>
       <description>At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!1
 This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
  The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2009, 2nd Ed.</description>
@@ -35,10 +36,10 @@ This post will focus on textbooks with a machine learning focus. I’ve read les
     
     <item>
       <title>Blogging Aims</title>
-      <link>https://brianzhang01.github.io/2017/11/blogging-aims/</link>
+      <link>http://example.org/2017/11/blogging-aims/</link>
       <pubDate>Sat, 04 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2017/11/blogging-aims/</guid>
+      <guid>http://example.org/2017/11/blogging-aims/</guid>
       <description>Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
 As of September, I&amp;rsquo;ve been a first-year PhD student at Oxford&amp;rsquo;s Statistics department. I received my bachelor&amp;rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.</description>
     </item>

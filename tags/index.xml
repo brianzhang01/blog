@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Home | Brian Zhang</title>
-    <link>https://brianzhang01.github.io/tags/</link>
-    <description>Recent content in Tags on Home | Brian Zhang</description>
+    <title>Tags on Brian Zhang&#39;s writings</title>
+    <link>http://example.org/tags/</link>
+    <description>Recent content in Tags on Brian Zhang&#39;s writings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <copyright>© 2019 Brian Zhang. All rights reserved.</copyright>
     <lastBuildDate>Wed, 24 Oct 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://brianzhang01.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>General</title>
-      <link>https://brianzhang01.github.io/tags/general/</link>
+      <title>general</title>
+      <link>http://example.org/tags/general/</link>
       <pubDate>Wed, 24 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/tags/general/</guid>
+      <guid>http://example.org/tags/general/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Ggplot</title>
-      <link>https://brianzhang01.github.io/tags/ggplot/</link>
+      <title>ggplot</title>
+      <link>http://example.org/tags/ggplot/</link>
       <pubDate>Thu, 09 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/tags/ggplot/</guid>
+      <guid>http://example.org/tags/ggplot/</guid>
       <description></description>
     </item>
     
