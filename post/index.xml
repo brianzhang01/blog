@@ -27,7 +27,7 @@ To get myself writing again, I thought I&amp;rsquo;d broaden the scope of my pos
       <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/</guid>
-      <description>For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.</description>
+      <description>For my current research, I&amp;rsquo;ve had to read Kelleher et al.&amp;rsquo;s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.</description>
     </item>
     
     <item>
