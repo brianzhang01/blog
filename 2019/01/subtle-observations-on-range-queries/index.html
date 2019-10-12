@@ -4,14 +4,14 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Subtle Observations on Range Queries - Brian Zhang&#39;s writings</title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta property="og:title" content="Subtle Observations on Range Queries" />
-<meta property="og:description" content="For my current research, I&rsquo;ve had to read Kelleher et al.&rsquo;s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure." />
+<meta property="og:description" content="For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/" />
 <meta property="article:published_time" content="2019-01-22T00:00:00+00:00" />
 <meta property="article:modified_time" content="2019-01-22T00:00:00+00:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Subtle Observations on Range Queries"/>
-<meta name="twitter:description" content="For my current research, I&rsquo;ve had to read Kelleher et al.&rsquo;s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure."/>
+<meta name="twitter:description" content="For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure."/>
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" media="screen" href="https://brianzhang01.github.io/css/normalize.css" />
@@ -59,98 +59,74 @@
 		<div class="markdown">
 			
 
-<p>For my current research, I&rsquo;ve had to read Kelleher et al.&rsquo;s excellent <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004842"><code>msprime</code> paper</a> (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through <a href="http://www.usaco.org/">USACO</a> and <a href="https://projecteuler.net/">Project Euler</a>), I took a bit more time to learn this data structure.</p>
 
-<p>One of the questions that arose in my learning is when to use Fenwick trees and when to use their related cousin, segment trees. At first, I seemed to encounter varying advice that differed from website to website. However, now I believe there&rsquo;s a more fundamental principle that stems from a subtle difference between the <code>sum</code> and <code>min</code> operations.</p>
-
-<p>This is a post that I suspect is closely related to functional programming, so I will preface by saying I&rsquo;m interested in learning more, but don&rsquo;t have much experience in functional programming myself. Thus, any feedback is very welcome!</p>
-
-<h2 id="sum-and-min-are-they-so-different"><code>sum</code> and <code>min</code>: are they so different?</h2>
-
-<p>Let&rsquo;s start small with some familiar concepts: <code>sum</code>, <code>min</code>, and the set of integers. (We could just as well consider the real numbers.) We&rsquo;ll first describe <code>sum</code> and <code>min</code> as binary operations: they take two values and output another value. For instance,</p>
-
+<p>For my current research, I’ve had to read Kelleher et al.’s excellent <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004842"><code>msprime</code> paper</a> (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through <a href="http://www.usaco.org/">USACO</a> and <a href="https://projecteuler.net/">Project Euler</a>), I took a bit more time to learn this data structure.</p>
+<p>One of the questions that arose in my learning is when to use Fenwick trees and when to use their related cousin, segment trees. At first, I seemed to encounter varying advice that differed from website to website. However, now I believe there’s a more fundamental principle that stems from a subtle difference between the <code>sum</code> and <code>min</code> operations.</p>
+<p>This is a post that I suspect is closely related to functional programming, so I will preface by saying I’m interested in learning more, but don’t have much experience in functional programming myself. Thus, any feedback is very welcome!</p>
+<div id="sum-and-min-are-they-so-different" class="section level2">
+<h2><code>sum</code> and <code>min</code>: are they so different?</h2>
+<p>Let’s start small with some familiar concepts: <code>sum</code>, <code>min</code>, and the set of integers. (We could just as well consider the real numbers.) We’ll first describe <code>sum</code> and <code>min</code> as binary operations: they take two values and output another value. For instance,</p>
 <ul>
 <li><code>sum(2, 3)</code> = 5</li>
 <li><code>min(2, 3)</code> = 2</li>
 </ul>
-
-<p>However, besides thinking of them as binary operations, we often think of <code>sum</code> and <code>min</code> as applying to a collection<sup class="footnote-ref" id="fnref:In-functional-pr"><a href="#fn:In-functional-pr">1</a></sup> of integers. For instance,</p>
-
+<p>However, besides thinking of them as binary operations, we often think of <code>sum</code> and <code>min</code> as applying to a collection<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> of integers. For instance,</p>
 <ul>
 <li><code>sum(2, 3, 4, 5, 3)</code> = 17</li>
 <li><code>min(2, 3, 4, 5, 3)</code> = 2</li>
 </ul>
-
 <p>In other words, both of these are also thought of as <em><a href="https://en.wikipedia.org/wiki/Aggregate_function">aggregate functions</a></em>, such that we can produce a single summary value from a collection. And we find that we can construct the aggregate definition by composing the binary definition many times. For instance,</p>
-
 <ul>
 <li><code>sum(2, 3, 4, 5, 3) = sum(2, sum(3, sum(4, sum(5, 3))))</code></li>
 <li><code>min(2, 3, 4, 5, 3) = min(2, min(3, min(4, min(5, 3))))</code></li>
 </ul>
-
 <p>(Not all aggregate functions are built up by composition in this way, such as mean, median and mode.)</p>
-
-<p>The key properties that allow <code>sum</code> and <code>min</code> to function both as binary operations and as aggregate functions are that they are both <em>commutative</em> and <em>associative</em> binary operations. In other words, $f(a, b) = f(b, a)$ and $f(a, f(b, c)) = f(f(a, b), c)$. If this were not the case, then there could be a few ways to apply the binary operation over a collection to get a summary value. Commutativity and associativity together imply that however the operations are performed, the end result will be the same.</p>
-
+<p>The key properties that allow <code>sum</code> and <code>min</code> to function both as binary operations and as aggregate functions are that they are both <em>commutative</em> and <em>associative</em> binary operations. In other words, <span class="math">\(f(a, b) = f(b, a)\)</span> and <span class="math">\(f(a, f(b, c)) = f(f(a, b), c)\)</span>. If this were not the case, then there could be a few ways to apply the binary operation over a collection to get a summary value. Commutativity and associativity together imply that however the operations are performed, the end result will be the same.</p>
 <p>A corollary of these properties is that both the <code>sum</code> and <code>min</code> functions invite parallelism. For instance, if we wanted to compute the aggregate of one of these functions over 4000 integers, and had 4 computing cores, we could have each core compute the aggregate over 1000 integers, then combine the results. This is the essence of map-reduce parallelism.</p>
-
-<h2 id="lists-and-fold">Lists and <code>fold</code></h2>
-
+</div>
+<div id="lists-and-fold" class="section level2">
+<h2>Lists and <code>fold</code></h2>
 <p>Now, instead of an unordered collection of integers, we consider an ordered list or sequence of integers. The list is the fundamental data structure of functional programming languages like Haskell. If we wanted to apply a binary operation multiple times over the entire list, this is called the <a href="https://en.wikipedia.org/wiki/Fold_(higher-order_function)"><code>fold</code> mechanism</a> within functional programming.</p>
-
-<p>Once again, it&rsquo;s important that the binary operation satisfies certain properties for a <code>fold</code> to make sense. In the case of <code>sum</code>, this is like saying that the string</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">2 + 3 + 4 + 5 + 3</pre></div>
+<p>Once again, it’s important that the binary operation satisfies certain properties for a <code>fold</code> to make sense. In the case of <code>sum</code>, this is like saying that the string</p>
+<pre><code>2 + 3 + 4 + 5 + 3</code></pre>
 <p>has an unambiguous meaning.</p>
-
-<p>We might want to specify the same two properties from earlier, but it turns out that we actually only need associativity for <code>fold</code> to be unique; commutativity is not necessary. As an example of a binary operation which is associative but not commutative, one can take general matrix multiplication. If $a$, $b$, $c$, $d$ are matrices, then we can write $a \times b \times c \times d$ and the meaning is unambiguous.</p>
-
+<p>We might want to specify the same two properties from earlier, but it turns out that we actually only need associativity for <code>fold</code> to be unique; commutativity is not necessary. As an example of a binary operation which is associative but not commutative, one can take general matrix multiplication. If <span class="math">\(a\)</span>, <span class="math">\(b\)</span>, <span class="math">\(c\)</span>, <span class="math">\(d\)</span> are matrices, then we can write <span class="math">\(a \times b \times c \times d\)</span> and the meaning is unambiguous.</p>
 <p>At a more advanced level, the functional programming community has concepts like left fold, right fold, list homomorphisms, and the <a href="https://www.iis.sinica.edu.tw/~scm/2008/constructing-list-homomorphism/">Third Homomorphism Theorem</a>, which all seem related in this context.</p>
-
-<h2 id="range-queries-and-prefix-sums">Range queries and prefix sums</h2>
-
-<p>For now, let&rsquo;s move in a more concrete direction. We introduce range queries. Given a 1-indexed list with $N$ elements, and an associative binary operation like <code>sum</code> or <code>min</code>, we want to know the result of applying the binary operation to the sublist from $i$ to $j$ inclusive, where $1 \leq i \leq j \leq N$. This is called a range query, where the range consists of all elements from $i$ to $j$. It is easy to see that there are $N(N-1)/2$ possible range queries to answer.</p>
-
-<p>If we have a static list, there is a helpful trick for answering range queries in $O(1)$ time called <em>prefix sums</em>. We illustrate with the example of <code>sum</code>. The idea is to keep an array that calculates the sum of the first $k$ elements, for all $0 \leq k \leq N$. This can be done in $O(N)$ time. For instance, if the sequence is $(2, 3, 4, 5, 3)$, then we compute (<code>ps</code> for &ldquo;prefix sum&rdquo;)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">ps[k = 0] = 0
+</div>
+<div id="range-queries-and-prefix-sums" class="section level2">
+<h2>Range queries and prefix sums</h2>
+<p>For now, let’s move in a more concrete direction. We introduce range queries. Given a 1-indexed list with <span class="math">\(N\)</span> elements, and an associative binary operation like <code>sum</code> or <code>min</code>, we want to know the result of applying the binary operation to the sublist from <span class="math">\(i\)</span> to <span class="math">\(j\)</span> inclusive, where <span class="math">\(1 \leq i \leq j \leq N\)</span>. This is called a range query, where the range consists of all elements from <span class="math">\(i\)</span> to <span class="math">\(j\)</span>. It is easy to see that there are <span class="math">\(N(N-1)/2\)</span> possible range queries to answer.</p>
+<p>If we have a static list, there is a helpful trick for answering range queries in <span class="math">\(O(1)\)</span> time called <em>prefix sums</em>. We illustrate with the example of <code>sum</code>. The idea is to keep an array that calculates the sum of the first <span class="math">\(k\)</span> elements, for all <span class="math">\(0 \leq k \leq N\)</span>. This can be done in <span class="math">\(O(N)\)</span> time. For instance, if the sequence is <span class="math">\((2, 3, 4, 5, 3)\)</span>, then we compute (<code>ps</code> for “prefix sum”)</p>
+<pre><code>ps[k = 0] = 0
 ps[k = 1] = ps[0] + 2 = 2
 ps[k = 2] = ps[1] + 3 = 5
 ps[k = 3] = ps[2] + 4 = 9
 ps[k = 4] = ps[3] + 5 = 14
-ps[k = 5] = ps[4] + 3 = 17</pre></div>
-<p>Now, to answer a query like $i = 2, j = 4$, we simply compute <code>ps[j] - ps[i-1] = ps[4] - ps[1] = 14 - 2 = 12</code>.</p>
-
-<p>This is great, but here we meet a difference between <code>sum</code> and <code>min</code>. The prefix sum approach doesn&rsquo;t generalize to a prefix min! This is because to answer the range query, we have introduced the <code>-</code> operation.</p>
-
-<p>If we have the sum of the first 4 elements and the sum of the first 1 element, subtracting will get us the sum of elements 2 to 4. However, if we have the min of the first 4 elements and the min of the first 1 element, there is no similar operation <em>if the two quantities are the same</em>. For instance, if I tell you &ldquo;the first 4 elements have min 2, now I remove element 1 which has value 2&rdquo;, you can&rsquo;t tell me if the remaining min is still 2 or is now something greater. Yet this is what we would need to answer from prefix mins in our case.</p>
-
-<p>The difference, one realizes, is that the <code>sum</code> operation allows for inverse elements. <code>sum</code> provides a proper <a href="https://en.wikipedia.org/wiki/Group_(mathematics)">group structure</a>, while <code>min</code> does not. We could even say that both operations have an identity element, which is infinity or <code>MAX_INT</code> for <code>min</code>. But the inverse is what allows us to use subtraction (recall that $a - b = a + (-b)$), which we don&rsquo;t have for <code>min</code>. More formally, the integers with infinity form a monoid under <code>min</code>.</p>
-
+ps[k = 5] = ps[4] + 3 = 17</code></pre>
+<p>Now, to answer a query like <span class="math">\(i = 2, j = 4\)</span>, we simply compute <code>ps[j] - ps[i-1] = ps[4] - ps[1] = 14 - 2 = 12</code>.</p>
+<p>This is great, but here we meet a difference between <code>sum</code> and <code>min</code>. The prefix sum approach doesn’t generalize to a prefix min! This is because to answer the range query, we have introduced the <code>-</code> operation.</p>
+<p>If we have the sum of the first 4 elements and the sum of the first 1 element, subtracting will get us the sum of elements 2 to 4. However, if we have the min of the first 4 elements and the min of the first 1 element, there is no similar operation <em>if the two quantities are the same</em>. For instance, if I tell you “the first 4 elements have min 2, now I remove element 1 which has value 2”, you can’t tell me if the remaining min is still 2 or is now something greater. Yet this is what we would need to answer from prefix mins in our case.</p>
+<p>The difference, one realizes, is that the <code>sum</code> operation allows for inverse elements. <code>sum</code> provides a proper <a href="https://en.wikipedia.org/wiki/Group_(mathematics)">group structure</a>, while <code>min</code> does not. We could even say that both operations have an identity element, which is infinity or <code>MAX_INT</code> for <code>min</code>. But the inverse is what allows us to use subtraction (recall that <span class="math">\(a - b = a + (-b)\)</span>), which we don’t have for <code>min</code>. More formally, the integers with infinity form a monoid under <code>min</code>.</p>
 <p>Thus, competitive programming needs to have a separate set of algorithms devoted to <a href="https://en.wikipedia.org/wiki/Range_minimum_query">range minimum queries</a>, which cannot be simply derived from algorithms for range sum queries.</p>
-
-<h2 id="fenwick-trees-and-segment-trees-do-we-need-both">Fenwick trees and segment trees: do we need both?</h2>
-
-<p>Prefix sums are a good approach for answering range sum queries when the list under question is static &ndash; it is provided once and then kept fixed. However, prefix sums are suboptimal when the list is allowed to change after initialization. In this dynamic case, a <a href="https://csacademy.com/lesson/fenwick_trees/">Fenwick tree</a> or a <a href="https://csacademy.com/lesson/segment_trees/">segment tree</a> can be used.<sup class="footnote-ref" id="fnref:Thanks-to-Benjam"><a href="#fn:Thanks-to-Benjam">2</a></sup></p>
-
-<p>I won&rsquo;t give a full explanation of each these data structures. The idea is similar to prefix sums, in which the full list is decomposed into a set of sublists, and the range query is calculated over each of these sublists. However, when a value of the list is updated, only $O(\log N)$ range queries need to be recalculated, compared to $O(N)$ for prefix sums. To answer an arbitrary range query takes $O(\log N)$ time, compared to $O(1)$ for prefix sums.</p>
-
+</div>
+<div id="fenwick-trees-and-segment-trees-do-we-need-both" class="section level2">
+<h2>Fenwick trees and segment trees: do we need both?</h2>
+<p>Prefix sums are a good approach for answering range sum queries when the list under question is static – it is provided once and then kept fixed. However, prefix sums are suboptimal when the list is allowed to change after initialization. In this dynamic case, a <a href="https://csacademy.com/lesson/fenwick_trees/">Fenwick tree</a> or a <a href="https://csacademy.com/lesson/segment_trees/">segment tree</a> can be used.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<p>I won’t give a full explanation of each these data structures. The idea is similar to prefix sums, in which the full list is decomposed into a set of sublists, and the range query is calculated over each of these sublists. However, when a value of the list is updated, only <span class="math">\(O(\log N)\)</span> range queries need to be recalculated, compared to <span class="math">\(O(N)\)</span> for prefix sums. To answer an arbitrary range query takes <span class="math">\(O(\log N)\)</span> time, compared to <span class="math">\(O(1)\)</span> for prefix sums.</p>
 <p>Both Fenwick trees and segment trees can be used when the operation is <code>sum</code>. But when the operation is <code>min</code>, only segment trees can be used. This is because to get out the range in question, a Fenwick tree requires joining <em>and</em> subtracting its precomputed ranges. For a segment tree, any range can be assembled <em>through joining only</em>. Since <code>min</code> is not compatible with the prefix sum-style subtraction that is used in Fenwick trees, one needs to use a segment tree.</p>
-
 <p>It seems like segment trees are strictly better than Fenwick trees since they can answer both range sum and range minimum queries, and the two have the same time complexity. However, for range sum queries many competitive programming sites teach Fenwick trees, because 1. they are easier to code up, and 2. the Fenwick tree representation requires a factor of 2 less memory.</p>
-
-<h2 id="some-other-real-world-examples">Some other real-world examples</h2>
-
+</div>
+<div id="some-other-real-world-examples" class="section level2">
+<h2>Some other real-world examples</h2>
 <p>I thought of a few other examples where one needs to beware of the prefix sum approach. These could easily show up in real-world cases, or in tricky programming questions!</p>
-
-<p>First, consider the binary operation of <code>mul</code>, or multiplication. Say we need to answer many range queries for a static list. It may seem like the prefix sum approach will work, since the analog of subtraction is division. However, what if elements of 0 are allowed? Let&rsquo;s say I want the product of entries 3 to 5, and there is a 0 in position 2. Then both prefix products in question will be 0, and division will not be able to recover the correct product from 3 to 5. In order for prefix sums to work, we need a guarantee that no values in the list are 0.</p>
-
+<p>First, consider the binary operation of <code>mul</code>, or multiplication. Say we need to answer many range queries for a static list. It may seem like the prefix sum approach will work, since the analog of subtraction is division. However, what if elements of 0 are allowed? Let’s say I want the product of entries 3 to 5, and there is a 0 in position 2. Then both prefix products in question will be 0, and division will not be able to recover the correct product from 3 to 5. In order for prefix sums to work, we need a guarantee that no values in the list are 0.</p>
 <p>Second, consider a <code>numpy</code> array for which we want to answer range sum queries. However, this <code>numpy</code> array has some values which are <code>NaN</code>. If a <code>NaN</code> is found in a range, we want to return <code>NaN</code>, and otherwise we return the regular sum. In this case as well, suppose we want the sum of entries 3 to 5, but there is a <code>NaN</code> in position 2. Then both prefix sums will be <code>NaN</code>. There is no easy way to subtract off a <code>NaN</code>, so a prefix sum approach will not work! This may affect data analysis pipelines with missing data, since missing data values are usually represented by <code>NaN</code> in both Python and R.</p>
+</div>
 <div class="footnotes">
-
 <hr />
-
 <ol>
-<li id="fn:In-functional-pr">In functional programming, this would be called a <em>bag</em> &ndash; equivalent to a <a href="https://en.wikipedia.org/wiki/Multiset">multiset</a>, because we allow duplicate entries. <a class="footnote-return" href="#fnref:In-functional-pr"><sup>[return]</sup></a></li>
-<li id="fn:Thanks-to-Benjam">Thanks to <a href="https://github.com/bqi343/USACO/blob/master/Implementations/09%20-%20Range%20Queries%20(2)/README.md">Benjamin Qi&rsquo;s GitHub</a> for pointing me to these tutorials. <a class="footnote-return" href="#fnref:Thanks-to-Benjam"><sup>[return]</sup></a></li>
+<li id="fn1"><p>In functional programming, this would be called a <em>bag</em> – equivalent to a <a href="https://en.wikipedia.org/wiki/Multiset">multiset</a>, because we allow duplicate entries.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Thanks to <a href="https://github.com/bqi343/USACO/blob/master/Implementations/09%20-%20Range%20Queries%20(2)/README.md">Benjamin Qi’s GitHub</a> for pointing me to these tutorials.<a href="#fnref2">↩</a></p></li>
 </ol>
 </div>
 
