@@ -10,7 +10,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://brianzhang01.github.io/" />
 
-<meta property="og:updated_time" content="2019-10-10T00:00:00+00:00" />
+<meta property="og:updated_time" content="2019-10-25T00:00:00+00:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Brian Zhang&#39;s blog"/>
 <meta name="twitter:description" content=""/>
@@ -60,6 +60,17 @@
 			<div class="posts">
 				
 				
+				
+				<div class="post">
+					<div class="meta">Oct 25, 2019 &middot; 1 min read</div>
+					<a class="title" href="/2019/10/fast-hierarchical-clustering-using-fastcluster/">Fast hierarchical clustering using fastcluster</a> &mdash;
+					<span class="description">
+						
+						Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
+fastcluster is implemented in C++, with interfaces for C++, R, and Python. In particular, the Python interface mirrors scipy.cluster.hierarchy.linkage, and the R interface mirrors stats::hclust and flashClust::flashClust, so switching over is a no-brainer.
+						
+					</span>
+				</div>
 				
 				<div class="post">
 					<div class="meta">Sep 28, 2019 &middot; 4 min read</div>
