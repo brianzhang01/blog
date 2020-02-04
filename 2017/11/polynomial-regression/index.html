@@ -84,9 +84,8 @@ y = [0.06 1.67 0.54 -1.45 -0.18 -0.67 0.92 2.95 5.13 5.18]&#39;
 Construct a Bayesian linear regression model using a basis of your choosing (e.g., polynomial, sinusoids, radial basis functions). Choose priors that seem sensible for the regression weights and the Gaussian noise.</code></pre>
 <p>While taking the course, I didn’t manage to fully solve the problem. However, for now, I’ll be using the data points as a demonstration not of Bayesian regression, but the simpler case of least-squares regression without a prior.</p>
 <p>To start, we can create variables for our data points and plot them using <code>ggplot</code>.</p>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.4.4</code></pre>
-<pre class="r"><code>center_title = theme(plot.title = element_text(hjust = 0.5))
+<pre class="r"><code>library(ggplot2)
+center_title = theme(plot.title = element_text(hjust = 0.5))
 x = c(-1.87, -1.76, -1.67, -1.22, -0.07, 0.11, 0.67, 1.60, 2.22, 2.51)
 y = c(0.06, 1.67, 0.54, -1.45, -0.18, -0.67, 0.92, 2.95, 5.13, 5.18)
 ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
