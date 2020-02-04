@@ -129,7 +129,7 @@ and when I get to the inversion step, I receive an error message:
         Error in solve.default(t(x_matrix) %*% x_matrix) : 
         system is computationally singular: reciprocal condition number = 1.10547e-20
 
-    This suggests that for $d \geq n$, the matrix $(\mathbf{X}^\intercal\mathbf{X})$ is no longer full-rank. Indeed, looking online, I seem to find that for any real matrix $\mathbf{A}$, $\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)$. In this case, where $\mathbf{X}$ is $n$ by $(d+1)$, we have $\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n$, the number of columns of $\mathbf{X}^\intercal$, but $\mathbf{X}^\intercal\mathbf{X}$ is a $(d+1)$ by $(d+1)$ matrix, so it cannot be full-rank.
+    This suggests that for $d \geq n$, the matrix $(\mathbf{X}^\intercal\mathbf{X})$ is no longer full-rank. Indeed, looking online, I [seem to find](https://stats.stackexchange.com/questions/49889/why-does-the-rank-of-the-design-matrix-x-equal-the-rank-of-xx) that for any real matrix $\mathbf{A}$, $\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A}) = \text{rank}(\mathbf{A}^\intercal)$. In this case, where $\mathbf{X}$ is $n$ by $(d+1)$, we have $\text{rank}(\mathbf{X}^\intercal\mathbf{X}) = \text{rank}(\mathbf{X}^\intercal) \leq n$, the number of columns of $\mathbf{X}^\intercal$, but $\mathbf{X}^\intercal\mathbf{X}$ is a $(d+1)$ by $(d+1)$ matrix, so it cannot be full-rank.
     
     For a similar presentation in Python, see [this blog post](http://jakevdp.github.io/blog/2015/07/06/model-complexity-myth/#The-Mathematics-of-Underdetermined-Models) by Jake VanderPlas.
 
@@ -195,3 +195,4 @@ Thanks to:
 ***This blog post was generated from an R Markdown file using the `knitr` and `blogdown` packages. The original source can be downloaded [from GitHub](https://github.com/brianzhang01/brianzhang01.github.io/blob/master/post/2017-11-09-polynomial-regression.Rmd).***
 
 ***UPDATE 2017-11-21: added a reference to the Vandermonde matrix and made some other small fixes.***
+***UPDATE 2020-02-04: added a link showing that $\text{rank}(\mathbf{A}^\intercal\mathbf{A}) = \text{rank}(\mathbf{A})$.***

@@ -6,13 +6,22 @@
     <description>Recent content on Brian Zhang&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brianzhang01.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Fast hierarchical clustering using fastcluster</title>
+      <title>On NumPy Multithreading</title>
+      <link>https://brianzhang01.github.io/2020/02/on-numpy-multithreading/</link>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://brianzhang01.github.io/2020/02/on-numpy-multithreading/</guid>
+      <description>Two notes. First, numpy supports multithreading, and this can give you a speed boost in multicore environments! On Linux, I used top to verify that my numpy was indeed using multithreading, which it was. Second, multithreading can hurt performance when you&amp;rsquo;re running multiple Python / numpy processes at once. I was running into this issue, and got significant boost by limiting the number of numpy threads per process, in my case using import mkl; mkl.</description>
+    </item>
+    
+    <item>
+      <title>Fast Hierarchical Clustering Using fastcluster</title>
       <link>https://brianzhang01.github.io/2019/10/fast-hierarchical-clustering-using-fastcluster/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       

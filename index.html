@@ -10,7 +10,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://brianzhang01.github.io/" />
 
-<meta property="og:updated_time" content="2019-10-25T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-02-04T00:00:00+00:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Brian Zhang&#39;s blog"/>
 <meta name="twitter:description" content=""/>
@@ -62,8 +62,18 @@
 				
 				
 				<div class="post">
+					<div class="meta">Feb 4, 2020 &middot; 1 min read</div>
+					<a class="title" href="/2020/02/on-numpy-multithreading/">On NumPy Multithreading</a> &mdash;
+					<span class="description">
+						
+						Two notes. First, numpy supports multithreading, and this can give you a speed boost in multicore environments! On Linux, I used top to verify that my numpy was indeed using multithreading, which it was. Second, multithreading can hurt performance when you&rsquo;re running multiple Python / numpy processes at once. I was running into this issue, and got significant boost by limiting the number of numpy threads per process, in my case using import mkl; mkl.
+						
+					</span>
+				</div>
+				
+				<div class="post">
 					<div class="meta">Oct 25, 2019 &middot; 1 min read</div>
-					<a class="title" href="/2019/10/fast-hierarchical-clustering-using-fastcluster/">Fast hierarchical clustering using fastcluster</a> &mdash;
+					<a class="title" href="/2019/10/fast-hierarchical-clustering-using-fastcluster/">Fast Hierarchical Clustering Using fastcluster</a> &mdash;
 					<span class="description">
 						
 						Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
@@ -163,18 +173,18 @@ At the moment, I’m hoping to follow along with these three courses and do some
 					</span>
 				</div>
 				
-				<div class="post">
-					<div class="meta">Nov 4, 2017 &middot; 2 min read</div>
-					<a class="title" href="/2017/11/blogging-aims/">Blogging Aims</a> &mdash;
-					<span class="description">
-						
-						Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
-As of September, I&rsquo;ve been a first-year PhD student at Oxford&rsquo;s Statistics department. I received my bachelor&rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.
-						
-					</span>
-				</div>
 				
-				
+
+<ul class="pagination">
+	<li class="page-item page-prev">
+	
+	</li>
+	<li class="page-item page-next">
+	
+    <a href="/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">Next page →</span></a>
+	
+	</li>
+</ul>
 
 
 			</div>

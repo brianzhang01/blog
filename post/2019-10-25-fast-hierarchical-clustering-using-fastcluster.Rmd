@@ -1,5 +1,5 @@
 ---
-title: Fast hierarchical clustering using fastcluster
+title: Fast Hierarchical Clustering Using fastcluster
 author: Brian Zhang
 date: '2019-10-25'
 slug: fast-hierarchical-clustering-using-fastcluster

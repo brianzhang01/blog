@@ -2,8 +2,8 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Fast hierarchical clustering using fastcluster - Brian Zhang&#39;s blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:title" content="Fast hierarchical clustering using fastcluster" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Fast Hierarchical Clustering Using fastcluster - Brian Zhang&#39;s blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Fast Hierarchical Clustering Using fastcluster" />
 <meta property="og:description" content="Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
 fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, and Python. In particular, the Python interface mirrors scipy.cluster.hierarchy.linkage, and the R interface mirrors stats::hclust and flashClust::flashClust, so switching over is a no-brainer." />
 <meta property="og:type" content="article" />
@@ -11,7 +11,7 @@ fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, a
 <meta property="article:published_time" content="2019-10-25T00:00:00+00:00" />
 <meta property="article:modified_time" content="2019-10-25T00:00:00+00:00" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Fast hierarchical clustering using fastcluster"/>
+<meta name="twitter:title" content="Fast Hierarchical Clustering Using fastcluster"/>
 <meta name="twitter:description" content="Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
 fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, and Python. In particular, the Python interface mirrors scipy.cluster.hierarchy.linkage, and the R interface mirrors stats::hclust and flashClust::flashClust, so switching over is a no-brainer."/>
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
@@ -54,7 +54,7 @@ fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, a
 
 
 		<div class="post-header">
-			<h1 class="title">Fast hierarchical clustering using fastcluster</h1>
+			<h1 class="title">Fast Hierarchical Clustering Using fastcluster</h1>
 			<div class="meta">Posted Oct 25, 2019 &middot; 1 min read</div>
 		</div>
 
@@ -62,15 +62,15 @@ fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, a
 			
 
 
-<p>Do you use hierarchical clustering packages like R’s <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/hclust.html"><code>hclust</code></a> or Python’s <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage"><code>scipy.cluster.hierarchy.linkage</code></a> in your workflow? If so, you’re using an <span class="math">\(O(N^3)\)</span> algorithm<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> and should switch to the <a href="http://danifold.net/fastcluster.html"><code>fastcluster</code></a> package, which provides <span class="math">\(O(N^2)\)</span> routines for the most commonly used types of clustering.</p>
+<p>Do you use hierarchical clustering packages like R’s <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/hclust.html"><code>hclust</code></a> or Python’s <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage"><code>scipy.cluster.hierarchy.linkage</code></a> in your workflow? If so, you’re using an <span class="math inline">\(O(N^3)\)</span> algorithm<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> and should switch to the <a href="http://danifold.net/fastcluster.html"><code>fastcluster</code></a> package, which provides <span class="math inline">\(O(N^2)\)</span> routines for the most commonly used types of clustering.</p>
 <p><code>fastcluster</code> is implemented in C++, with interfaces for <a href="https://lionel.kr.hs-niederrhein.de/~dalitz/data/hclust/">C++</a>, <a href="https://cran.r-project.org/web/packages/fastcluster/index.html">R</a>, and <a href="https://pypi.org/project/fastcluster/">Python</a>. In particular, the Python interface mirrors <code>scipy.cluster.hierarchy.linkage</code>, and the R interface mirrors <code>stats::hclust</code> and <code>flashClust::flashClust</code>, so switching over is a no-brainer.</p>
-<p>For a performance comparison provided by the package’s author, take a look <a href="http://danifold.net/fastcluster.html?section=1">here</a>. <code>fastcluster</code> is described in a Journal of Statistical Software <a href="https://www.jstatsoft.org/article/view/v053i09">publication</a> from 2013, with algorithmic details in a <a href="https://arxiv.org/abs/1109.2378">2011 arXiv paper</a>. The key algorithms used to get to <span class="math">\(O(N^2)\)</span> are a variant of Prim’s algorithm for minimum spanning trees and the <a href="https://en.wikipedia.org/wiki/Nearest-neighbor_chain_algorithm">nearest-neighbor chain algorithm</a>. Note that centroid and median linkage still take <span class="math">\(O(N^3)\)</span> time with this package.</p>
-<p>I haven’t read the details of these algorithms yet, but if they are correct, then the Wikipedia articles on <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">hierarchical clustering</a> and <a href="https://en.wikipedia.org/wiki/UPGMA">UPGMA</a> (average linkage clustering) could use an update<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
+<p>For a performance comparison provided by the package’s author, take a look <a href="http://danifold.net/fastcluster.html?section=1">here</a>. <code>fastcluster</code> is described in a Journal of Statistical Software <a href="https://www.jstatsoft.org/article/view/v053i09">publication</a> from 2013, with algorithmic details in a <a href="https://arxiv.org/abs/1109.2378">2011 arXiv paper</a>. The key algorithms used to get to <span class="math inline">\(O(N^2)\)</span> are a variant of Prim’s algorithm for minimum spanning trees and the <a href="https://en.wikipedia.org/wiki/Nearest-neighbor_chain_algorithm">nearest-neighbor chain algorithm</a>. Note that centroid and median linkage still take <span class="math inline">\(O(N^3)\)</span> time with this package.</p>
+<p>I haven’t read the details of these algorithms yet, but if they are correct, then the Wikipedia articles on <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">hierarchical clustering</a> and <a href="https://en.wikipedia.org/wiki/UPGMA">UPGMA</a> (average linkage clustering) could use an update<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Where <span class="math">\(N\)</span> is the number of data points being clustered, obviously.<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>As of October 2019.<a href="#fnref2">↩</a></p></li>
+<li id="fn1"><p>Where <span class="math inline">\(N\)</span> is the number of data points being clustered, obviously.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>As of October 2019.<a href="#fnref2" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 

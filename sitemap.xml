@@ -4,16 +4,21 @@
   
   <url>
     <loc>https://brianzhang01.github.io/</loc>
-    <lastmod>2019-10-25T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://brianzhang01.github.io/2019/10/fast-hierarchical-clustering-using-fastcluster/</loc>
-    <lastmod>2019-10-25T00:00:00+00:00</lastmod>
+    <loc>https://brianzhang01.github.io/2020/02/on-numpy-multithreading/</loc>
+    <lastmod>2020-02-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://brianzhang01.github.io/post/</loc>
+    <lastmod>2020-02-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://brianzhang01.github.io/2019/10/fast-hierarchical-clustering-using-fastcluster/</loc>
     <lastmod>2019-10-25T00:00:00+00:00</lastmod>
   </url>
   
