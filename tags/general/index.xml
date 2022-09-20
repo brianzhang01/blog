@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>general on Brian Zhang&#39;s blog</title>
@@ -6,11 +6,7 @@
     <description>Recent content in general on Brian Zhang&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 24 Oct 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://brianzhang01.github.io/tags/general/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 24 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://brianzhang01.github.io/tags/general/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Missing Heritability and Microaggressions</title>
       <link>https://brianzhang01.github.io/2018/10/missing-heritability-and-microaggressions/</link>
@@ -28,9 +24,8 @@ The podcast, which came second, was an episode of Nomad, a British podcast discu
       <pubDate>Sat, 25 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>https://brianzhang01.github.io/2017/11/statistics-ml-books/</guid>
-      <description>At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!1
-This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
- The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2009, 2nd Ed.</description>
+      <description>At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!^[This post is strategically placed so I can cite some of these textbooks in later posts.]
+This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:</description>
     </item>
     
     <item>

@@ -1,0 +1,63 @@
+---
+title: A Regularization Proof
+author: Brian Zhang
+date: '2022-09-19'
+slug: a-regularization-proof
+categories: []
+tags: []
+description: 'Investigating behavior of a function minimum as we add regularization.'
+---
+
+Say we have a loss function $l(w)$. With no regularization, we might obtain the minimum at $w = w_0$. Now consider the setting with regularization:
+$$
+f_\lambda(w) = l(w) + \lambda R(w),
+$$
+where $R(w) \geq 0$ is some regularization function and $\lambda \geq 0$. What can we say if we consider the minimizing inputs $w_1$ for $f_{\lambda_1}(w)$ and $w_2$ for $f_{\lambda_2}(w)$, with $0 \leq \lambda_1 < \lambda_2$?
+$$
+w_1 = argmin_w \left[ l(w) + \lambda_1 R(w) \right],\\
+w_2 = argmin_w \left[ l(w) + \lambda_2 R(w) \right].
+$$
+
+Intuitively, as we increase the $\lambda$ from $\lambda_1$ to $\lambda_2$, the function $f_\lambda(w)$ places more importance on the regularization term $R(w)$. We should expect $l(w)$ evaluated at the optimum $w$ to increase, and the regularization term $R(w)$ evaluated at the optimum $w$ to decrease.
+
+By the properties of the optimum, we have
+$$
+l(w_1) + \lambda_1 R(w_1) \leq l(w_2) + \lambda_1 R(w_2),\\
+l(w_2) + \lambda_2 R(w_2) \leq l(w_1) + \lambda_2 R(w_1).
+$$
+The only other information we have relating these terms is that $R(w) \geq 0$ (for all $w$) and $0 \leq \lambda_1 < \lambda_2$. So we work with what we have. First,
+$$
+f_{\lambda_1}(w_1) = l(w_1) + \lambda_1 R(w_1)\\
+\leq l(w_2) + \lambda_1 R(w_2)\\
+\leq l(w_2) + \lambda_2 R(w_2)\\
+= f_{\lambda_2}(w_2),
+$$
+so the minimum of the optimized function increases (or stays the same) as we increase $\lambda$. This can also be proved as $f_{\lambda_2}(w) \geq f_{\lambda_1}(w)$ for all $w$.
+
+The other inequalities are trickier. Observe:
+$$
+l(w_1) + \lambda_2 R(w_1) \geq l(w_2) + \lambda_2 R(w_2)\\
+= l(w_2) + (\lambda_1 + \lambda_2 - \lambda_1) R(w_2)\\
+= \left[l(w_2) + \lambda_1 R(w_2)\right] + (\lambda_2 - \lambda_1) R(w_2)\\
+\geq \left[l(w_1) + \lambda_1 R(w_1)\right] + (\lambda_2 - \lambda_1) R(w_2).
+$$
+Subtracting $(l(w_1) + \lambda_1 R(w_1))$ from both sides, we have
+$$
+(\lambda_2 - \lambda_1) R(w_1) \geq (\lambda_2 - \lambda_1) R(w_2).
+$$
+$\lambda_2 - \lambda_1 > 0$, so dividing both sides,
+$$
+R(w_1) \geq R(w_2).
+$$
+In words, the minimum of the regularization component (not including the factor of $\lambda$) decreases (or stays the same) as we increase $\lambda$.
+
+Leveraging this fact, we additionally have
+$$
+l(w_1) + \lambda_1 R(w_1) \leq l(w_2) + \lambda_1 R(w_2)\\
+\leq l(w_2) + \lambda_1 R(w_1)
+$$
+Subtracting $\lambda_1 R(w_1)$ from both sides, we obtain
+$$
+l(w_1) \leq l(w_2).
+$$
+In words, the minimum of the loss function component increases (or stays the same) as we increase $\lambda$.

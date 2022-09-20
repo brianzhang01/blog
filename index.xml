@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Brian Zhang&#39;s blog</title>
@@ -6,10 +6,15 @@
     <description>Recent content on Brian Zhang&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Feb 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://brianzhang01.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Mon, 19 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://brianzhang01.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Regularization Proof</title>
+      <link>https://brianzhang01.github.io/2022/09/a-regularization-proof/</link>
+      <pubDate>Mon, 19 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://brianzhang01.github.io/2022/09/a-regularization-proof/</guid>
+      <description>Say we have a loss function \(l(w)\). With no regularization, we might obtain the minimum at \(w = w_0\). Now consider the setting with regularization: \[ f_\lambda(w) = l(w) + \lambda R(w), \] where \(R(w) \geq 0\) is some regularization function and \(\lambda \geq 0\). What can we say if we consider the minimizing inputs \(w_1\) for \(f_{\lambda_1}(w)\) and \(w_2\) for \(f_{\lambda_2}(w)\), with \(0 \leq \lambda_1 &amp;lt; \lambda_2\)? \[ w_1 = argmin_w \left[ l(w) + \lambda_1 R(w) \right],\\ w_2 = argmin_w \left[ l(w) + \lambda_2 R(w) \right].</description>
+    </item>
     
     <item>
       <title>On NumPy Multithreading</title>
@@ -37,7 +42,7 @@ fastcluster is implemented in C++, with interfaces for C++, R, and Python. In pa
       
       <guid>https://brianzhang01.github.io/about/</guid>
       <description>I&amp;rsquo;m a Statistics PhD student at the University of Oxford. You can find more academic info about me at this page.
-This website was built using Hugo and blogdown on top of Ezhil theme. All files used to generate this website can be found at this GitHub repository.</description>
+This website was built using Hugoand blogdownon top of Ezhil theme. All files used to generate this website can be found at this GitHub repository.</description>
     </item>
     
     <item>
@@ -108,9 +113,8 @@ I won’t be going through much theory, as that can be easily found elsewhere. I
       <pubDate>Sat, 25 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>https://brianzhang01.github.io/2017/11/statistics-ml-books/</guid>
-      <description>At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!1
-This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
- The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2009, 2nd Ed.</description>
+      <description>At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!^[This post is strategically placed so I can cite some of these textbooks in later posts.]
+This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:</description>
     </item>
     
     <item>

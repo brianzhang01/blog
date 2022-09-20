@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>A Regularization Proof - Brian Zhang&#39;s blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="A Regularization Proof" />
+<meta property="og:description" content="Investigating behavior of a function minimum as we add regularization." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://brianzhang01.github.io/2022/09/a-regularization-proof/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-09-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-09-19T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A Regularization Proof"/>
+<meta name="twitter:description" content="Investigating behavior of a function minimum as we add regularization."/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://brianzhang01.github.io/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://brianzhang01.github.io/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://brianzhang01.github.io/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title">Brian Zhang&#39;s blog</h1>
+	<div class="site-description"><h2>Statistics and other topics</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/brianzhang01" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/brianczhang" title="Twitter"><i data-feather="twitter"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/post">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">A Regularization Proof</h1>
+			<div class="meta">Posted Sep 19, 2022 &middot; 2 min read</div>
+		</div>
+
+		<div class="markdown">
+			
+
+
+<p>Say we have a loss function <span class="math inline">\(l(w)\)</span>. With no regularization, we might obtain the minimum at <span class="math inline">\(w = w_0\)</span>. Now consider the setting with regularization:
+<span class="math display">\[
+f_\lambda(w) = l(w) + \lambda R(w),
+\]</span>
+where <span class="math inline">\(R(w) \geq 0\)</span> is some regularization function and <span class="math inline">\(\lambda \geq 0\)</span>. What can we say if we consider the minimizing inputs <span class="math inline">\(w_1\)</span> for <span class="math inline">\(f_{\lambda_1}(w)\)</span> and <span class="math inline">\(w_2\)</span> for <span class="math inline">\(f_{\lambda_2}(w)\)</span>, with <span class="math inline">\(0 \leq \lambda_1 &lt; \lambda_2\)</span>?
+<span class="math display">\[
+w_1 = argmin_w \left[ l(w) + \lambda_1 R(w) \right],\\
+w_2 = argmin_w \left[ l(w) + \lambda_2 R(w) \right].
+\]</span></p>
+<p>Intuitively, as we increase the <span class="math inline">\(\lambda\)</span> from <span class="math inline">\(\lambda_1\)</span> to <span class="math inline">\(\lambda_2\)</span>, the function <span class="math inline">\(f_\lambda(w)\)</span> places more importance on the regularization term <span class="math inline">\(R(w)\)</span>. We should expect <span class="math inline">\(l(w)\)</span> evaluated at the optimum <span class="math inline">\(w\)</span> to increase, and the regularization term <span class="math inline">\(R(w)\)</span> evaluated at the optimum <span class="math inline">\(w\)</span> to decrease.</p>
+<p>By the properties of the optimum, we have
+<span class="math display">\[
+l(w_1) + \lambda_1 R(w_1) \leq l(w_2) + \lambda_1 R(w_2),\\
+l(w_2) + \lambda_2 R(w_2) \leq l(w_1) + \lambda_2 R(w_1).
+\]</span>
+The only other information we have relating these terms is that <span class="math inline">\(R(w) \geq 0\)</span> (for all <span class="math inline">\(w\)</span>) and <span class="math inline">\(0 \leq \lambda_1 &lt; \lambda_2\)</span>. So we work with what we have. First,
+<span class="math display">\[
+f_{\lambda_1}(w_1) = l(w_1) + \lambda_1 R(w_1)\\
+\leq l(w_2) + \lambda_1 R(w_2)\\
+\leq l(w_2) + \lambda_2 R(w_2)\\
+= f_{\lambda_2}(w_2),
+\]</span>
+so the minimum of the optimized function increases (or stays the same) as we increase <span class="math inline">\(\lambda\)</span>. This can also be proved as <span class="math inline">\(f_{\lambda_2}(w) \geq f_{\lambda_1}(w)\)</span> for all <span class="math inline">\(w\)</span>.</p>
+<p>The other inequalities are trickier. Observe:
+<span class="math display">\[
+l(w_1) + \lambda_2 R(w_1) \geq l(w_2) + \lambda_2 R(w_2)\\
+= l(w_2) + (\lambda_1 + \lambda_2 - \lambda_1) R(w_2)\\
+= \left[l(w_2) + \lambda_1 R(w_2)\right] + (\lambda_2 - \lambda_1) R(w_2)\\
+\geq \left[l(w_1) + \lambda_1 R(w_1)\right] + (\lambda_2 - \lambda_1) R(w_2).
+\]</span>
+Subtracting <span class="math inline">\((l(w_1) + \lambda_1 R(w_1))\)</span> from both sides, we have
+<span class="math display">\[
+(\lambda_2 - \lambda_1) R(w_1) \geq (\lambda_2 - \lambda_1) R(w_2).
+\]</span>
+<span class="math inline">\(\lambda_2 - \lambda_1 &gt; 0\)</span>, so dividing both sides,
+<span class="math display">\[
+R(w_1) \geq R(w_2).
+\]</span>
+In words, the minimum of the regularization component (not including the factor of <span class="math inline">\(\lambda\)</span>) decreases (or stays the same) as we increase <span class="math inline">\(\lambda\)</span>.</p>
+<p>Leveraging this fact, we additionally have
+<span class="math display">\[
+l(w_1) + \lambda_1 R(w_1) \leq l(w_2) + \lambda_1 R(w_2)\\
+\leq l(w_2) + \lambda_1 R(w_1)
+\]</span>
+Subtracting <span class="math inline">\(\lambda_1 R(w_1)\)</span> from both sides, we obtain
+<span class="math display">\[
+l(w_1) \leq l(w_2).
+\]</span>
+In words, the minimum of the loss function component increases (or stays the same) as we increase <span class="math inline">\(\lambda\)</span>.</p>
+
+		</div><div id="disqus_thread"></div>
+<script type="text/javascript">
+	(function () {
+		
+		
+		if (window.location.hostname == "localhost")
+			return;
+
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		var disqus_shortname = 'brianzhang01-stats';
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+		Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> Built with <a href="https://gohugo.io">Hugo</a>, <a href="https://github.com/rstudio/blogdown">blogdown</a>, and <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a></div>
+	</nav>
+</div>
+
+<script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-113303717-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>
