@@ -25,7 +25,7 @@ $$
 l(w_1) + \lambda_1 R(w_1) \leq l(w_2) + \lambda_1 R(w_2),\\
 l(w_2) + \lambda_2 R(w_2) \leq l(w_1) + \lambda_2 R(w_1).
 $$
-The only other information we have relating these terms is that $R(w) \geq 0$ (for all $w$) and $0 \leq \lambda_1 < \lambda_2$. So we work with what we have. First,
+The only other information we have relating these terms is that $R(w) \geq 0$ (for all $w$) and $0 \leq \lambda_1 < \lambda_2$. So we work with what we have. First, leveraging the first equation,
 $$
 f_{\lambda_1}(w_1) = l(w_1) + \lambda_1 R(w_1)\\
 \leq l(w_2) + \lambda_1 R(w_2)\\
@@ -34,7 +34,7 @@ f_{\lambda_1}(w_1) = l(w_1) + \lambda_1 R(w_1)\\
 $$
 so the minimum of the optimized function increases (or stays the same) as we increase $\lambda$. This can also be proved as $f_{\lambda_2}(w) \geq f_{\lambda_1}(w)$ for all $w$.
 
-The other inequalities are trickier. Observe:
+The other inequalities are trickier. Observe (starting with the second "property of the optimum" above):
 $$
 l(w_1) + \lambda_2 R(w_1) \geq l(w_2) + \lambda_2 R(w_2)\\
 = l(w_2) + (\lambda_1 + \lambda_2 - \lambda_1) R(w_2)\\
@@ -51,7 +51,7 @@ R(w_1) \geq R(w_2).
 $$
 In words, the minimum of the regularization component (not including the factor of $\lambda$) decreases (or stays the same) as we increase $\lambda$.
 
-Leveraging this fact, we additionally have
+Starting with the first "property of the optimum" above and leveraging this fact, we additionally have
 $$
 l(w_1) + \lambda_1 R(w_1) \leq l(w_2) + \lambda_1 R(w_2)\\
 \leq l(w_2) + \lambda_1 R(w_1)
