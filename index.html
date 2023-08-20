@@ -4,19 +4,19 @@
 	<meta name="generator" content="Hugo 0.87.0" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Brian Zhang&#39;s blog - Statistics and other topics </title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="alternate" type="application/rss+xml" href="https://brianzhang01.github.io/index.xml" title="Brian Zhang's blog" />
+	<link rel="alternate" type="application/rss+xml" href="https://brianzhang01.github.io/blog/index.xml" title="Brian Zhang's blog" />
 	<meta property="og:title" content="Brian Zhang&#39;s blog" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://brianzhang01.github.io/" />
+<meta property="og:url" content="https://brianzhang01.github.io/blog/" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Brian Zhang&#39;s blog"/>
 <meta name="twitter:description" content=""/>
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
 
-	<link rel="stylesheet" type="text/css" media="screen" href="https://brianzhang01.github.io/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://brianzhang01.github.io/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://brianzhang01.github.io/js/main.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://brianzhang01.github.io/blog/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://brianzhang01.github.io/blog/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://brianzhang01.github.io/blog/js/main.js"></script>
 </head>
 
 <body>
@@ -32,19 +32,19 @@
 		<ul class="flat">
 			
 			<li>
-				<a href="/">Home</a>
+				<a href="/blog/">Home</a>
 			</li>
 			
 			<li>
-				<a href="/post">All posts</a>
+				<a href="/blog/post">All posts</a>
 			</li>
 			
 			<li>
-				<a href="/about">About</a>
+				<a href="/blog/about">About</a>
 			</li>
 			
 			<li>
-				<a href="/tags">Tags</a>
+				<a href="/blog/tags">Tags</a>
 			</li>
 			
 		</ul>
@@ -62,7 +62,7 @@
 				
 				<div class="post">
 					<div class="meta">Sep 19, 2022 &middot; 3 min read</div>
-					<a class="title" href="/2022/09/a-regularization-proof/">A Regularization Proof</a> &mdash;
+					<a class="title" href="/blog/2022/09/a-regularization-proof/">A Regularization Proof</a> &mdash;
 					<span class="description">
 						
 						Investigating behavior of a function minimum as we add regularization.
@@ -72,7 +72,7 @@
 				
 				<div class="post">
 					<div class="meta">Feb 4, 2020 &middot; 1 min read</div>
-					<a class="title" href="/2020/02/on-numpy-multithreading/">On NumPy Multithreading</a> &mdash;
+					<a class="title" href="/blog/2020/02/on-numpy-multithreading/">On NumPy Multithreading</a> &mdash;
 					<span class="description">
 						
 						Two notes. First, numpy supports multithreading, and this can give you a speed boost in multicore environments! On Linux, I used top to verify that my numpy was indeed using multithreading, which it was. Second, multithreading can hurt performance when you&rsquo;re running multiple Python / numpy processes at once. I was running into this issue, and got significant boost by limiting the number of numpy threads per process, in my case using import mkl; mkl.
@@ -82,7 +82,7 @@
 				
 				<div class="post">
 					<div class="meta">Oct 25, 2019 &middot; 1 min read</div>
-					<a class="title" href="/2019/10/fast-hierarchical-clustering-using-fastcluster/">Fast Hierarchical Clustering Using fastcluster</a> &mdash;
+					<a class="title" href="/blog/2019/10/fast-hierarchical-clustering-using-fastcluster/">Fast Hierarchical Clustering Using fastcluster</a> &mdash;
 					<span class="description">
 						
 						Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
@@ -93,7 +93,7 @@ fastcluster is implemented in C++, with interfaces for C++, R, and Python. In pa
 				
 				<div class="post">
 					<div class="meta">Sep 28, 2019 &middot; 4 min read</div>
-					<a class="title" href="/2019/09/software-engineering-tools-across-4-languages/">Software Engineering Tools Across 4 Languages</a> &mdash;
+					<a class="title" href="/blog/2019/09/software-engineering-tools-across-4-languages/">Software Engineering Tools Across 4 Languages</a> &mdash;
 					<span class="description">
 						
 						It&rsquo;s been two years since I started blogging, as well as two years since I started my PhD in the Oxford Statistics department. While it&rsquo;s been several months since my last post, I hope to get back into sharing some shorter posts and ideas going forward.
@@ -104,7 +104,7 @@ To get myself writing again, I thought I&rsquo;d broaden the scope of my posts b
 				
 				<div class="post">
 					<div class="meta">Jan 22, 2019 &middot; 9 min read</div>
-					<a class="title" href="/2019/01/subtle-observations-on-range-queries/">Subtle Observations on Range Queries</a> &mdash;
+					<a class="title" href="/blog/2019/01/subtle-observations-on-range-queries/">Subtle Observations on Range Queries</a> &mdash;
 					<span class="description">
 						
 						For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.
@@ -114,7 +114,7 @@ To get myself writing again, I thought I&rsquo;d broaden the scope of my posts b
 				
 				<div class="post">
 					<div class="meta">Oct 24, 2018 &middot; 8 min read</div>
-					<a class="title" href="/2018/10/missing-heritability-and-microaggressions/">Missing Heritability and Microaggressions</a> &mdash;
+					<a class="title" href="/blog/2018/10/missing-heritability-and-microaggressions/">Missing Heritability and Microaggressions</a> &mdash;
 					<span class="description">
 						
 						Missing heritability is like microaggressions: many seemingly insignificant effects can add up.
@@ -126,7 +126,7 @@ The podcast, which came second, was an episode of Nomad, a British podcast discu
 				
 				<div class="post">
 					<div class="meta">Jul 10, 2018 &middot; 14 min read</div>
-					<a class="title" href="/2018/07/random-graphs-and-giant-components/">Random Graphs and Giant Components</a> &mdash;
+					<a class="title" href="/blog/2018/07/random-graphs-and-giant-components/">Random Graphs and Giant Components</a> &mdash;
 					<span class="description">
 						
 						This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
@@ -137,7 +137,7 @@ There’s a lot more than this example that I find exciting, so I’ve deferred 
 				
 				<div class="post">
 					<div class="meta">Apr 4, 2018 &middot; 8 min read</div>
-					<a class="title" href="/2018/04/distributions-with-sympy/">Distributions with SymPy</a> &mdash;
+					<a class="title" href="/blog/2018/04/distributions-with-sympy/">Distributions with SymPy</a> &mdash;
 					<span class="description">
 						
 						Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
@@ -148,7 +148,7 @@ Previously, especially coming from a physics background, I’ve worked a lot wit
 				
 				<div class="post">
 					<div class="meta">Jan 30, 2018 &middot; 10 min read</div>
-					<a class="title" href="/2018/01/clustering-with-k-means-and-em/">Clustering with K-Means and EM</a> &mdash;
+					<a class="title" href="/blog/2018/01/clustering-with-k-means-and-em/">Clustering with K-Means and EM</a> &mdash;
 					<span class="description">
 						
 						Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
@@ -161,7 +161,7 @@ I won’t be going through much theory, as that can be easily found elsewhere. I
 				
 				<div class="post">
 					<div class="meta">Nov 25, 2017 &middot; 4 min read</div>
-					<a class="title" href="/2017/11/statistics-ml-books/">Statistics / ML Books</a> &mdash;
+					<a class="title" href="/blog/2017/11/statistics-ml-books/">Statistics / ML Books</a> &mdash;
 					<span class="description">
 						
 						At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!^[This post is strategically placed so I can cite some of these textbooks in later posts.]
@@ -178,7 +178,7 @@ This post will focus on textbooks with a machine learning focus. I’ve read les
 	</li>
 	<li class="page-item page-next">
 	
-    <a href="/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">Next page →</span></a>
+    <a href="/blog/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">Next page →</span></a>
 	
 	</li>
 </ul>

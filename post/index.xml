@@ -2,64 +2,64 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Brian Zhang&#39;s blog</title>
-    <link>https://brianzhang01.github.io/post/</link>
+    <link>https://brianzhang01.github.io/blog/post/</link>
     <description>Recent content in Posts on Brian Zhang&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://brianzhang01.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://brianzhang01.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Regularization Proof</title>
-      <link>https://brianzhang01.github.io/2022/09/a-regularization-proof/</link>
+      <link>https://brianzhang01.github.io/blog/2022/09/a-regularization-proof/</link>
       <pubDate>Mon, 19 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2022/09/a-regularization-proof/</guid>
+      <guid>https://brianzhang01.github.io/blog/2022/09/a-regularization-proof/</guid>
       <description>Say we have a loss function \(l(w)\). With no regularization, we might obtain the minimum at \(w = w_0\). Now consider the setting with regularization: \[ f_\lambda(w) = l(w) + \lambda R(w), \] where \(R(w) \geq 0\) is some regularization function and \(\lambda \geq 0\). What can we say if we consider the minimizing inputs \(w_1\) for \(f_{\lambda_1}(w)\) and \(w_2\) for \(f_{\lambda_2}(w)\), with \(0 \leq \lambda_1 &amp;lt; \lambda_2\)? \[ w_1 = argmin_w \left[ l(w) + \lambda_1 R(w) \right],\\ w_2 = argmin_w \left[ l(w) + \lambda_2 R(w) \right].</description>
     </item>
     
     <item>
       <title>On NumPy Multithreading</title>
-      <link>https://brianzhang01.github.io/2020/02/on-numpy-multithreading/</link>
+      <link>https://brianzhang01.github.io/blog/2020/02/on-numpy-multithreading/</link>
       <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2020/02/on-numpy-multithreading/</guid>
+      <guid>https://brianzhang01.github.io/blog/2020/02/on-numpy-multithreading/</guid>
       <description>Two notes. First, numpy supports multithreading, and this can give you a speed boost in multicore environments! On Linux, I used top to verify that my numpy was indeed using multithreading, which it was. Second, multithreading can hurt performance when you&amp;rsquo;re running multiple Python / numpy processes at once. I was running into this issue, and got significant boost by limiting the number of numpy threads per process, in my case using import mkl; mkl.</description>
     </item>
     
     <item>
       <title>Fast Hierarchical Clustering Using fastcluster</title>
-      <link>https://brianzhang01.github.io/2019/10/fast-hierarchical-clustering-using-fastcluster/</link>
+      <link>https://brianzhang01.github.io/blog/2019/10/fast-hierarchical-clustering-using-fastcluster/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2019/10/fast-hierarchical-clustering-using-fastcluster/</guid>
+      <guid>https://brianzhang01.github.io/blog/2019/10/fast-hierarchical-clustering-using-fastcluster/</guid>
       <description>Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
 fastcluster is implemented in C++, with interfaces for C++, R, and Python. In particular, the Python interface mirrors scipy.cluster.hierarchy.linkage, and the R interface mirrors stats::hclust and flashClust::flashClust, so switching over is a no-brainer.</description>
     </item>
     
     <item>
       <title>Software Engineering Tools Across 4 Languages</title>
-      <link>https://brianzhang01.github.io/2019/09/software-engineering-tools-across-4-languages/</link>
+      <link>https://brianzhang01.github.io/blog/2019/09/software-engineering-tools-across-4-languages/</link>
       <pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2019/09/software-engineering-tools-across-4-languages/</guid>
+      <guid>https://brianzhang01.github.io/blog/2019/09/software-engineering-tools-across-4-languages/</guid>
       <description>It&amp;rsquo;s been two years since I started blogging, as well as two years since I started my PhD in the Oxford Statistics department. While it&amp;rsquo;s been several months since my last post, I hope to get back into sharing some shorter posts and ideas going forward.
 To get myself writing again, I thought I&amp;rsquo;d broaden the scope of my posts beyond statistics and machine learning. In particular, over the past two years, I&amp;rsquo;ve found myself getting more interested in abstract math as well as software engineering.</description>
     </item>
     
     <item>
       <title>Subtle Observations on Range Queries</title>
-      <link>https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/</link>
+      <link>https://brianzhang01.github.io/blog/2019/01/subtle-observations-on-range-queries/</link>
       <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2019/01/subtle-observations-on-range-queries/</guid>
+      <guid>https://brianzhang01.github.io/blog/2019/01/subtle-observations-on-range-queries/</guid>
       <description>For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.</description>
     </item>
     
     <item>
       <title>Missing Heritability and Microaggressions</title>
-      <link>https://brianzhang01.github.io/2018/10/missing-heritability-and-microaggressions/</link>
+      <link>https://brianzhang01.github.io/blog/2018/10/missing-heritability-and-microaggressions/</link>
       <pubDate>Wed, 24 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2018/10/missing-heritability-and-microaggressions/</guid>
+      <guid>https://brianzhang01.github.io/blog/2018/10/missing-heritability-and-microaggressions/</guid>
       <description>Missing heritability is like microaggressions: many seemingly insignificant effects can add up.
 Two weeks ago, as I was taking a journey back to London Heathrow / Oxford, I came across a small connection in a journal article and a podcast. It was a nice moment of seeing two ideas click together.
 The podcast, which came second, was an episode of Nomad, a British podcast discussing Christian faith outside the institutional church.</description>
@@ -67,30 +67,30 @@ The podcast, which came second, was an episode of Nomad, a British podcast discu
     
     <item>
       <title>Random Graphs and Giant Components</title>
-      <link>https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/</link>
+      <link>https://brianzhang01.github.io/blog/2018/07/random-graphs-and-giant-components/</link>
       <pubDate>Tue, 10 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2018/07/random-graphs-and-giant-components/</guid>
+      <guid>https://brianzhang01.github.io/blog/2018/07/random-graphs-and-giant-components/</guid>
       <description>This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
 There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.</description>
     </item>
     
     <item>
       <title>Distributions with SymPy</title>
-      <link>https://brianzhang01.github.io/2018/04/distributions-with-sympy/</link>
+      <link>https://brianzhang01.github.io/blog/2018/04/distributions-with-sympy/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2018/04/distributions-with-sympy/</guid>
+      <guid>https://brianzhang01.github.io/blog/2018/04/distributions-with-sympy/</guid>
       <description>Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
 Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.</description>
     </item>
     
     <item>
       <title>Clustering with K-Means and EM</title>
-      <link>https://brianzhang01.github.io/2018/01/clustering-with-k-means-and-em/</link>
+      <link>https://brianzhang01.github.io/blog/2018/01/clustering-with-k-means-and-em/</link>
       <pubDate>Tue, 30 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2018/01/clustering-with-k-means-and-em/</guid>
+      <guid>https://brianzhang01.github.io/blog/2018/01/clustering-with-k-means-and-em/</guid>
       <description>Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
 I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
  Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
@@ -99,30 +99,30 @@ I won’t be going through much theory, as that can be easily found elsewhere. I
     
     <item>
       <title>Statistics / ML Books</title>
-      <link>https://brianzhang01.github.io/2017/11/statistics-ml-books/</link>
+      <link>https://brianzhang01.github.io/blog/2017/11/statistics-ml-books/</link>
       <pubDate>Sat, 25 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2017/11/statistics-ml-books/</guid>
+      <guid>https://brianzhang01.github.io/blog/2017/11/statistics-ml-books/</guid>
       <description>At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!^[This post is strategically placed so I can cite some of these textbooks in later posts.]
 This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:</description>
     </item>
     
     <item>
       <title>Polynomial Regression</title>
-      <link>https://brianzhang01.github.io/2017/11/polynomial-regression/</link>
+      <link>https://brianzhang01.github.io/blog/2017/11/polynomial-regression/</link>
       <pubDate>Thu, 09 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2017/11/polynomial-regression/</guid>
+      <guid>https://brianzhang01.github.io/blog/2017/11/polynomial-regression/</guid>
       <description>Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
 At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</description>
     </item>
     
     <item>
       <title>Blogging Aims</title>
-      <link>https://brianzhang01.github.io/2017/11/blogging-aims/</link>
+      <link>https://brianzhang01.github.io/blog/2017/11/blogging-aims/</link>
       <pubDate>Sat, 04 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://brianzhang01.github.io/2017/11/blogging-aims/</guid>
+      <guid>https://brianzhang01.github.io/blog/2017/11/blogging-aims/</guid>
       <description>Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
 As of September, I&amp;rsquo;ve been a first-year PhD student at Oxford&amp;rsquo;s Statistics department. I received my bachelor&amp;rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.</description>
     </item>
