@@ -2,19 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.brianczhang.com/blog/2025/04/objection-funk/</loc>
-    <lastmod>2025-04-12T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://www.brianczhang.com/blog/</loc>
+    <lastmod>2025-04-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.brianczhang.com/blog/2025/04/on-dededkind/</loc>
+    <lastmod>2025-04-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.brianczhang.com/blog/post/</loc>
+    <lastmod>2025-04-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.brianczhang.com/blog/2025/04/objection-funk/</loc>
     <lastmod>2025-04-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.brianczhang.com/blog/2025/04/leetcode/</loc>
     <lastmod>2025-04-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.brianczhang.com/blog/2025/04/math-motivation/</loc>
-    <lastmod>2025-04-12T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.brianczhang.com/blog/post/</loc>
     <lastmod>2025-04-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.brianczhang.com/blog/2022/09/a-regularization-proof/</loc>

@@ -6,7 +6,17 @@
     <description>Recent content on Brian Zhang&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 12 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.brianczhang.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.brianczhang.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On Dedekind</title>
+      <link>https://www.brianczhang.com/blog/2025/04/on-dededkind/</link>
+      <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.brianczhang.com/blog/2025/04/on-dededkind/</guid>
+      <description>An extended quote from John Stilwell’s Elements of Algebra, p. 35-36:
+“[Gauss’s] Disquisitiones became the bible of the next generation of number theorists, particularly Dirichlet, who kept a copy of it on his desk at all times. Dirichlet’s lectures became a classic in their turn when edited by Dedekind as the book Vorlesungen über Zahlentheorie. The first edition appeared in 1863 (four years after Dirichlet’s death) and the book gradually changed character as Dedekind added appendices in subsequent editions.</description>
+    </item>
+    
     <item>
       <title>Analyzing &#34;Objection Funk&#34;</title>
       <link>https://www.brianczhang.com/blog/2025/04/objection-funk/</link>

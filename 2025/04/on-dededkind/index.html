@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>On Dedekind - Brian Zhang&#39;s blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="On Dedekind" />
+<meta property="og:description" content="An extended quote from John Stilwell’s Elements of Algebra, p. 35-36:
+“[Gauss’s] Disquisitiones became the bible of the next generation of number theorists, particularly Dirichlet, who kept a copy of it on his desk at all times. Dirichlet’s lectures became a classic in their turn when edited by Dedekind as the book Vorlesungen über Zahlentheorie. The first edition appeared in 1863 (four years after Dirichlet’s death) and the book gradually changed character as Dedekind added appendices in subsequent editions." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.brianczhang.com/blog/2025/04/on-dededkind/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2025-04-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2025-04-20T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="On Dedekind"/>
+<meta name="twitter:description" content="An extended quote from John Stilwell’s Elements of Algebra, p. 35-36:
+“[Gauss’s] Disquisitiones became the bible of the next generation of number theorists, particularly Dirichlet, who kept a copy of it on his desk at all times. Dirichlet’s lectures became a classic in their turn when edited by Dedekind as the book Vorlesungen über Zahlentheorie. The first edition appeared in 1863 (four years after Dirichlet’s death) and the book gradually changed character as Dedekind added appendices in subsequent editions."/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://www.brianczhang.com/blog/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://www.brianczhang.com/blog/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://www.brianczhang.com/blog/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title">Brian Zhang&#39;s blog</h1>
+	<div class="site-description"><h2>Statistics and other topics</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/brianzhang01" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/brianczhang" title="Twitter"><i data-feather="twitter"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/blog/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/blog/post">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/blog/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/blog/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">On Dedekind</h1>
+			<div class="meta">Posted Apr 20, 2025 &middot; 8 min read</div>
+		</div>
+
+		<div class="markdown">
+			
+
+
+<p>An extended quote from John Stilwell’s <em>Elements of Algebra</em>, p. 35-36:</p>
+<p>“[Gauss’s] <em>Disquisitiones</em> became the bible of the next generation of number theorists, particularly Dirichlet, who kept a copy of it on his desk at all times. Dirichlet’s lectures became a classic in their turn when edited by Dedekind as the book <em>Vorlesungen über Zahlentheorie</em>. The first edition appeared in 1863 (four years after Dirichlet’s death) and the book gradually changed character as Dedekind added appendices in subsequent editions. The final (4th) edition contains as much Dedekind as Dirichlet….</p>
+<p>“Dirichlet proved some of the fundamental theorems about algebraic integers, but it was Dedekind who isolated the underlying field and ring properties which explain their similarities with ordinary integers. By making the algebraic structures of number theory the object of study, Dedekind paved the way for abstract algebra. His immediate successors, Weber and Hilbert, still spoke of algebraic number theory rather than ring theory, but the next generation, led by Emmy Noether and Emil Artin, left number theory behind….</p>
+<p>“Dedekind’s reflections on the nature of integers did not end with their algebraic properties. He was also the first to recognise the fundamental role of induction in <span class="math inline">\(\mathbb{N}\)</span>…. He came to the conclusion that the essence of the natural number concept is the process of closure under the successor operation, which entails the inductive property of <span class="math inline">\(\mathbb{N}\)</span>. He also realised that this property makes it possible to define <span class="math inline">\(+\)</span> and <span class="math inline">\(\times\)</span>, so that all of number theory really depends on induction (Dedekind [1888], Theorem 126). This radical rethinking of the nature of number was possible only with the help of the set concept … <strong>In fact many of Dedekind’s contributions to mathematics stem from his introduction of sets as mathematical objects.</strong> For example, it was his idea to work with congruence <em>classes</em>, as algebraic objects, rather than with the congruence <em>relation</em> on <span class="math inline">\(\mathbb{Z}\)</span> (Dedekind [1857]). He also used sets to give an elegant definition of real numbers, as we shall see in Chapter 3. [bold emphasis mine]”</p>
+<p>Dedekind feels to me like the first “modern” mathematician, where modern refers to the style of treatment you would expect from an advanced undergraduate math class. As I‘ve studied him, he feels to me like a pivotal figure, an under-recognized great in my mind. Besides Stillwell’s observations that Dedekind formalized ring theory and field theory, I have been mulling over the three constructions Stillwell is alluding to.</p>
+<p>In 1872, Dedekind first published on the Dedekind cuts that bear his name, in the essay <em><a href="https://ia600204.us.archive.org/32/items/cu31924001586282/cu31924001586282.pdf">Stetigkeit und die Irrationalzahlen</a></em> (“Continuity and Irrational Numbers”). These defined each irrational number as the set of rational numbers less than it. These sets have an addition and multiplication operation: the addition / multiplication of two such sets is the set that can be obtained by adding or multiplying any two elements, one from each set.</p>
+<p>Dedekind’s publication contains two quotes relevant for history of mathematics. First, in the introduction, Dedekind tells us when he came up with this discovery: “My attention was first directed towards the considerations which form the subject of this pamphlet in the autumn of 1858. As professor in the Polytechnic School in Zürich I found myself for the first time obliged to lecture upon the elements of the differential calculus and felt more keenly than ever before the lack of a really scientific foundation for arithmetic … For myself this feeling of dissatisfaction was so overpowering that I made the fixed resolve to keep meditating on the question till I should find a purely arithmetic and perfectly rigorous foundation for the principles of infinitesimal analysis. … I succeeded Nov. 24, 1858. … I could not make up my mind to its publication, because, in the first place, the presentation did not seem altogether simple, and further, the theory itself had little promise.” (p. 1-2)</p>
+<p>Within his essay, Dedekind also claims that his definition of real numbers (and implicitly, their multiplication operation) enables “proofs of theorems (as, e.g., <span class="math inline">\(\sqrt{2} \cdot \sqrt{3} = \sqrt{6}\)</span>, which to the best of my knowledge have never been established before)” (p. 22). That’s a fun quote, and one I’m continuing to mull over as I’ve been thinking about the geometric concept of number in Euclid’s <em>Elements</em> (hopefully a future post).</p>
+<p>Dedekind’s second famous construction is defining ideals as sets of numbers. Above, Stillwell mentions the special case of congruence classes in modular arithmetic. When talking about arithmetic modulo say 5, we usually think of elements 0, 1, 2, 3, 4, with some redefinition of operations, such as 2 + 4 = 3. But at a higher level of abstraction, mathematicians will write this as <span class="math inline">\(\mathbb{Z}/5\mathbb{Z}\)</span>, and consider 5 infinite sets: {…, -10, -5, 0, 5, 10, …}, {…, -9, -4, 1, 6, 11, …}, {…, -8, -3, 2, 7, 12, …}, {…, -7, -2, 3, 8, 13, …}, and {…, -6, -1, 4, 9, 14, …}. The correspondence here is that each set is the elements of the integers congruent to x modulo 5. Now, instead of saying 2 + 4 = 3, we say that we add the set {…, -8, -3, 2, 7, 12, …} with the set {…, -6, -1, 4, 9, 14, …} by considering all pairwise sums of one element from each set. This turns out to give us another one of our sets, {…, -7, -2, 3, 8, 13, …} — the analogous statement to 2 + 4 = 3.</p>
+<p>In this construction, we call <span class="math inline">\(\mathbb{Z}\)</span> (the positive integers, negative integers, and zero) our original ring, <span class="math inline">\(5\mathbb{Z}\)</span> an ideal within the ring (this looks like {…, -10, -5, 0, 5, 10, …}), and <span class="math inline">\(\mathbb{Z}/5\mathbb{Z}\)</span> the quotient ring, which looks like our 5 infinite sets, also called equivalence classes, which can be added and multiplied with each other. The “/” operation is called the quotient and is deeply fundamental to mathematics.</p>
+<p>Dedekind’s formalization of the concept of ideals took the work of Kummer (see <a href="https://en.wikipedia.org/wiki/Ideal_number#History">here</a>) and put it on a solid foundation. I haven’t yet studied the original works, though <a href="https://digitalcommons.ursinus.edu/cgi/viewcontent.cgi?article=1000&amp;context=triumphs_abstract">this essay</a> by Janet Heine Barnett seems like a great place to start. I believe the first publication was in 1871 — Stillwell has the reference “Supplement X to Dirichlet’s <em>Vorlesungen über Zahlentheorie</em>, 2nd Ed.” The timeline is a bit complicated, but I found a helpful summary in <a href="https://www.andrew.cmu.edu/user/avigad/Papers/ideals71.pdf">this article</a> by Jeremy Avigad:</p>
+<p>“Dedekind, in fact, published four versions of his theory of ideals. Three appeared in his”supplements,” or appendices, to the second, third, and fourth editions of Dedekind’s transcription of Dirichlet’s <em>Vorlesungen über Zahlentheorie</em>, or <em>Lectures on Number Theory</em>. These editions appeared in 1871, 1879, and 1894, respectively. The remaining version was written at the request of Lipschitz, translated into French, and published in the <em>Bulletin des Sciences Mathématiques et Astronomiques</em> in 1876-1877. It was also published as an independent monograph in 1877, and is, in essence, an expanded presentation of the version he published in 1879. Whereas Dedekind’s first version remained fairly close to Kummer’s computational style of presentation, the later versions became increasingly abstract and algebraic.”</p>
+<p>So, with the help of the Stillwell quote above, Dirichlet’s <em>Lectures on Number Theory</em> were published by Dedekind in four editions in 1863, 1871, 1879, and 1894. The 1863 edition does not have Dedekind’s ideal theory, the 1871 edition (translated by Avigad <a href="https://www.andrew.cmu.edu/user/avigad/Papers/ideals71.pdf">here</a>) does but in a more computational style, and the 1879 and 1894 present the same ideal theory in a more abstract style. Separately, Dedekind published on ideals in 1877. The 1857 reference Stillwell gives (“Abriss einer Theorie der höheren Kongruenzen in bezug auf einen reellen Primzahl-Modulus”, something about congruences with prime modulus) is to show that Dedekind constructed congruence classes in the setting <span class="math inline">\(\mathbb{Z}/p\mathbb{Z}\)</span> before applying that construction to a much harder setting in 1871.</p>
+<p>Dedekind’s third revolutionary construction is of the natural numbers, basically what we now call the Peano axioms. This was published in 1888 in “What are numbers and what should they be?” I went looking in the university library and found a copy, not realizing that it’s also accessible online, e.g. <a href="https://ia600204.us.archive.org/32/items/cu31924001586282/cu31924001586282.pdf">here</a>. I’ve been a bit disappointed compared to my expectations. There isn’t much philosophizing about what he’s doing, just a stream of definitions and theorems. I’d rather read a modern treatment on the Peano axioms and logic. Still, the preface had some high praise that confirmed a lot of my recent quest: trying to work out and highlight Dedekind’s contributions to mathematics. By H. Pogorzelski, W. Ryan and W. Snyder:</p>
+<p>“Dedekind’s essay unearths the following branches of mathematics:</p>
+<ol style="list-style-type: decimal">
+<li><em>Axiomatic Set Theory</em>, hinting implicitly at most of the Zermelo axioms, which surely led Zermelo to his formalization of them.</li>
+<li><em>Axiomatic Arithmetic</em>, hinting at the Peano axioms, which Peano must have noted.</li>
+<li><em>Recursive Function Theory</em>, hinting at Computability, which Skolem, Gödel and Kleene must have noted for their work.</li>
+<li><em>Foundations of Mathematics</em>, which surely guided Zermelo and Bertrand Russell in their seminal foundational enterprises. It should be noted that the true founder of set-theoretic foundations of mathematics is Dedekind and not Cantor as many imagine.”</li>
+</ol>
+<p>Tracing Dedekind’s influence in set theory and logic is probably the most difficult of the 3 areas I’ve highlighted (real numbers and analysis, ideals and abstract algebra, natural numbers and set theory). From what I can tell, Dedekind and Cantor’s paths were intertwined by a close correspondence. Cantor took what Dedekind started in 1888 (bijections between sets, Dedekind-infinite as a definition of an infinite set) and ran with it much further, but Dedekind was with Cantor in many parts of the journey, steering and correcting his thoughts.</p>
+<p>As observed by Stillwell, “The effective use of the set concept in mathematics probably begins with Dedekind’s definition of real numbers in 1858” (p. 53). Dedekind, driven by abstraction and parsimony, discovered the utility of constructing sets of numbers. In developing the implications of this set-centered viewpoint throughout his career, he resolved major questions of foundations, while in a way his success led to troubled examination of the set concept that dominated mathematics around the turn of the 20th century.</p>
+
+		</div><div id="disqus_thread"></div>
+<script type="text/javascript">
+	(function () {
+		
+		
+		if (window.location.hostname == "localhost")
+			return;
+
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		var disqus_shortname = 'brianzhang01-stats';
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+		Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> Built with <a href="https://gohugo.io">Hugo</a>, <a href="https://github.com/rstudio/blogdown">blogdown</a>, and <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a></div>
+	</nav>
+</div>
+
+<script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-113303717-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>
