@@ -31,7 +31,7 @@ The following quote from *Continuity and the Irrational Numbers* has become a fa
 
 "My attention was first directed towards the considerations which form the subject of this pamphlet in the autumn of 1858. As professor in the Polytechnic School in Zürich I found myself for the first time obliged to lecture upon the elements of the differential calculus and felt more keenly than ever before the lack of a really scientific foundation for arithmetic ... For myself this feeling of dissatisfaction was so overpowering that I made the fixed resolve to keep meditating on the question till I should find a purely arithmetic and perfectly rigorous foundation for the principles of infinitesimal analysis.... I succeeded Nov. 24, 1858.... I could not make up my mind to its publication, because, in the first place, the presentation did not seem altogether simple, and further, the theory itself had little promise." (p. 1-2 [here](https://ia600204.us.archive.org/32/items/cu31924001586282/cu31924001586282.pdf))
 
-Dedekind goes on to say he was motivated to publish (in 1872) upon reading a paper by E. Heine. Heine also influenced Cantor's set theory, and Cantor's definition of real numbers came out just a few months earlier in 1872, as the introduction to *Continuity* describes. Apparently, 1872 was also the year Dedekind and Cantor first met.
+Dedekind goes on to say he was motivated to publish (in 1872) upon reading a paper by E. Heine. Heine also influenced Cantor's set theory, and Cantor's definition of real numbers came out just a few months earlier in 1872, as the introduction to *Continuity* describes. Apparently, 1872 was also the year Dedekind and Cantor first met. (For more on the relationship between Cantor and Dedekind, search for the keyword "impresses" in [this article](https://plato.stanford.edu/entries/dedekind-foundations/).)
 
 ## Ideals and congruence classes
 
@@ -70,14 +70,21 @@ The editors / translators of my volume, H. Pogorzelski, W. Ryan and W. Snyder, a
 3. *Recursive Function Theory*, hinting at Computability, which Skolem, Gödel and Kleene must have noted for their work.
 4. *Foundations of Mathematics*, which surely guided Zermelo and Bertrand Russell in their seminal foundational enterprises. It should be noted that the true founder of set-theoretic foundations of mathematics is Dedekind and not Cantor as many imagine."
 
+(To moderate this praise a bit, the beginning of axiomatics is equally indebted to Frege, and Dedekind recognizes Frege's 1884 *Grundlagen der Arithmetik* in the preface to his second edition, see p. 35 [here](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf).)
+
 Stillwell observes, "The effective use of the set concept in mathematics probably begins with Dedekind's definition of real numbers in 1858" (p. 53). Dedekind, driven by abstraction and parsimony, discovered the utility of constructing sets of numbers and applied it multiple times in his career. In highlighting this set-centered viewpoint, he resolved major questions of foundations, while in a way his and others' success led to troubled examination of the set concept that came to dominate mathematics at the turn of the 20th century.
 
 ## Further Reading
 
 - [*Essays on the Theory of Numbers*](https://ia600204.us.archive.org/32/items/cu31924001586282/cu31924001586282.pdf), 1901 English translation by W. Beman containing Dedekind's *Continuity and Irrational Numbers* (1872) and *What are Numbers and What are They For?* (1888)
 - "[Richard Dedekind and the Creation of an Ideal: Early Developments in Ring Theory](https://digitalcommons.ursinus.edu/cgi/viewcontent.cgi?article=1000&context=triumphs_abstract)", Janet Heine Barnett, 2016
-- Peano's Axioms and Dedekind Cuts, p. 5-13 of [Math 55a course notes](https://dongryul-kim.github.io/harvard_notes/Math55a/Notes_Math55a.pdf#page9), lectures by Yum-Tong Siu, notes by Dongryul Kim, 2015
+- Peano's Axioms and Dedekind Cuts, p. 5-13 of [Math 55a course notes](https://dongryul-kim.github.io/harvard_notes/Math55a/Notes_Math55a.pdf), lectures by Yum-Tong Siu, notes by Dongryul Kim, 2015
+- "[Dedekind’s Contributions to the Foundations of Mathematics](https://plato.stanford.edu/entries/dedekind-foundations/)", Erich Reck, 2008 / revised in 2020
 - "[Notes on Richard Dedekind's *Was sind und was sollen die Zahlen?*](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf)", David E. Joyce, 2005
 - [*The "Science of Numbers" in action in Richard Dedekind's works: between mathematical explorations and foundational investigations*](https://hal.science/tel-01144626/file/Haffner_These_1711%20-%20avec%20corrigenda.pdf), Emmylou Haffner, 2015
 
+*Many thanks to Stephen Mackereth for pointing me in the right direction and correcting early inaccuracies in my thoughts.*
+
 ***Update 2025-05-08: Added recommended reading list. Rewrote all 3 subsections. Added the clarification on irrational numbers that do not have a formula for defining them. Added the example of divisibility of ideals in the integers. Added excerpts from Dedekind's "Numbers".***
+
+***Update 2025-05-11: Added a remark on Frege. Added Erich Reck's article to recommended reading. Fixed some wording.***
