@@ -61,7 +61,7 @@ I borrowed a copy of *Numbers* from my university library, and found the rest of
 
 For those who would like to give Dedekind a try, [here](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf) is a reading guide. The translation I skimmed also pointed out Dedekind's gaps in proof when he claimed things we now know to be not unique, due to models such as (1) non-standard models of arithmetic (a gap in Dedekind's 73 and 134) and (2) infinite but not Dedekind-infinite sets (a gap in Dedekind's 159 and 160) — this could be of interest to someone studying history of logic.
 
-The editors / translations of my volume, H. Pogorzelski, W. Ryan and W. Snyder, also wrote a nice introduction which I paid close attention to (sadly, they took out Dedekind's prefaces!):
+The editors / translators of my volume, H. Pogorzelski, W. Ryan and W. Snyder, also wrote a nice introduction which I paid close attention to (sadly, they took out Dedekind's prefaces!):
 
 "The unique creativity of Dedekind blazes across this essay on arithmetic like lightning across a serene sky. Indeed, it is a highly educational experience for college students to see and learn from this mathematical giant as he stumbles, forgets, worries, slips, trips, sweats and unearths his precious mathematical mines single-handed lay before our eyes in his essay. Dedekind's essay unearths the following branches of mathematics:
 
@@ -70,7 +70,7 @@ The editors / translations of my volume, H. Pogorzelski, W. Ryan and W. Snyder, 
 3. *Recursive Function Theory*, hinting at Computability, which Skolem, Gödel and Kleene must have noted for their work.
 4. *Foundations of Mathematics*, which surely guided Zermelo and Bertrand Russell in their seminal foundational enterprises. It should be noted that the true founder of set-theoretic foundations of mathematics is Dedekind and not Cantor as many imagine."
 
-Stillwell observes, "The effective use of the set concept in mathematics probably begins with Dedekind's definition of real numbers in 1858" (p. 53). Dedekind, driven by abstraction and parsimony, discovered the utility of constructing sets of numbers and applied it multiple times in his career. In developing the implications of this set-centered viewpoint, he resolved major questions of foundations, while in a way his and others' success led to troubled examination of the set concept that came to dominate mathematics at the turn of the 20th century.
+Stillwell observes, "The effective use of the set concept in mathematics probably begins with Dedekind's definition of real numbers in 1858" (p. 53). Dedekind, driven by abstraction and parsimony, discovered the utility of constructing sets of numbers and applied it multiple times in his career. In highlighting this set-centered viewpoint, he resolved major questions of foundations, while in a way his and others' success led to troubled examination of the set concept that came to dominate mathematics at the turn of the 20th century.
 
 ## Further Reading
 
