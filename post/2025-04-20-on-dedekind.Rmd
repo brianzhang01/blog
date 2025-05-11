@@ -25,7 +25,7 @@ By defining arithmetic operations on these sets, Dedekind provided a formal grou
 
 So far, I introduced an irrational number as the set of rational numbers less than it, and showed how we could define the set for $\sqrt{2}$. This works for algebraic numbers, where we can write definitions using polynomial expressions (like $x^2 < 2$). But it leaves out irrational numbers that don't have a corresponding equation. For Dedekind, the most important part of his irrational numbers was to show that the real number line has "no gaps", hence the title *Continuity and Irrational Numbers*. We need to be able to talk about an irrational number even when there is no rule for picking out the corresponding set.
 
-This is where Dedekind's full definition of a cut comes in. A set of rationals forms a valid irrational number if each rational in the set is less than every rational not in the set. With this extra step, we can talk about "all irrationals", and this allows us to "complete" the real line. (See also Dedekind's comments on this in his preface to the first edition of *Was sind und was sollen die Zahlen?*, for instance by searching the keyword "Bertrand" [here](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf).)
+This is where Dedekind's full definition of a cut comes in. A set of rationals forms a valid irrational number if each rational in the set is less than every rational not in the set. With this extra step, we can talk about "all irrationals", and this allows us to "complete" the real line. (See also Dedekind's comments on this in his preface to the first edition of *What are Numbers and What Should They Be?*, for instance by searching the keyword "Bertrand" [here](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf).)
 
 The following quote from *Continuity and the Irrational Numbers* has become a favorite of math historians. We see how Dedekind's cuts were invented to solve the problem of foundations of analysis:
 
@@ -47,7 +47,7 @@ Dedekind's formalization of the concept of ideals took the work of Kummer (see [
 
 ## Natural numbers
 
-Dedekind's third revolutionary construction is of the natural numbers, essentially what we now call the Peano axioms. This was published in 1888 as *What are Numbers and What are They For?* In the preface to the first edition, Dedekind reflects upon his project for a general audience:
+Dedekind's third revolutionary construction is of the natural numbers, essentially what we now call the Peano axioms. This was published in 1888 as *What are Numbers and What Should They Be?* In the preface to the first edition, Dedekind reflects upon his project for a general audience:
 
 "My answer to the problems propounded in the title of this paper is, then, briefly this: numbers are free creations of the human mind; they serve as a means of apprehending more easily and more sharply the difference of things. It is only through the purely logical process of building up the science of numbers and by thus acquiring the continuous number-domain that we are prepared accurately to investigate our notions of space and time by bringing them into relation with this number-domain created in our mind. If we scrutinise closely what is done in counting an aggregate or number of things, we are led to consider the ability of the mind to relate things to things, to let a thing correspond to a thing, or to represent a thing by a thing, an ability without which no thinking is possible. Upon this unique and therefore absolutely indispensable foundation, as I have already affirmed in an announcement of this paper, must, in my judgment, the whole science of numbers be established." (p. 31 [here](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf), or p. 31-32 [here](https://ia600204.us.archive.org/32/items/cu31924001586282/cu31924001586282.pdf))
 
@@ -76,7 +76,7 @@ Stillwell observes, "The effective use of the set concept in mathematics probabl
 
 ## Further Reading
 
-- [*Essays on the Theory of Numbers*](https://ia600204.us.archive.org/32/items/cu31924001586282/cu31924001586282.pdf), 1901 English translation by W. Beman containing Dedekind's *Continuity and Irrational Numbers* (1872) and *What are Numbers and What are They For?* (1888)
+- [*Essays on the Theory of Numbers*](https://ia600204.us.archive.org/32/items/cu31924001586282/cu31924001586282.pdf), 1901 English translation by W. Beman containing Dedekind's *Continuity and Irrational Numbers* (1872) and *What are Numbers and What Should They Be?* (1888)
 - "[Richard Dedekind and the Creation of an Ideal: Early Developments in Ring Theory](https://digitalcommons.ursinus.edu/cgi/viewcontent.cgi?article=1000&context=triumphs_abstract)", Janet Heine Barnett, 2016
 - Peano's Axioms and Dedekind Cuts, p. 5-13 of [Math 55a course notes](https://dongryul-kim.github.io/harvard_notes/Math55a/Notes_Math55a.pdf), lectures by Yum-Tong Siu, notes by Dongryul Kim, 2015
 - "[Dedekind’s Contributions to the Foundations of Mathematics](https://plato.stanford.edu/entries/dedekind-foundations/)", Erich Reck, 2008 / revised in 2020
