@@ -70,7 +70,7 @@ The editors / translators of my volume, H. Pogorzelski, W. Ryan and W. Snyder, a
 3. *Recursive Function Theory*, hinting at Computability, which Skolem, Gödel and Kleene must have noted for their work.
 4. *Foundations of Mathematics*, which surely guided Zermelo and Bertrand Russell in their seminal foundational enterprises. It should be noted that the true founder of set-theoretic foundations of mathematics is Dedekind and not Cantor as many imagine."
 
-(To moderate this praise a bit, the beginning of axiomatics is equally indebted to Frege, and Dedekind recognizes Frege's 1884 *Grundlagen der Arithmetik* in the preface to his second edition, see p. 35 [here](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf).)
+(To moderate this praise a bit, the beginning of axiomatics is equally indebted to Frege, and Dedekind recognizes Frege's 1884 *Grundlagen der Arithmetik* in the preface to his second edition, see p. 35 [here](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf). [This article](https://plato.stanford.edu/entries/dedekind-foundations/) contains a comparison of Dedekind and Frege's approaches.)
 
 Stillwell observes, "The effective use of the set concept in mathematics probably begins with Dedekind's definition of real numbers in 1858" (p. 53). Dedekind, driven by abstraction and parsimony, discovered the utility of constructing sets of numbers and applied it multiple times in his career. In highlighting this set-centered viewpoint, he resolved major questions of foundations, while in a way his and others' success led to troubled examination of the set concept that came to dominate mathematics at the turn of the 20th century.
 
@@ -83,7 +83,7 @@ Stillwell observes, "The effective use of the set concept in mathematics probabl
 - "[Notes on Richard Dedekind's *Was sind und was sollen die Zahlen?*](http://aleph0.clarku.edu/~djoyce/numbers/dedekind.pdf)", David E. Joyce, 2005
 - [*The "Science of Numbers" in action in Richard Dedekind's works: between mathematical explorations and foundational investigations*](https://hal.science/tel-01144626/file/Haffner_These_1711%20-%20avec%20corrigenda.pdf), Emmylou Haffner, 2015
 
-*Many thanks to Stephen Mackereth for pointing me in the right direction and correcting early inaccuracies in my thoughts.*
+***Many thanks to Stephen Mackereth for pointing me in the right direction and correcting early inaccuracies in my thoughts.***
 
 ***Update 2025-05-08: Added recommended reading list. Rewrote all 3 subsections. Added the clarification on irrational numbers that do not have a formula for defining them. Added the example of divisibility of ideals in the integers. Added excerpts from Dedekind's "Numbers".***
 
