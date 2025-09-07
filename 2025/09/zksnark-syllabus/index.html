@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>A zkSNARK Syllabus - Brian Zhang&#39;s blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="A zkSNARK Syllabus" />
+<meta property="og:description" content="This is a backfill note from 2025-06-19. Perhaps the most powerful cryptographic technology to come out of the last decade is general-purpose succinct zero knowledge proofs, usually called zk-SNARKs" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.brianczhang.com/blog/2025/09/zksnark-syllabus/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2025-09-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2025-09-06T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A zkSNARK Syllabus"/>
+<meta name="twitter:description" content="This is a backfill note from 2025-06-19. Perhaps the most powerful cryptographic technology to come out of the last decade is general-purpose succinct zero knowledge proofs, usually called zk-SNARKs"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://www.brianczhang.com/blog/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://www.brianczhang.com/blog/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://www.brianczhang.com/blog/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title">Brian Zhang&#39;s blog</h1>
+	<div class="site-description"><h2>Statistics and other topics</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/brianzhang01" title="Github"><i data-feather="github"></i></a><a href="https://twitter.com/brianczhang" title="Twitter"><i data-feather="twitter"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/blog/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/blog/post">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/blog/about">About</a>
+			</li>
+			
+			<li>
+				<a href="/blog/tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">A zkSNARK Syllabus</h1>
+			<div class="meta">Posted Sep 6, 2025 &middot; 3 min read</div>
+		</div>
+
+		<div class="markdown">
+			<p>This is a backfill note from 2025-06-19.</p>
+<blockquote>
+<p><em>Perhaps the most powerful cryptographic technology to come out of the last decade is general-purpose succinct zero knowledge proofs, usually called zk-SNARKs</em></p>
+<ul>
+<li><a href="https://vitalik.eth.limo/general/2021/01/26/snarks.html">Vitalik Buterin, 2021</a></li>
+</ul>
+</blockquote>
+<p>I’m starting to learn about zkSNARKs, and while there’s a lot I don’t know, I feel I have a basic map of where things fall in the landscape. So I thought I’d write it down for myself and others. This is not meant to be a self-contained primer, but rather to point to what needs to be studied.</p>
+<p>There are some nice popular-level illustrations of zero-knowledge proofs. In order of the amount of math / reasoning required:</p>
+<ul>
+<li>Where&rsquo;s Waldo (<a href="https://www.youtube.com/watch?v=fOGdb1CTu5c">WIRED video</a>, Level 1)</li>
+<li>Ali Baba&rsquo;s Cave (<a href="https://en.wikipedia.org/wiki/Zero-knowledge_proof#The_Ali_Baba_cave">Wikipedia</a>)</li>
+<li>Sudoku (<a href="https://www.youtube.com/watch?v=jr95o_k_SwI">Christian Reitwiessner talk</a>)</li>
+<li>3-coloring of a graph (<a href="https://www.youtube.com/watch?v=fOGdb1CTu5c">WIRED video</a>, Level 3, and [Goldreich / Micali / Wigderson 1991](<a href="https://dl.acm.org/doi/10.1145/116825.116852">Proofs that yield nothing but their validity or all languages in NP have zero-knowledge proof systems | Journal of the ACM</a>))</li>
+</ul>
+<p>To implement these sorts of protocols in code, one needs a <strong>commitment scheme</strong>, for instance <a href="https://zcash.github.io/halo2/background/groups.html">Pedersen commitment</a>.</p>
+<p>All of the above zero-knowledge proof protocols are <strong>interactive</strong>. For practical applications, we would prefer non-interactive proofs. Skipping over a lot of research, this train of thought leads to <strong>zkSNARKs</strong>. zkSNARK stands for &ldquo;zero-knowledge Succinct Non-interactive ARgument of Knowledge&rdquo;. <a href="https://arxiv.org/abs/2202.06877">This review</a> will have more about the history of developments that led to zkSNARKs.</p>
+<p>For a first exposure to zkSNARKs, I used this <a href="https://www.youtube.com/watch?v=jr95o_k_SwI">Christian Reitwiessner talk</a>; <a href="https://vitalik.eth.limo/general/2021/01/26/snarks.html">Vitalik Buterin’s introduction</a> also looks great. This all takes some time to digest and flesh out.</p>
+<p>Then the next level to take is, <a href="https://vitalik.eth.limo/general/2021/11/05/halo.html">Vitalik Buterin</a> and <a href="https://forum.zcashcommunity.com/t/halo-evaluation-without-pairing-check/40790">this Halo forums post</a> both divide up current zkSNARK implementations into 3 streams:</p>
+<ul>
+<li><strong>FRI</strong> with Merkle trees = <strong>STARKs</strong>. (FRI stands for &ldquo;Fast Reed-Solomon Interactive oracle proof of proximity&rdquo;, STARK stands for &ldquo;Scalable Transparent ARgument of Knowledge&rdquo;)</li>
+<li><strong>Elliptic curve inner products</strong> = bulletproofs</li>
+<li><strong>Elliptic curve pairings</strong> = Kate, very math-intensive</li>
+</ul>
+<p>So one can go and learn each of these areas, or just one depending on interest. Each of these has its advantages and disadvantages, and each is being actively pushed forward.</p>
+<p>Here are some nice zkSNARK learning resources.</p>
+<ul>
+<li>Overview / series
+<ul>
+<li><a href="https://vitalik.eth.limo/general/2021/01/26/snarks.html">Vitalik Buterin’s introduction</a> to zkSNARKs and <a href="https://vitalik.eth.limo/categories/cryptography.html">other posts by Vitalik</a></li>
+<li><a href="https://www.youtube.com/watch?v=jr95o_k_SwI">Christian Reitwiessner talk</a></li>
+<li><a href="https://learn.0xparc.org/">ZK Learning Resources</a> by 0xPARC</li>
+<li><a href="https://cs355.stanford.edu/syllabus.html">Stanford CS 355: Applied Zero Knowledge Proofs</a> by Dan Boneh (Spring 2025)</li>
+</ul>
+</li>
+<li>Applications of zkSNARKs
+<ul>
+<li><a href="https://cs355.stanford.edu/lectures/lecture1.pdf">Stanford CS 355 Lecture 1</a></li>
+<li>A <a href="https://arxiv.org/abs/2202.06877">review paper I&rsquo;m reading</a>, by Chen / Lu / Kunpittaya / Luo (2022), points to zkRollups and private financial transactions as the two main applications today</li>
+<li><a href="http://zerocash-project.org/paper">Zcash</a> (2014), the first widely adopted use of zero-knowledge proofs / zkSNARKs</li>
+</ul>
+</li>
+<li>Math
+<ul>
+<li><a href="https://web.math.ucsb.edu/~kylehansen/Elliptic_Curve_Cryptography.pdf">Elliptic Curve Cryptography</a> by Alar, Hansen, Young (2021): a great first introduction to elliptic curves. Minimal math with a focus on protocols.</li>
+<li><a href="https://zcash.github.io/halo2/background.html">Background Material - The halo2 Book</a>: a broad general math resource for zkSNARKs, including elliptic curves and inner products.</li>
+<li><a href="https://static1.squarespace.com/static/5fdbb09f31d71c1227082339/t/5ff394720493bd28278889c6/1609798774687/PairingsForBeginners.pdf">Pairings for Beginners by Craig Costello</a>: a hefty resource on a hefty topic! This seems to build the math of pairings from the ground up.</li>
+<li><a href="https://eprint.iacr.org/2016/260.pdf">Groth 2016</a>: an influential paper on zkSNARKs via pairings, though this seems harder to read than the Costello book.</li>
+</ul>
+</li>
+</ul>
+
+		</div><div id="disqus_thread"></div>
+<script type="text/javascript">
+	(function () {
+		
+		
+		if (window.location.hostname == "localhost")
+			return;
+
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		var disqus_shortname = 'brianzhang01-stats';
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+		Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> Built with <a href="https://gohugo.io">Hugo</a>, <a href="https://github.com/rstudio/blogdown">blogdown</a>, and <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a></div>
+	</nav>
+</div>
+
+<script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-113303717-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

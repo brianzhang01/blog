@@ -6,7 +6,28 @@
     <description>Recent content in Posts on Brian Zhang&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.brianczhang.com/blog/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.brianczhang.com/blog/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI 2027 Observations</title>
+      <link>https://www.brianczhang.com/blog/2025/09/ai-2027/</link>
+      <pubDate>Sun, 07 Sep 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.brianczhang.com/blog/2025/09/ai-2027/</guid>
+      <description>This is a backfill note from 2025-07-02.
+In April, the AI Futures Project came out with AI 2027; I read it one night in May 2025. Here I wanted to write down observations on the piece: some more low-level takeaways. I’m not going to synthesize things into an assessment or opinion, but I hope that even the more dry format carries a sense of things that I personally found interesting.</description>
+    </item>
+    
+    <item>
+      <title>A zkSNARK Syllabus</title>
+      <link>https://www.brianczhang.com/blog/2025/09/zksnark-syllabus/</link>
+      <pubDate>Sat, 06 Sep 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.brianczhang.com/blog/2025/09/zksnark-syllabus/</guid>
+      <description>This is a backfill note from 2025-06-19.
+ Perhaps the most powerful cryptographic technology to come out of the last decade is general-purpose succinct zero knowledge proofs, usually called zk-SNARKs
+ Vitalik Buterin, 2021   I’m starting to learn about zkSNARKs, and while there’s a lot I don’t know, I feel I have a basic map of where things fall in the landscape. So I thought I’d write it down for myself and others.</description>
+    </item>
+    
     <item>
       <title>On Dedekind</title>
       <link>https://www.brianczhang.com/blog/2025/04/on-dededkind/</link>
