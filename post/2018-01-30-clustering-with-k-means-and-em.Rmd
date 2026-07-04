@@ -5,6 +5,8 @@ date: '2018-01-30'
 slug: clustering-with-k-means-and-em
 categories: []
 tags: []
+description: >-
+  K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I'll go through my implementations on some sample data.
 ---
 
 ```{r setup, include=FALSE}

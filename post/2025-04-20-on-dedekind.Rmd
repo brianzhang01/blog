@@ -2,9 +2,11 @@
 title: On Dedekind
 author: Brian Zhang
 date: '2025-04-20'
-slug: on-dededkind
+slug: on-dedekind
 categories: []
 tags: []
+description: "Dedekind, driven by abstraction and parsimony, discovered the utility of constructing sets of numbers and applied it multiple times in his career. In highlighting this set-centered viewpoint, he resolved major questions of foundations, while in a way his and others’ success led to troubled examination of the set concept that came to dominate mathematics at the turn of the 20th century."
+
 ---
 
 An extended quote from John Stilwell's *Elements of Algebra*, p. 35-36:

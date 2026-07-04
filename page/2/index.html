@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.87.0" />
+	<meta name="generator" content="Hugo 0.160.1">
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Brian Zhang&#39;s blog - Statistics and other topics </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://www.brianczhang.com/blog/index.xml" title="Brian Zhang's blog" />
-	<meta property="og:title" content="Brian Zhang&#39;s blog" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.brianczhang.com/blog/" />
+	<meta property="og:url" content="https://www.brianczhang.com/blog/">
+  <meta property="og:site_name" content="Brian Zhang&#39;s blog">
+  <meta property="og:title" content="Brian Zhang&#39;s blog">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="website">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Brian Zhang&#39;s blog"/>
-<meta name="twitter:description" content=""/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Brian Zhang&#39;s blog">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" media="screen" href="https://www.brianczhang.com/blog/css/normalize.css" />
@@ -61,12 +61,11 @@
 				
 				
 				<div class="post">
-					<div class="meta">Oct 25, 2019 &middot; 1 min read</div>
+					<div class="meta">Oct 25, 2019 &middot; 2 min read</div>
 					<a class="title" href="/blog/2019/10/fast-hierarchical-clustering-using-fastcluster/">Fast Hierarchical Clustering Using fastcluster</a> &mdash;
 					<span class="description">
 						
-						Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
-fastcluster is implemented in C++, with interfaces for C++, R, and Python. In particular, the Python interface mirrors scipy.cluster.hierarchy.linkage, and the R interface mirrors stats::hclust and flashClust::flashClust, so switching over is a no-brainer.
+						O(N^2) routines for the most commonly used types of clustering.
 						
 					</span>
 				</div>
@@ -76,8 +75,7 @@ fastcluster is implemented in C++, with interfaces for C++, R, and Python. In pa
 					<a class="title" href="/blog/2019/09/software-engineering-tools-across-4-languages/">Software Engineering Tools Across 4 Languages</a> &mdash;
 					<span class="description">
 						
-						It&rsquo;s been two years since I started blogging, as well as two years since I started my PhD in the Oxford Statistics department. While it&rsquo;s been several months since my last post, I hope to get back into sharing some shorter posts and ideas going forward.
-To get myself writing again, I thought I&rsquo;d broaden the scope of my posts beyond statistics and machine learning. In particular, over the past two years, I&rsquo;ve found myself getting more interested in abstract math as well as software engineering.
+						Over the past two years, I&#39;ve found myself getting more interested in abstract math as well as software engineering. Compared to machine learning, which can be a pretty heuristic science (think about the process of writing tests for machine learning code), both math and computer science tend to be built on modular components, each with a precise, testable description.
 						
 					</span>
 				</div>
@@ -87,7 +85,7 @@ To get myself writing again, I thought I&rsquo;d broaden the scope of my posts b
 					<a class="title" href="/blog/2019/01/subtle-observations-on-range-queries/">Subtle Observations on Range Queries</a> &mdash;
 					<span class="description">
 						
-						For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.
+						For my current research, I&#39;ve had to read Kelleher et al.&#39;s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.
 						
 					</span>
 				</div>
@@ -98,8 +96,6 @@ To get myself writing again, I thought I&rsquo;d broaden the scope of my posts b
 					<span class="description">
 						
 						Missing heritability is like microaggressions: many seemingly insignificant effects can add up.
-Two weeks ago, as I was taking a journey back to London Heathrow / Oxford, I came across a small connection in a journal article and a podcast. It was a nice moment of seeing two ideas click together.
-The podcast, which came second, was an episode of Nomad, a British podcast discussing Christian faith outside the institutional church.
 						
 					</span>
 				</div>
@@ -109,8 +105,7 @@ The podcast, which came second, was an episode of Nomad, a British podcast discu
 					<a class="title" href="/blog/2018/07/random-graphs-and-giant-components/">Random Graphs and Giant Components</a> &mdash;
 					<span class="description">
 						
-						This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
-There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.
+						This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we&#39;ll be looking at the &#34;giant component&#34; and how that arises in random graphs.
 						
 					</span>
 				</div>
@@ -121,7 +116,6 @@ There’s a lot more than this example that I find exciting, so I’ve deferred 
 					<span class="description">
 						
 						Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
-Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.
 						
 					</span>
 				</div>
@@ -131,10 +125,7 @@ Previously, especially coming from a physics background, I’ve worked a lot wit
 					<a class="title" href="/blog/2018/01/clustering-with-k-means-and-em/">Clustering with K-Means and EM</a> &mdash;
 					<span class="description">
 						
-						Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
-I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
- Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
- Structural similarities in the algorithms, by splitting up K-means into an E and M step.
+						K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I&#39;ll go through my implementations on some sample data.
 						
 					</span>
 				</div>
@@ -144,8 +135,7 @@ I won’t be going through much theory, as that can be easily found elsewhere. I
 					<a class="title" href="/blog/2017/11/statistics-ml-books/">Statistics / ML Books</a> &mdash;
 					<span class="description">
 						
-						At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!^[This post is strategically placed so I can cite some of these textbooks in later posts.]
-This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:
+						At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!
 						
 					</span>
 				</div>
@@ -155,8 +145,7 @@ This post will focus on textbooks with a machine learning focus. I’ve read les
 					<a class="title" href="/blog/2017/11/polynomial-regression/">Polynomial Regression</a> &mdash;
 					<span class="description">
 						
-						Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
-At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:
+						In this post, I&#39;ll work through an example of polynomial regression, while illustrating some R features like ggplot and R Markdown documents.
 						
 					</span>
 				</div>
@@ -166,8 +155,7 @@ At the moment, I’m hoping to follow along with these three courses and do some
 					<a class="title" href="/blog/2017/11/blogging-aims/">Blogging Aims</a> &mdash;
 					<span class="description">
 						
-						Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
-As of September, I&rsquo;ve been a first-year PhD student at Oxford&rsquo;s Statistics department. I received my bachelor&rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.
+						In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
 						
 					</span>
 				</div>
@@ -199,17 +187,6 @@ As of September, I&rsquo;ve been a first-year PhD student at Oxford&rsquo;s Stat
 <script async
 src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-113303717-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 <script>feather.replace()</script>
 </body>
 </html>

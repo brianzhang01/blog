@@ -6,6 +6,8 @@ slug: polynomial-regression
 categories: []
 tags:
   - ggplot
+description: >-
+  In this post, I'll work through an example of polynomial regression, while illustrating some R features like `ggplot` and R Markdown documents.
 ---
 
 ```{r setup, include=FALSE}

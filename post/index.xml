@@ -4,211 +4,149 @@
     <title>Posts on Brian Zhang&#39;s blog</title>
     <link>https://www.brianczhang.com/blog/post/</link>
     <description>Recent content in Posts on Brian Zhang&#39;s blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 14 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.brianczhang.com/blog/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.brianczhang.com/blog/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Apocalyptic Lens: an Essay on Faith</title>
       <link>https://www.brianczhang.com/blog/2025/12/apocalyptic-lens/</link>
       <pubDate>Sun, 14 Dec 2025 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2025/12/apocalyptic-lens/</guid>
-      <description>Journaling has been a hugely therapeutic and constructive outlet for me over the past year. The following is an essay written mostly for myself in response to questions I&amp;rsquo;ve asked over the past 3 years. I&amp;rsquo;m pleased with how it turned out and am sharing if it might be of interest to others. I ask you to read it with the care you would show towards someone else&amp;rsquo;s journal, and am happy to hear any feedback via email.</description>
+      <description>&lt;p&gt;&lt;em&gt;Journaling has been a hugely therapeutic and constructive outlet for me over the past year. The following is an essay written mostly for myself in response to questions I&amp;rsquo;ve asked over the past 3 years. I&amp;rsquo;m pleased with how it turned out and am sharing if it might be of interest to others. I ask you to read it with the care you would show towards someone else&amp;rsquo;s journal, and am happy to hear any feedback &lt;a href=&#34;https://www.brianczhang.com&#34;&gt;via email&lt;/a&gt;. Thanks!&lt;/em&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Chopin Competition 2025 Highlights</title>
       <link>https://www.brianczhang.com/blog/2025/12/chopin-competition-2025/</link>
       <pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2025/12/chopin-competition-2025/</guid>
-      <description>I began watching the Chopin Competition&amp;rsquo;s content in 2018, with their first International Chopin Competition on Period Instruments. Since then, it has become an event whenever the Competition&amp;rsquo;s live content reappears in my YouTube feed. I followed this year&amp;rsquo;s competition quite a bit, but for me, so much of my appreciation took off after the winners were announced. My favorites at the start were Shiori Kuwahara and David Khrikuli; now that has shifted and I can&amp;rsquo;t get enough of Zitong Wang&amp;rsquo;s playing.</description>
+      <description>&lt;p&gt;I began watching the Chopin Competition&amp;rsquo;s content in 2018, with their first International Chopin Competition on Period Instruments. Since then, it has become an event whenever the Competition&amp;rsquo;s live content reappears in my YouTube feed. I followed this year&amp;rsquo;s competition quite a bit, but for me, so much of my appreciation took off after the winners were announced. My favorites at the start were Shiori Kuwahara and David Khrikuli; now that has shifted and I can&amp;rsquo;t get enough of Zitong Wang&amp;rsquo;s playing.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>AI 2027 Observations</title>
       <link>https://www.brianczhang.com/blog/2025/09/ai-2027/</link>
       <pubDate>Sun, 07 Sep 2025 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2025/09/ai-2027/</guid>
-      <description>This is a backfill note from 2025-07-02.
-In April, the AI Futures Project came out with AI 2027; I read it one night in May 2025. Here I wanted to write down observations on the piece: some more low-level takeaways. I’m not going to synthesize things into an assessment or opinion, but I hope that even the more dry format carries a sense of things that I personally found interesting.</description>
+      <description>&lt;p&gt;This is a backfill note from 2025-07-02.&lt;/p&gt;&#xA;&lt;p&gt;In April, the AI Futures Project came out with &lt;a href=&#34;https://ai-2027.com&#34;&gt;AI 2027&lt;/a&gt;; I read it one night in May 2025. Here I wanted to write down observations on the piece: some more low-level takeaways. I’m not going to synthesize things into an assessment or opinion, but I hope that even the more dry format carries a sense of things that I personally found interesting.&lt;/p&gt;&#xA;&lt;p&gt;AI 2027 is a text, a story in its form. So we can do a &amp;ldquo;close reading&amp;rdquo; of the text. I also enjoyed clicking through several of their external links to papers and blog posts. Those choices of what to link also form part of the text, and introduced me to new ideas in the conversation around AI safety, so I’ll be reflecting on those as well.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>A zkSNARK Syllabus</title>
       <link>https://www.brianczhang.com/blog/2025/09/zksnark-syllabus/</link>
       <pubDate>Sat, 06 Sep 2025 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2025/09/zksnark-syllabus/</guid>
-      <description>This is a backfill note from 2025-06-19.
- Perhaps the most powerful cryptographic technology to come out of the last decade is general-purpose succinct zero knowledge proofs, usually called zk-SNARKs
- Vitalik Buterin, 2021   I’m starting to learn about zkSNARKs, and while there’s a lot I don’t know, I feel I have a basic map of where things fall in the landscape. So I thought I’d write it down for myself and others.</description>
+      <description>&lt;p&gt;This is a backfill note from 2025-06-19.&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;Perhaps the most powerful cryptographic technology to come out of the last decade is general-purpose succinct zero knowledge proofs, usually called zk-SNARKs&lt;/em&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://vitalik.eth.limo/general/2021/01/26/snarks.html&#34;&gt;Vitalik Buterin, 2021&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;I’m starting to learn about zkSNARKs, and while there’s a lot I don’t know, I feel I have a basic map of where things fall in the landscape. So I thought I’d write it down for myself and others. This is not meant to be a self-contained primer, but rather to point to what needs to be studied.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>On Dedekind</title>
-      <link>https://www.brianczhang.com/blog/2025/04/on-dededkind/</link>
+      <link>https://www.brianczhang.com/blog/2025/04/on-dedekind/</link>
       <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.brianczhang.com/blog/2025/04/on-dededkind/</guid>
-      <description>An extended quote from John Stilwell’s Elements of Algebra, p. 35-36:
-“[Gauss’s] Disquisitiones became the bible of the next generation of number theorists, particularly Dirichlet, who kept a copy of it on his desk at all times. Dirichlet’s lectures became a classic in their turn when edited by Dedekind as the book Vorlesungen über Zahlentheorie. The first edition appeared in 1863 (four years after Dirichlet’s death) and the book gradually changed character as Dedekind added appendices in subsequent editions.</description>
+      <guid>https://www.brianczhang.com/blog/2025/04/on-dedekind/</guid>
+      <description>&lt;p&gt;An extended quote from John Stilwell’s &lt;em&gt;Elements of Algebra&lt;/em&gt;, p. 35-36:&lt;/p&gt;&#xA;&lt;p&gt;“[Gauss’s] &lt;em&gt;Disquisitiones&lt;/em&gt; became the bible of the next generation of number theorists, particularly Dirichlet, who kept a copy of it on his desk at all times. Dirichlet’s lectures became a classic in their turn when edited by Dedekind as the book &lt;em&gt;Vorlesungen über Zahlentheorie&lt;/em&gt;. The first edition appeared in 1863 (four years after Dirichlet’s death) and the book gradually changed character as Dedekind added appendices in subsequent editions. The final (4th) edition contains as much Dedekind as Dirichlet….&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Analyzing &#34;Objection Funk&#34;</title>
       <link>https://www.brianczhang.com/blog/2025/04/objection-funk/</link>
       <pubDate>Sat, 12 Apr 2025 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2025/04/objection-funk/</guid>
-      <description>I wrote this on 2025-01-29.
-My friend Alex Irpan has inspired me that it&amp;rsquo;s possible to mix serious and meme content on the same blog. So I&amp;rsquo;m returning to blogging with a serious take on a stupid topic.
- &amp;ldquo;Objection Funk&amp;rdquo; by iteachvader is a trolling, fan piece of Internet content. At the same time, it has great relistening / rewatching value. The background funk track definitely plays a role in its appeal.</description>
+      <description>&lt;p&gt;I wrote this on 2025-01-29.&lt;/p&gt;&#xA;&lt;p&gt;My friend &lt;a href=&#34;https://www.alexirpan.com/&#34;&gt;Alex Irpan&lt;/a&gt; has inspired me that it&amp;rsquo;s possible to mix serious and meme content on the same blog. So I&amp;rsquo;m returning to blogging with a serious take on a stupid topic.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&amp;ldquo;&lt;a href=&#34;https://www.youtube.com/watch?v=vDMwDT6BhhE&#34;&gt;Objection Funk&lt;/a&gt;&amp;rdquo; by iteachvader is a trolling, fan piece of Internet content. At the same time, it has great relistening / rewatching value. The background funk track definitely plays a role in its appeal. At the same time, leaving aside the ridiculous concept, I contend that there is deep musicality in the piece&amp;rsquo;s structure that delivers surprise through its 2-minute runtime and draws listeners back.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>LeetCode Interview Prep</title>
       <link>https://www.brianczhang.com/blog/2025/04/leetcode/</link>
       <pubDate>Sat, 12 Apr 2025 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2025/04/leetcode/</guid>
-      <description>This is a backfill note from 2019-09-09. In 2019, I mentored a college student who was applying for computer science internships. I helped source LeetCode problems that I thought were interesting; here is the list I came up with.
-(It looks like the numbering has changed since I compiled this list.)
-LeetCode interview prep LinkedList  Add Two Numbers
-  Merge Two Sorted Lists
-  Remove Duplicates from Sorted List II</description>
+      <description>&lt;p&gt;This is a backfill note from 2019-09-09. In 2019, I mentored a college student who was applying for computer science internships. I helped source LeetCode problems that I thought were interesting; here is the list I came up with.&lt;/p&gt;&#xA;&lt;p&gt;(It looks like the numbering has changed since I compiled this list.)&lt;/p&gt;&#xA;&lt;h1 id=&#34;leetcode-interview-prep&#34;&gt;LeetCode interview prep&lt;/h1&gt;&#xA;&lt;h2 id=&#34;linkedlist&#34;&gt;LinkedList&lt;/h2&gt;&#xA;&lt;ol start=&#34;2&#34;&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/add-two-numbers/&#34;&gt;Add Two Numbers&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/merge-two-sorted-lists&#34;&gt;Merge Two Sorted Lists&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii&#34;&gt;Remove Duplicates from Sorted List II&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/remove-duplicates-from-sorted-list&#34;&gt;Remove Duplicates from Sorted List&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Motivating Problems in Math</title>
       <link>https://www.brianczhang.com/blog/2025/04/math-motivation/</link>
       <pubDate>Sat, 12 Apr 2025 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2025/04/math-motivation/</guid>
-      <description>This is a backfill note from 2019-07-28. The idea is, what are mathematical achievements that are useful for motivating the study of mathematics?
-Motivating problems in math Solved and important!  Infinite number of primes Sqrt(2) is irrational Fundamental theorem of algebra (1806) Unsolvability of the quintic (1824) Three construction problems of antiquity (1837, 1837, 1882) e and pi are transcendental (1873, 1882) Public-key cryptography (Diffie-Hellman-Merkle, RSA, elliptic curves) (1973-1976) Fermat’s Last Theorem / modularity theorem (1994, 2001) Poincare Conjecture (2003) Classification of finite simple groups (2004)  Axiomatics  Parallel Postulate (1829-1868) Gödel’s Incompleteness Theorems (1931) Continuum Hypothesis (1940, 1963)  Solved and unimportant, but with an interesting anecdote  Hilbert’s 3rd Problem (Dehn Invariants, 1883-1900, first to be solved) Four color theorem (1976) Kepler conjecture and honeycomb conjecture (1998, 1999, Thomas Hales)  Unsolved  Goldbach Conjecture Twin prime conjecture Perfect numbers / Mersenne primes Collatz Conjecture Whether Euler-Mascheroni constant is rational / algebraic or not Riemann Hypothesis Ramsey numbers (R(5, 5), R(6, 6)) ABC Conjecture Birch and Swinnerton-Dyer Conjecture  </description>
+      <description>&lt;p&gt;This is a backfill note from 2019-07-28. The idea is, what are mathematical achievements that are useful for motivating the study of mathematics?&lt;/p&gt;&#xA;&lt;h1 id=&#34;motivating-problems-in-math&#34;&gt;Motivating problems in math&lt;/h1&gt;&#xA;&lt;h2 id=&#34;solved-and-important&#34;&gt;Solved and important!&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Infinite number of primes&lt;/li&gt;&#xA;&lt;li&gt;Sqrt(2) is irrational&lt;/li&gt;&#xA;&lt;li&gt;Fundamental theorem of algebra (1806)&lt;/li&gt;&#xA;&lt;li&gt;Unsolvability of the quintic (1824)&lt;/li&gt;&#xA;&lt;li&gt;Three construction problems of antiquity (1837, 1837, 1882)&lt;/li&gt;&#xA;&lt;li&gt;e and pi are transcendental (1873, 1882)&lt;/li&gt;&#xA;&lt;li&gt;Public-key cryptography (Diffie-Hellman-Merkle, RSA, elliptic curves) (1973-1976)&lt;/li&gt;&#xA;&lt;li&gt;Fermat’s Last Theorem / modularity theorem (1994, 2001)&lt;/li&gt;&#xA;&lt;li&gt;Poincare Conjecture (2003)&lt;/li&gt;&#xA;&lt;li&gt;Classification of finite simple groups (2004)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;axiomatics&#34;&gt;Axiomatics&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Parallel Postulate (1829-1868)&lt;/li&gt;&#xA;&lt;li&gt;Gödel’s Incompleteness Theorems (1931)&lt;/li&gt;&#xA;&lt;li&gt;Continuum Hypothesis (1940, 1963)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;solved-and-unimportant-but-with-an-interesting-anecdote&#34;&gt;Solved and unimportant, but with an interesting anecdote&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Hilbert’s 3rd Problem (Dehn Invariants, 1883-1900, first to be solved)&lt;/li&gt;&#xA;&lt;li&gt;Four color theorem (1976)&lt;/li&gt;&#xA;&lt;li&gt;Kepler conjecture and honeycomb conjecture (1998, 1999, Thomas Hales). &lt;em&gt;(Update 2026-07-03: sphere packing in dimension 8 actually earned Maryna Viazovka the 2022 Fields Medal, due to connections the work has with quasimodular forms. See &lt;a href=&#34;https://arxiv.org/abs/1603.04246&#34;&gt;the original paper&lt;/a&gt; and coverage in &lt;a href=&#34;https://plus.maths.org/mv&#34;&gt;Plus&lt;/a&gt; and &lt;a href=&#34;https://www.quantamagazine.org/ukrainian-mathematician-maryna-viazovska-wins-fields-medal-20220705/&#34;&gt;Quanta&lt;/a&gt;.)&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;unsolved&#34;&gt;Unsolved&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Goldbach Conjecture&lt;/li&gt;&#xA;&lt;li&gt;Twin prime conjecture&lt;/li&gt;&#xA;&lt;li&gt;Perfect numbers / Mersenne primes&lt;/li&gt;&#xA;&lt;li&gt;Collatz Conjecture&lt;/li&gt;&#xA;&lt;li&gt;Whether Euler-Mascheroni constant is rational / algebraic or not&lt;/li&gt;&#xA;&lt;li&gt;Riemann Hypothesis&lt;/li&gt;&#xA;&lt;li&gt;Ramsey numbers (R(5, 5), R(6, 6))&lt;/li&gt;&#xA;&lt;li&gt;ABC Conjecture&lt;/li&gt;&#xA;&lt;li&gt;Birch and Swinnerton-Dyer Conjecture&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;em&gt;&lt;strong&gt;Update 2026-07-03: Added note on sphere packing in dimension 8.&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>A Regularization Proof</title>
       <link>https://www.brianczhang.com/blog/2022/09/a-regularization-proof/</link>
       <pubDate>Mon, 19 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2022/09/a-regularization-proof/</guid>
-      <description>Say we have a loss function \(l(w)\). With no regularization, we might obtain the minimum at \(w = w_0\). Now consider the setting with regularization: \[ f_\lambda(w) = l(w) + \lambda R(w), \] where \(R(w) \geq 0\) is some regularization function and \(\lambda \geq 0\). What can we say if we consider the minimizing inputs \(w_1\) for \(f_{\lambda_1}(w)\) and \(w_2\) for \(f_{\lambda_2}(w)\), with \(0 \leq \lambda_1 &amp;lt; \lambda_2\)? \[ w_1 = argmin_w \left[ l(w) + \lambda_1 R(w) \right],\\ w_2 = argmin_w \left[ l(w) + \lambda_2 R(w) \right].</description>
+      <description>&lt;p&gt;Say we have a loss function &lt;span class=&#34;math inline&#34;&gt;\(l(w)\)&lt;/span&gt;. With no regularization, we might obtain the minimum at &lt;span class=&#34;math inline&#34;&gt;\(w = w_0\)&lt;/span&gt;. Now consider the setting with regularization:&#xA;&lt;span class=&#34;math display&#34;&gt;\[&#xA;f_\lambda(w) = l(w) + \lambda R(w),&#xA;\]&lt;/span&gt;&#xA;where &lt;span class=&#34;math inline&#34;&gt;\(R(w) \geq 0\)&lt;/span&gt; is some regularization function and &lt;span class=&#34;math inline&#34;&gt;\(\lambda \geq 0\)&lt;/span&gt;. What can we say if we consider the minimizing inputs &lt;span class=&#34;math inline&#34;&gt;\(w_1\)&lt;/span&gt; for &lt;span class=&#34;math inline&#34;&gt;\(f_{\lambda_1}(w)\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(w_2\)&lt;/span&gt; for &lt;span class=&#34;math inline&#34;&gt;\(f_{\lambda_2}(w)\)&lt;/span&gt;, with &lt;span class=&#34;math inline&#34;&gt;\(0 \leq \lambda_1 &amp;lt; \lambda_2\)&lt;/span&gt;?&#xA;&lt;span class=&#34;math display&#34;&gt;\[&#xA;w_1 = argmin_w \left[ l(w) + \lambda_1 R(w) \right],\\&#xA;w_2 = argmin_w \left[ l(w) + \lambda_2 R(w) \right].&#xA;\]&lt;/span&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>On NumPy Multithreading</title>
       <link>https://www.brianczhang.com/blog/2020/02/on-numpy-multithreading/</link>
       <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2020/02/on-numpy-multithreading/</guid>
-      <description>Two notes. First, numpy supports multithreading, and this can give you a speed boost in multicore environments! On Linux, I used top to verify that my numpy was indeed using multithreading, which it was. Second, multithreading can hurt performance when you&amp;rsquo;re running multiple Python / numpy processes at once. I was running into this issue, and got significant boost by limiting the number of numpy threads per process, in my case using import mkl; mkl.</description>
+      <description>&lt;p&gt;Two notes. First, &lt;a href=&#34;https://roman-kh.github.io/numpy-multicore/&#34;&gt;&lt;code&gt;numpy&lt;/code&gt; supports multithreading&lt;/a&gt;, and this can give you a speed boost in multicore environments! On Linux, I used &lt;code&gt;top&lt;/code&gt; to verify that my &lt;code&gt;numpy&lt;/code&gt; was indeed using multithreading, which it was. Second, multithreading can hurt performance when you&amp;rsquo;re running multiple Python / &lt;code&gt;numpy&lt;/code&gt; processes at once. I was running into this issue, and got significant boost by &lt;a href=&#34;https://stackoverflow.com/questions/17053671/python-how-do-you-stop-numpy-from-multithreading&#34;&gt;limiting the number of &lt;code&gt;numpy&lt;/code&gt; threads per process&lt;/a&gt;, in my case using &lt;code&gt;import mkl; mkl.set_num_threads(1)&lt;/code&gt;. The general performance rule of thumb is to aim for the total number of threads running to match the number of cores.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Fast Hierarchical Clustering Using fastcluster</title>
       <link>https://www.brianczhang.com/blog/2019/10/fast-hierarchical-clustering-using-fastcluster/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2019/10/fast-hierarchical-clustering-using-fastcluster/</guid>
-      <description>Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
-fastcluster is implemented in C++, with interfaces for C++, R, and Python. In particular, the Python interface mirrors scipy.cluster.hierarchy.linkage, and the R interface mirrors stats::hclust and flashClust::flashClust, so switching over is a no-brainer.</description>
+      <description>&lt;p&gt;Update 2026-07-03: when I wrote this post in 2019, I was convinced that &lt;code&gt;scipy&lt;/code&gt;’s hierarchical clustering was too slow, and that the &lt;code&gt;fastcluster&lt;/code&gt; package provided a speedup. I ended up using &lt;code&gt;fastcluster&lt;/code&gt; throughout my PhD as I developed &lt;a href=&#34;https://palamaralab.github.io/software/argneedle/&#34;&gt;ARG-Needle&lt;/a&gt; up to its 2023 release (see &lt;a href=&#34;https://github.com/PalamaraLab/arg-needle/blob/fa112f61f7ce1550b255edd4a76bec9dbcf4af00/src/arg_needle/inference.py#L30&#34;&gt;here&lt;/a&gt; for instance).&lt;/p&gt;&#xA;&lt;p&gt;However, it appears that &lt;code&gt;scipy&lt;/code&gt; already shipped the nearest-neighbor chain algorithm for &lt;span class=&#34;math inline&#34;&gt;\(O(N^2)\)&lt;/span&gt; clustering &lt;a href=&#34;https://docs.scipy.org/doc/scipy/release/0.18.0-notes.html#scipy-cluster-improvements&#34;&gt;in version 0.18.0&lt;/a&gt;, which was released July 25, 2016 &lt;a href=&#34;https://pypi.org/project/scipy/#history&#34;&gt;on PyPI&lt;/a&gt;. Credit goes to Nikolay Mayorov for the &lt;a href=&#34;https://github.com/scipy/scipy/pull/5549&#34;&gt;&lt;code&gt;scipy&lt;/code&gt; pull request&lt;/a&gt;, who credits &lt;code&gt;fastcluster&lt;/code&gt; for inspiration. So my claim that &lt;code&gt;scipy&lt;/code&gt; was stuck at &lt;span class=&#34;math inline&#34;&gt;\(O(N^3)\)&lt;/span&gt; runtime was inaccurate—either I didn’t verify the scaling myself, or I was using an older &lt;code&gt;scipy&lt;/code&gt; version.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Software Engineering Tools Across 4 Languages</title>
       <link>https://www.brianczhang.com/blog/2019/09/software-engineering-tools-across-4-languages/</link>
       <pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2019/09/software-engineering-tools-across-4-languages/</guid>
-      <description>It&amp;rsquo;s been two years since I started blogging, as well as two years since I started my PhD in the Oxford Statistics department. While it&amp;rsquo;s been several months since my last post, I hope to get back into sharing some shorter posts and ideas going forward.
-To get myself writing again, I thought I&amp;rsquo;d broaden the scope of my posts beyond statistics and machine learning. In particular, over the past two years, I&amp;rsquo;ve found myself getting more interested in abstract math as well as software engineering.</description>
+      <description>&lt;p&gt;It&amp;rsquo;s been two years since I started blogging, as well as two years since I started my PhD in the Oxford Statistics department. While it&amp;rsquo;s been several months since my last post, I hope to get back into sharing some shorter posts and ideas going forward.&lt;/p&gt;&#xA;&lt;p&gt;To get myself writing again, I thought I&amp;rsquo;d broaden the scope of my posts beyond &lt;a href=&#34;https://www.brianczhang.com/blog/2017/11/blogging-aims/&#34;&gt;statistics and machine learning&lt;/a&gt;. In particular, over the past two years, I&amp;rsquo;ve found myself getting more interested in abstract math as well as software engineering. Compared to machine learning, which can be a pretty heuristic science (think about the process of writing tests for machine learning code), both math and computer science tend to be built on modular components, each with a precise, testable description. Learning about these principles has been a nice break from research.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Subtle Observations on Range Queries</title>
       <link>https://www.brianczhang.com/blog/2019/01/subtle-observations-on-range-queries/</link>
       <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2019/01/subtle-observations-on-range-queries/</guid>
-      <description>For my current research, I’ve had to read Kelleher et al.’s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure.</description>
+      <description>&lt;p&gt;For my current research, I’ve had to read Kelleher et al.’s excellent &lt;a href=&#34;https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004842&#34;&gt;&lt;code&gt;msprime&lt;/code&gt; paper&lt;/a&gt; (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through &lt;a href=&#34;http://www.usaco.org/&#34;&gt;USACO&lt;/a&gt; and &lt;a href=&#34;https://projecteuler.net/&#34;&gt;Project Euler&lt;/a&gt;), I took a bit more time to learn this data structure.&lt;/p&gt;&#xA;&lt;p&gt;One of the questions that arose in my learning is when to use Fenwick trees and when to use their related cousin, segment trees. At first, I seemed to encounter varying advice that differed from website to website. However, now I believe there’s a more fundamental principle that stems from a subtle difference between the &lt;code&gt;sum&lt;/code&gt; and &lt;code&gt;min&lt;/code&gt; operations.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Missing Heritability and Microaggressions</title>
       <link>https://www.brianczhang.com/blog/2018/10/missing-heritability-and-microaggressions/</link>
       <pubDate>Wed, 24 Oct 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2018/10/missing-heritability-and-microaggressions/</guid>
-      <description>Missing heritability is like microaggressions: many seemingly insignificant effects can add up.
-Two weeks ago, as I was taking a journey back to London Heathrow / Oxford, I came across a small connection in a journal article and a podcast. It was a nice moment of seeing two ideas click together.
-The podcast, which came second, was an episode of Nomad, a British podcast discussing Christian faith outside the institutional church.</description>
+      <description>&lt;p&gt;Missing heritability is like microaggressions: many seemingly insignificant effects can add up.&lt;/p&gt;&#xA;&lt;p&gt;Two weeks ago, as I was taking a journey back to London Heathrow / Oxford, I came across a small connection in a journal article and a podcast. It was a nice moment of seeing two ideas click together.&lt;/p&gt;&#xA;&lt;p&gt;The podcast, which came second, was &lt;a href=&#34;https://www.nomadpodcast.co.uk/paula-gooder-phoebe-patriarchy-and-faithful-improvisation-n180/&#34;&gt;an episode of Nomad&lt;/a&gt;, a British podcast discussing Christian faith outside the institutional church. The show&amp;rsquo;s hosts were interviewing &lt;a href=&#34;https://www.gooder.me.uk&#34;&gt;Paula Gooder&lt;/a&gt;, a theologian / lay reader in the Church of England, who recently came out with a work of historical fiction based on the character of Phoebe in the Christian New Testament. Over the course of the discussion, Gooder was asked about her experiences in Christian ministry as a woman, and brought up some of the challenges with being regularly challenged about her appearance and matter of speaking when she would preach on Sundays (roughly 29:30 - 32:30).&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Random Graphs and Giant Components</title>
       <link>https://www.brianczhang.com/blog/2018/07/random-graphs-and-giant-components/</link>
       <pubDate>Tue, 10 Jul 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2018/07/random-graphs-and-giant-components/</guid>
-      <description>This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.
-There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.</description>
+      <description>&lt;p&gt;This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we’ll be looking at the “giant component” and how that arises in random graphs.&lt;/p&gt;&#xA;&lt;p&gt;There’s a lot more than this example that I find exciting, so I’ve deferred a longer discussion on random graphs to the end of this post, with a lot of references for the interested reader.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Distributions with SymPy</title>
       <link>https://www.brianczhang.com/blog/2018/04/distributions-with-sympy/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2018/04/distributions-with-sympy/</guid>
-      <description>Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
-Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as WolframAlpha. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.</description>
+      <description>&lt;p&gt;Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!&lt;/p&gt;&#xA;&lt;p&gt;Previously, especially coming from a physics background, I’ve worked a lot with Mathematica, an advanced version of the software available online as &lt;a href=&#34;https://www.wolframalpha.com/&#34;&gt;WolframAlpha&lt;/a&gt;. Mathematica is extremely powerful, but it’s not open-source and comes with a hefty license, so I decided to research alternatives.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Clustering with K-Means and EM</title>
       <link>https://www.brianczhang.com/blog/2018/01/clustering-with-k-means-and-em/</link>
       <pubDate>Tue, 30 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2018/01/clustering-with-k-means-and-em/</guid>
-      <description>Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
-I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
- Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
- Structural similarities in the algorithms, by splitting up K-means into an E and M step.</description>
+      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;&#xA;&lt;h2&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.&lt;/p&gt;&#xA;&lt;p&gt;I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;p&gt;Pretty visualizations in &lt;code&gt;ggplot&lt;/code&gt;, with the helper packages &lt;code&gt;deldir&lt;/code&gt;, &lt;code&gt;ellipse&lt;/code&gt;, and &lt;code&gt;knitr&lt;/code&gt; for animations.&lt;/p&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;p&gt;Structural similarities in the algorithms, by splitting up K-means into an E and M step.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Statistics / ML Books</title>
       <link>https://www.brianczhang.com/blog/2017/11/statistics-ml-books/</link>
       <pubDate>Sat, 25 Nov 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2017/11/statistics-ml-books/</guid>
-      <description>At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!^[This post is strategically placed so I can cite some of these textbooks in later posts.]
-This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:</description>
+      <description>&lt;p&gt;At the start of the last post, I talked briefly about courses I’ve been working through. Here are some follow-up thoughts on good books!^[This post is strategically placed so I can cite some of these textbooks in later posts.]&lt;/p&gt;&#xA;&lt;p&gt;This post will focus on textbooks with a machine learning focus. I’ve read less of the classic statistics textbooks, as I hadn’t specialized much in statistics until my PhD. However, these are a few texts that are on my radar to consult:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Polynomial Regression</title>
       <link>https://www.brianczhang.com/blog/2017/11/polynomial-regression/</link>
       <pubDate>Thu, 09 Nov 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2017/11/polynomial-regression/</guid>
-      <description>Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
-At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</description>
+      <description>&lt;div id=&#34;introduction-side-courses&#34; class=&#34;section level2&#34;&gt;&#xA;&lt;h2&gt;Introduction: side courses&lt;/h2&gt;&#xA;&lt;p&gt;As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.&lt;/p&gt;&#xA;&lt;p&gt;At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Blogging Aims</title>
       <link>https://www.brianczhang.com/blog/2017/11/blogging-aims/</link>
       <pubDate>Sat, 04 Nov 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2017/11/blogging-aims/</guid>
-      <description>Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.
-As of September, I&amp;rsquo;ve been a first-year PhD student at Oxford&amp;rsquo;s Statistics department. I received my bachelor&amp;rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time.</description>
+      <description>&lt;p&gt;Hi there, and thanks for stopping by! In this post, I briefly introduce my current ideas for this blog and say a bit about myself.&lt;/p&gt;&#xA;&lt;p&gt;As of September, I&amp;rsquo;ve been a first-year PhD student at Oxford&amp;rsquo;s Statistics department. I received my bachelor&amp;rsquo;s in Physics from Harvard in 2015, and after working for two years am excited to be back in an academic setting. Part of this transition means more freedom and a lot more self-structured learning time. Blogging seemed like a good outlet to keep track of interesting ideas I work through, and make them more polished than my natural scratch work / code.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

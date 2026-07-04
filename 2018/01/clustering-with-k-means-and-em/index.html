@@ -3,22 +3,19 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Clustering with K-Means and EM - Brian Zhang&#39;s blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:title" content="Clustering with K-Means and EM" />
-<meta property="og:description" content="Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
-I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
- Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
- Structural similarities in the algorithms, by splitting up K-means into an E and M step." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.brianczhang.com/blog/2018/01/clustering-with-k-means-and-em/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2018-01-30T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-01-30T00:00:00+00:00" />
+	<meta property="og:url" content="https://www.brianczhang.com/blog/2018/01/clustering-with-k-means-and-em/">
+  <meta property="og:site_name" content="Brian Zhang&#39;s blog">
+  <meta property="og:title" content="Clustering with K-Means and EM">
+  <meta property="og:description" content="K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I&#39;ll go through my implementations on some sample data.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2018-01-30T00:00:00+00:00">
+    <meta property="article:modified_time" content="2018-01-30T00:00:00+00:00">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Clustering with K-Means and EM"/>
-<meta name="twitter:description" content="Introduction K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I’ll go through my implementations on some sample data.
-I won’t be going through much theory, as that can be easily found elsewhere. Instead I’ve focused on highlighting the following:
- Pretty visualizations in ggplot, with the helper packages deldir, ellipse, and knitr for animations.
- Structural similarities in the algorithms, by splitting up K-means into an E and M step."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Clustering with K-Means and EM">
+  <meta name="twitter:description" content="K-means and EM for Gaussian mixtures are two clustering algorithms commonly covered in machine learning courses. In this post, I&#39;ll go through my implementations on some sample data.">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" media="screen" href="https://www.brianczhang.com/blog/css/normalize.css" />
@@ -525,17 +522,6 @@ make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <script async
 src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-113303717-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 <script>feather.replace()</script>
 </body>
 </html>

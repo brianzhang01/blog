@@ -3,18 +3,19 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Fast Hierarchical Clustering Using fastcluster - Brian Zhang&#39;s blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:title" content="Fast Hierarchical Clustering Using fastcluster" />
-<meta property="og:description" content="Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
-fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, and Python. In particular, the Python interface mirrors scipy.cluster.hierarchy.linkage, and the R interface mirrors stats::hclust and flashClust::flashClust, so switching over is a no-brainer." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.brianczhang.com/blog/2019/10/fast-hierarchical-clustering-using-fastcluster/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2019-10-25T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-10-25T00:00:00+00:00" />
+	<meta property="og:url" content="https://www.brianczhang.com/blog/2019/10/fast-hierarchical-clustering-using-fastcluster/">
+  <meta property="og:site_name" content="Brian Zhang&#39;s blog">
+  <meta property="og:title" content="Fast Hierarchical Clustering Using fastcluster">
+  <meta property="og:description" content="O(N^2) routines for the most commonly used types of clustering.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2019-10-25T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-10-25T00:00:00+00:00">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Fast Hierarchical Clustering Using fastcluster"/>
-<meta name="twitter:description" content="Do you use hierarchical clustering packages like R’s hclust or Python’s scipy.cluster.hierarchy.linkage in your workflow? If so, you’re using an \(O(N^3)\) algorithm1 and should switch to the fastcluster package, which provides \(O(N^2)\) routines for the most commonly used types of clustering.
-fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, and Python. In particular, the Python interface mirrors scipy.cluster.hierarchy.linkage, and the R interface mirrors stats::hclust and flashClust::flashClust, so switching over is a no-brainer."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Fast Hierarchical Clustering Using fastcluster">
+  <meta name="twitter:description" content="O(N^2) routines for the most commonly used types of clustering.">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" media="screen" href="https://www.brianczhang.com/blog/css/normalize.css" />
@@ -56,22 +57,28 @@ fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, a
 
 		<div class="post-header">
 			<h1 class="title">Fast Hierarchical Clustering Using fastcluster</h1>
-			<div class="meta">Posted Oct 25, 2019 &middot; 1 min read</div>
+			<div class="meta">Posted Oct 25, 2019 &middot; 2 min read</div>
 		</div>
 
 		<div class="markdown">
 			
 
 
-<p>Do you use hierarchical clustering packages like R’s <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/hclust.html"><code>hclust</code></a> or Python’s <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage"><code>scipy.cluster.hierarchy.linkage</code></a> in your workflow? If so, you’re using an <span class="math inline">\(O(N^3)\)</span> algorithm<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> and should switch to the <a href="http://danifold.net/fastcluster.html"><code>fastcluster</code></a> package, which provides <span class="math inline">\(O(N^2)\)</span> routines for the most commonly used types of clustering.</p>
+<p>Update 2026-07-03: when I wrote this post in 2019, I was convinced that <code>scipy</code>’s hierarchical clustering was too slow, and that the <code>fastcluster</code> package provided a speedup. I ended up using <code>fastcluster</code> throughout my PhD as I developed <a href="https://palamaralab.github.io/software/argneedle/">ARG-Needle</a> up to its 2023 release (see <a href="https://github.com/PalamaraLab/arg-needle/blob/fa112f61f7ce1550b255edd4a76bec9dbcf4af00/src/arg_needle/inference.py#L30">here</a> for instance).</p>
+<p>However, it appears that <code>scipy</code> already shipped the nearest-neighbor chain algorithm for <span class="math inline">\(O(N^2)\)</span> clustering <a href="https://docs.scipy.org/doc/scipy/release/0.18.0-notes.html#scipy-cluster-improvements">in version 0.18.0</a>, which was released July 25, 2016 <a href="https://pypi.org/project/scipy/#history">on PyPI</a>. Credit goes to Nikolay Mayorov for the <a href="https://github.com/scipy/scipy/pull/5549"><code>scipy</code> pull request</a>, who credits <code>fastcluster</code> for inspiration. So my claim that <code>scipy</code> was stuck at <span class="math inline">\(O(N^3)\)</span> runtime was inaccurate—either I didn’t verify the scaling myself, or I was using an older <code>scipy</code> version.</p>
+<p>It’s possible that <code>fastcluster</code> is still the faster implementation than <code>scipy</code> by a constant factor. It looks like well-written C++ code; incidentally Daniel Müllner is still maintaining the <a href="https://github.com/fastcluster/fastcluster">GitHub repo</a> as of 2026! Mayorov’s pull request is .py / .pyx.</p>
+<hr />
+<p>Original post with outdated information <del>crossed out</del>:</p>
+<p>Do you use hierarchical clustering packages like R’s <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/hclust.html"><code>hclust</code></a> <del>or Python’s <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage"><code>scipy.cluster.hierarchy.linkage</code></a></del> in your workflow? If so, you’re using an <span class="math inline">\(O(N^3)\)</span> algorithm<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> and should switch to the <a href="http://danifold.net/fastcluster.html"><code>fastcluster</code></a> package, which provides <span class="math inline">\(O(N^2)\)</span> routines for the most commonly used types of clustering.</p>
 <p><code>fastcluster</code> is implemented in C++, with interfaces for <a href="https://lionel.kr.hs-niederrhein.de/~dalitz/data/hclust/">C++</a>, <a href="https://cran.r-project.org/web/packages/fastcluster/index.html">R</a>, and <a href="https://pypi.org/project/fastcluster/">Python</a>. In particular, the Python interface mirrors <code>scipy.cluster.hierarchy.linkage</code>, and the R interface mirrors <code>stats::hclust</code> and <code>flashClust::flashClust</code>, so switching over is a no-brainer.</p>
 <p>For a performance comparison provided by the package’s author, take a look <a href="http://danifold.net/fastcluster.html?section=1">here</a>. <code>fastcluster</code> is described in a Journal of Statistical Software <a href="https://www.jstatsoft.org/article/view/v053i09">publication</a> from 2013, with algorithmic details in a <a href="https://arxiv.org/abs/1109.2378">2011 arXiv paper</a>. The key algorithms used to get to <span class="math inline">\(O(N^2)\)</span> are a variant of Prim’s algorithm for minimum spanning trees and the <a href="https://en.wikipedia.org/wiki/Nearest-neighbor_chain_algorithm">nearest-neighbor chain algorithm</a>. Note that centroid and median linkage still take <span class="math inline">\(O(N^3)\)</span> time with this package.</p>
-<p>I haven’t read the details of these algorithms yet, but if they are correct, then the Wikipedia articles on <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">hierarchical clustering</a> and <a href="https://en.wikipedia.org/wiki/UPGMA">UPGMA</a> (average linkage clustering) could use an update<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
-<div class="footnotes">
+<p><del>I haven’t read the details of these algorithms yet, but if they are correct, then the Wikipedia articles on <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">hierarchical clustering</a> and <a href="https://en.wikipedia.org/wiki/UPGMA">UPGMA</a> (average linkage clustering) could use an update<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</del></p>
+<p><strong><em>Update 2026-07-03: Try and clear things up.</em></strong></p>
+<div class="footnotes footnotes-end-of-document">
 <hr />
 <ol>
-<li id="fn1"><p>Where <span class="math inline">\(N\)</span> is the number of data points being clustered, obviously.<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>As of October 2019.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>Where <span class="math inline">\(N\)</span> is the number of data points being clustered, obviously.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>As of October 2019.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
@@ -103,17 +110,6 @@ fastcluster is implemented in C&#43;&#43;, with interfaces for C&#43;&#43;, R, a
 <script async
 src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-113303717-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 <script>feather.replace()</script>
 </body>
 </html>

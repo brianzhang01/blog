@@ -5,12 +5,26 @@ date: '2019-10-25'
 slug: fast-hierarchical-clustering-using-fastcluster
 categories: []
 tags: []
+description: >-
+  O(N^2) routines for the most commonly used types of clustering.
 ---
 
-Do you use hierarchical clustering packages like R's [`hclust`](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/hclust.html) or Python's [`scipy.cluster.hierarchy.linkage`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage) in your workflow? If so, you're using an $O(N^3)$ algorithm^[Where $N$ is the number of data points being clustered, obviously.] and should switch to the [`fastcluster`](http://danifold.net/fastcluster.html) package, which provides $O(N^2)$ routines for the most commonly used types of clustering.
+Update 2026-07-03: when I wrote this post in 2019, I was convinced that `scipy`'s hierarchical clustering was too slow, and that the `fastcluster` package provided a speedup. I ended up using `fastcluster` throughout my PhD as I developed [ARG-Needle](https://palamaralab.github.io/software/argneedle/) up to its 2023 release (see [here](https://github.com/PalamaraLab/arg-needle/blob/fa112f61f7ce1550b255edd4a76bec9dbcf4af00/src/arg_needle/inference.py#L30) for instance).
+
+However, it appears that `scipy` already shipped the nearest-neighbor chain algorithm for $O(N^2)$ clustering [in version 0.18.0](https://docs.scipy.org/doc/scipy/release/0.18.0-notes.html#scipy-cluster-improvements), which was released July 25, 2016 [on PyPI](https://pypi.org/project/scipy/#history). Credit goes to Nikolay Mayorov for the [`scipy` pull request](https://github.com/scipy/scipy/pull/5549), who credits `fastcluster` for inspiration. So my claim that `scipy` was stuck at $O(N^3)$ runtime was inaccurate—either I didn't verify the scaling myself, or I was using an older `scipy` version.
+
+It's possible that `fastcluster` is still the faster implementation than `scipy` by a constant factor. It looks like well-written C++ code; incidentally Daniel Müllner is still maintaining the [GitHub repo](https://github.com/fastcluster/fastcluster) as of 2026! Mayorov's pull request is .py / .pyx.
+
+***
+
+Original post with outdated information ~~crossed out~~:
+
+Do you use hierarchical clustering packages like R's [`hclust`](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/hclust.html) ~~or Python's [`scipy.cluster.hierarchy.linkage`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage)~~ in your workflow? If so, you're using an $O(N^3)$ algorithm^[Where $N$ is the number of data points being clustered, obviously.] and should switch to the [`fastcluster`](http://danifold.net/fastcluster.html) package, which provides $O(N^2)$ routines for the most commonly used types of clustering.
 
 `fastcluster` is implemented in C++, with interfaces for [C++](https://lionel.kr.hs-niederrhein.de/~dalitz/data/hclust/), [R](https://cran.r-project.org/web/packages/fastcluster/index.html), and [Python](https://pypi.org/project/fastcluster/). In particular, the Python interface mirrors `scipy.cluster.hierarchy.linkage`, and the R interface mirrors `stats::hclust` and `flashClust::flashClust`, so switching over is a no-brainer.
 
 For a performance comparison provided by the package's author, take a look [here](http://danifold.net/fastcluster.html?section=1). `fastcluster` is described in a Journal of Statistical Software [publication](https://www.jstatsoft.org/article/view/v053i09) from 2013, with algorithmic details in a [2011 arXiv paper](https://arxiv.org/abs/1109.2378). The key algorithms used to get to $O(N^2)$ are a variant of Prim's algorithm for minimum spanning trees and the [nearest-neighbor chain algorithm](https://en.wikipedia.org/wiki/Nearest-neighbor_chain_algorithm). Note that centroid and median linkage still take $O(N^3)$ time with this package.
 
-I haven't read the details of these algorithms yet, but if they are correct, then the Wikipedia articles on [hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering) and [UPGMA](https://en.wikipedia.org/wiki/UPGMA) (average linkage clustering) could use an update^[As of October 2019.].
+~~I haven't read the details of these algorithms yet, but if they are correct, then the Wikipedia articles on [hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering) and [UPGMA](https://en.wikipedia.org/wiki/UPGMA) (average linkage clustering) could use an update^[As of October 2019.].~~
+
+***Update 2026-07-03: Try and clear things up.***

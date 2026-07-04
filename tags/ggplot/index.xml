@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ggplot on Brian Zhang&#39;s blog</title>
+    <title>Ggplot on Brian Zhang&#39;s blog</title>
     <link>https://www.brianczhang.com/blog/tags/ggplot/</link>
-    <description>Recent content in ggplot on Brian Zhang&#39;s blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Ggplot on Brian Zhang&#39;s blog</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Nov 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://www.brianczhang.com/blog/tags/ggplot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.brianczhang.com/blog/tags/ggplot/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Polynomial Regression</title>
       <link>https://www.brianczhang.com/blog/2017/11/polynomial-regression/</link>
       <pubDate>Thu, 09 Nov 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://www.brianczhang.com/blog/2017/11/polynomial-regression/</guid>
-      <description>Introduction: side courses As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.
-At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:</description>
+      <description>&lt;div id=&#34;introduction-side-courses&#34; class=&#34;section level2&#34;&gt;&#xA;&lt;h2&gt;Introduction: side courses&lt;/h2&gt;&#xA;&lt;p&gt;As a PhD student in the UK system, I was expecting a lot less coursework, with my first year diving straight into research. However, there are still a lot of gaps in my knowledge, so I hope to always be on the lookout for learning opportunities, including side classes.&lt;/p&gt;&#xA;&lt;p&gt;At the moment, I’m hoping to follow along with these three courses and do some assignments from time to time:&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

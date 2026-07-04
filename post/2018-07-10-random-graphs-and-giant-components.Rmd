@@ -5,6 +5,8 @@ date: '2018-07-10'
 slug: random-graphs-and-giant-components
 categories: []
 tags: []
+description: >-
+  This post will introduce some of the ideas behind random graphs, a very exciting area of current probability research. As has been a theme in my posts so far, I try to emphasize a reproducible, computational example. In this case, we'll be looking at the "giant component" and how that arises in random graphs.
 ---
 
 ```{r setup, include=FALSE}

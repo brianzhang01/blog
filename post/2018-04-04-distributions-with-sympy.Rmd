@@ -5,6 +5,8 @@ date: '2018-04-04'
 slug: distributions-with-sympy
 categories: []
 tags: []
+description: >-
+  Any good statistics student will need to do some integrals in her / his life. While I generally feel comfortable with simple integrals, I thought it might be worth setting up a workflow to help automate this process!
 ---
 
 ```{r setup, include=FALSE}

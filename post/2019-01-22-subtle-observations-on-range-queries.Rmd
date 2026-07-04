@@ -5,6 +5,7 @@ date: '2019-01-22'
 slug: subtle-observations-on-range-queries
 categories: []
 tags: []
+description: "For my current research, I've had to read Kelleher et al.'s excellent msprime paper (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through USACO and Project Euler), I took a bit more time to learn this data structure."
 ---
 
 For my current research, I've had to read Kelleher et al.'s excellent [`msprime` paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004842) (2016) for simulating genetic sequences under the coalescent with recombination. A small trick that is used in their algorithm is the data structure of a Fenwick tree or binary indexed tree. Since I also have a side interest in competitive programming (mainly through [USACO](http://www.usaco.org/) and [Project Euler](https://projecteuler.net/)), I took a bit more time to learn this data structure.
