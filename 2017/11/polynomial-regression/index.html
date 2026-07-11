@@ -36,19 +36,19 @@
 		<ul class="flat">
 			
 			<li>
-				<a href="/blog/">Home</a>
+				<a href="https://www.brianczhang.com/blog/">Home</a>
 			</li>
 			
 			<li>
-				<a href="/blog/post">All posts</a>
+				<a href="https://www.brianczhang.com/blog/post">All posts</a>
 			</li>
 			
 			<li>
-				<a href="/blog/about">About</a>
+				<a href="https://www.brianczhang.com/blog/about">About</a>
 			</li>
 			
 			<li>
-				<a href="/blog/tags">Tags</a>
+				<a href="https://www.brianczhang.com/blog/tags">Tags</a>
 			</li>
 			
 		</ul>
@@ -93,7 +93,7 @@ x = c(-1.87, -1.76, -1.67, -1.22, -0.07, 0.11, 0.67, 1.60, 2.22, 2.51)
 y = c(0.06, 1.67, 0.54, -1.45, -0.18, -0.67, 0.92, 2.95, 5.13, 5.18)
 ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
   labs(title = &quot;Points to regress&quot;) + center_title</code></pre>
-<p><img src="/post/2017-11-09-polynomial-regression_files/figure-html/data-1.png" width="672" /></p>
+<p><img src="https://www.brianczhang.com/blog/post/2017-11-09-polynomial-regression_files/figure-html/data-1.png" width="672" /></p>
 </div>
 <div id="a-simple-linear-regression" class="section level2">
 <h2>A simple linear regression</h2>
@@ -149,7 +149,7 @@ beta</code></pre>
 <pre class="r"><code>ggplot(data.frame(x = x, y = y), aes(x=x, y=y)) + geom_point() +
   labs(title = &quot;Linear regression&quot;) + center_title +
   geom_abline(slope = beta[2], intercept = beta[1])</code></pre>
-<p><img src="/post/2017-11-09-polynomial-regression_files/figure-html/linear-plot-1.png" width="672" /></p>
+<p><img src="https://www.brianczhang.com/blog/post/2017-11-09-polynomial-regression_files/figure-html/linear-plot-1.png" width="672" /></p>
 </div>
 <div id="generalizing-to-polynomial-regression" class="section level2">
 <h2>Generalizing to polynomial regression</h2>
@@ -212,7 +212,7 @@ for(i in 1:10) {
             aes(x=x, y=y, color=factor(d), group=factor(d))) +
   labs(title = &quot;Polynomial least-squares regression&quot;, color=&quot;dimension&quot;) +
   center_title</code></pre>
-<p><img src="/post/2017-11-09-polynomial-regression_files/figure-html/poly-plot-1.png" width="672" /></p>
+<p><img src="https://www.brianczhang.com/blog/post/2017-11-09-polynomial-regression_files/figure-html/poly-plot-1.png" width="672" /></p>
 <pre class="r"><code>ggplot() + 
   geom_point(data=data.frame(x = x, y = y), aes(x=x, y=y)) +
   geom_line(data=y_data[y_data$d %% 2 == 1,],
@@ -220,7 +220,7 @@ for(i in 1:10) {
   labs(title = &quot;Polynomial least-squares regression&quot;, color=&quot;dimension&quot;) +
   center_title +
   coord_cartesian(ylim = c(-3, 8))</code></pre>
-<p><img src="/post/2017-11-09-polynomial-regression_files/figure-html/poly-plot-2.png" width="672" /></p>
+<p><img src="https://www.brianczhang.com/blog/post/2017-11-09-polynomial-regression_files/figure-html/poly-plot-2.png" width="672" /></p>
 </div>
 <div id="summary" class="section level2">
 <h2>Summary</h2>

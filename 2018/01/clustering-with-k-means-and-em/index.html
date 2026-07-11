@@ -35,19 +35,19 @@
 		<ul class="flat">
 			
 			<li>
-				<a href="/blog/">Home</a>
+				<a href="https://www.brianczhang.com/blog/">Home</a>
 			</li>
 			
 			<li>
-				<a href="/blog/post">All posts</a>
+				<a href="https://www.brianczhang.com/blog/post">All posts</a>
 			</li>
 			
 			<li>
-				<a href="/blog/about">About</a>
+				<a href="https://www.brianczhang.com/blog/about">About</a>
 			</li>
 			
 			<li>
-				<a href="/blog/tags">Tags</a>
+				<a href="https://www.brianczhang.com/blog/tags">Tags</a>
 			</li>
 			
 		</ul>
@@ -89,7 +89,7 @@ no_legend = theme(legend.position=&quot;none&quot;)</code></pre>
 ggplot(points, aes(x = x, y = y)) + geom_point() +
   labs(title = &quot;Scatter plot of data&quot;) +
   center_title</code></pre>
-<p><img src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/points-1.png" width="672" /></p>
+<p><img src="https://www.brianczhang.com/blog/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/points-1.png" width="672" /></p>
 </div>
 <div id="clustering-algorithms" class="section level2">
 <h2>Clustering algorithms</h2>
@@ -361,7 +361,7 @@ ggplot(data=data.frame(x=1:nsteps, y=lls)) +
   geom_line(aes(x=x, y=y)) + geom_point(aes(x=x, y=y)) +
   labs(title=&quot;Log likelihood for EM&quot;, x=&quot;step&quot;, y=&quot;log likelihood&quot;) +
   center_title</code></pre>
-<p><img src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/log-likelihood-1.png" width="672" /></p>
+<p><img src="https://www.brianczhang.com/blog/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/log-likelihood-1.png" width="672" /></p>
 </div>
 <div id="visualization-code" class="section level2">
 <h2>Visualization code</h2>
@@ -409,7 +409,7 @@ ggplot(data=data.frame(x=1:nsteps, y=lls)) +
 <p>With this visualization code, we can finally take a look at our results!</p>
 <pre class="r"><code>make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
-<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-base.mp4" />
+<source src="https://www.brianczhang.com/blog/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-base.mp4" />
 </video>
 
 </div>
@@ -421,7 +421,7 @@ ggplot(data=data.frame(x=1:nsteps, y=lls)) +
 em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
 make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
-<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-fixed-big.mp4" />
+<source src="https://www.brianczhang.com/blog/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-fixed-big.mp4" />
 </video>
 
 <p>In the above animation, you’ll see that the shapes of the Gaussians do not change; only their centers do. One can show that this leads to linear decision boundaries for the most likely cluster, just like K-means. However, the algorithm evolution is still not the same as K-means.</p>
@@ -435,7 +435,7 @@ fixed_sigma001 = partial(em.m, fix_sigma=sigma001, fix_weights=weights)
 em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma001, m_params.init)
 make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
-<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-fixed-small.mp4" />
+<source src="https://www.brianczhang.com/blog/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k3-fixed-small.mp4" />
 </video>
 
 <p>The two sides match very well!</p>
@@ -463,7 +463,7 @@ em_results = iterate_em(nsteps, K, points, em.e, em.m, m_params.init)
 # Visualize
 make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
-<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-base.mp4" />
+<source src="https://www.brianczhang.com/blog/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-base.mp4" />
 </video>
 
 <p>With only <span class="math">\(\mathbf{\mu}\)</span> updates, and <span class="math">\(I\)</span> covariance:</p>
@@ -471,7 +471,7 @@ make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma, m_params.init)
 make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
-<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-fixed-big.mp4" />
+<source src="https://www.brianczhang.com/blog/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-fixed-big.mp4" />
 </video>
 
 <p>With only <span class="math">\(\mathbf{\mu}\)</span> updates, and <span class="math">\(0.01I\)</span> covariance:</p>
@@ -484,7 +484,7 @@ fixed_sigma001 = partial(em.m, fix_sigma=sigma001, fix_weights=weights)
 em_results = iterate_em(nsteps, K, points, em.e, fixed_sigma001, m_params.init)
 make_visualization(points, kmeans_results, em_results, nsteps, K)</code></pre>
 <video width="672"  controls loop>
-<source src="/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-fixed-small.mp4" />
+<source src="https://www.brianczhang.com/blog/post/2018-01-30-clustering-with-k-means-and-em_files/figure-html/k8-fixed-small.mp4" />
 </video>
 
 </div>
